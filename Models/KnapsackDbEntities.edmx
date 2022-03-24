@@ -1,0 +1,833 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="KnapSackDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Armes">
+          <Key>
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="efficacite" Type="int" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Armures">
+          <Key>
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="matiere" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="taille" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_DATA\KNAPSACKDB.MDF.dbo.Collections' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="Collections">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idJoueur" Type="int" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Items">
+          <Key>
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idItem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="idType" Type="smallint" Nullable="false" />
+          <Property Name="prix" Type="money" Nullable="false" />
+          <Property Name="poid" Type="numeric" Precision="5" Scale="1" Nullable="false" />
+          <Property Name="urlImage" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="qte" Type="int" Nullable="false" />
+          <Property Name="disponibilite" Type="bit" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Joueurs">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+          </Key>
+          <Property Name="idJoueur" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="password" Type="varbinary" MaxLength="256" Nullable="false" />
+          <Property Name="alias" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="dexterite" Type="int" Nullable="false" />
+          <Property Name="poidMaximale" Type="int" Nullable="false" />
+          <Property Name="montantCaps" Type="money" Nullable="false" />
+          <Property Name="isAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Medicaments">
+          <Key>
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="effetAttendu" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="dureeEffet" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Munitions">
+          <Key>
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="typeArme" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paniers">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+          </Key>
+          <Property Name="idJoueur" Type="int" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="qteItem" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ratings">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idJoueur" Type="int" Nullable="false" />
+          <Property Name="rating" Type="int" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="commentaire" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Sacs">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+          </Key>
+          <Property Name="idJoueur" Type="int" Nullable="false" />
+          <Property Name="qteItem" Type="int" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+          </Key>
+          <Property Name="idJoueur" Type="int" Nullable="false" />
+          <Property Name="montant" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypesArmes">
+          <Key>
+            <PropertyRef Name="idType" />
+          </Key>
+          <Property Name="idType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypesItems">
+          <Key>
+            <PropertyRef Name="idType" />
+          </Key>
+          <Property Name="idType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nomType" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_Armes_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Armes" Type="Self.Armes" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Armes">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Armes_TypesArmes">
+          <End Role="TypesArmes" Type="Self.TypesArmes" Multiplicity="1" />
+          <End Role="Armes" Type="Self.Armes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesArmes">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Armes">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Armures_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Armures" Type="Self.Armures" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Armures">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Collections_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Collections" Type="Self.Collections" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Collections">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Collections_Joueurs">
+          <End Role="Joueurs" Type="Self.Joueurs" Multiplicity="1" />
+          <End Role="Collections" Type="Self.Collections" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Joueurs">
+              <PropertyRef Name="idJoueur" />
+            </Principal>
+            <Dependent Role="Collections">
+              <PropertyRef Name="idJoueur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Items_TypesItems">
+          <End Role="TypesItems" Type="Self.TypesItems" Multiplicity="1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TypesItems">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Medicaments_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Medicaments" Type="Self.Medicaments" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Medicaments">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Munitions_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Munitions" Type="Self.Munitions" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Munitions">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Munitions_TypesArmes">
+          <End Role="TypesArmes" Type="Self.TypesArmes" Multiplicity="1" />
+          <End Role="Munitions" Type="Self.Munitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesArmes">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Munitions">
+              <PropertyRef Name="typeArme" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Paniers_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Paniers" Type="Self.Paniers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Paniers">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Paniers_Joueurs">
+          <End Role="Joueurs" Type="Self.Joueurs" Multiplicity="1" />
+          <End Role="Paniers" Type="Self.Paniers" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Joueurs">
+              <PropertyRef Name="idJoueur" />
+            </Principal>
+            <Dependent Role="Paniers">
+              <PropertyRef Name="idJoueur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Sacs_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Sacs" Type="Self.Sacs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Sacs">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Sacs_Joueurs">
+          <End Role="Joueurs" Type="Self.Joueurs" Multiplicity="1" />
+          <End Role="Sacs" Type="Self.Sacs" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Joueurs">
+              <PropertyRef Name="idJoueur" />
+            </Principal>
+            <Dependent Role="Sacs">
+              <PropertyRef Name="idJoueur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Transactions_Joueurs">
+          <End Role="Joueurs" Type="Self.Joueurs" Multiplicity="1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Joueurs">
+              <PropertyRef Name="idJoueur" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="idJoueur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KnapSackDbModelStoreContainer">
+          <EntitySet Name="Armes" EntityType="Self.Armes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Armures" EntityType="Self.Armures" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Joueurs" EntityType="Self.Joueurs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medicaments" EntityType="Self.Medicaments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Munitions" EntityType="Self.Munitions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paniers" EntityType="Self.Paniers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ratings" EntityType="Self.Ratings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sacs" EntityType="Self.Sacs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypesArmes" EntityType="Self.TypesArmes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypesItems" EntityType="Self.TypesItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Collections" EntityType="Self.Collections" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Collections].[idJoueur] AS [idJoueur], 
+    [Collections].[idItem] AS [idItem]
+    FROM [dbo].[Collections] AS [Collections]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_Armes_Items" Association="Self.fk_Armes_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Armes" EntitySet="Armes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Armes_TypesArmes" Association="Self.fk_Armes_TypesArmes">
+            <End Role="TypesArmes" EntitySet="TypesArmes" />
+            <End Role="Armes" EntitySet="Armes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Armures_Items" Association="Self.fk_Armures_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Armures" EntitySet="Armures" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Collections_Items" Association="Self.fk_Collections_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Collections" EntitySet="Collections" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Collections_Joueurs" Association="Self.fk_Collections_Joueurs">
+            <End Role="Joueurs" EntitySet="Joueurs" />
+            <End Role="Collections" EntitySet="Collections" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Items_TypesItems" Association="Self.fk_Items_TypesItems">
+            <End Role="TypesItems" EntitySet="TypesItems" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Medicaments_Items" Association="Self.fk_Medicaments_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Medicaments" EntitySet="Medicaments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Munitions_Items" Association="Self.fk_Munitions_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Munitions" EntitySet="Munitions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Munitions_TypesArmes" Association="Self.fk_Munitions_TypesArmes">
+            <End Role="TypesArmes" EntitySet="TypesArmes" />
+            <End Role="Munitions" EntitySet="Munitions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Paniers_Items" Association="Self.fk_Paniers_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Paniers" EntitySet="Paniers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Paniers_Joueurs" Association="Self.fk_Paniers_Joueurs">
+            <End Role="Joueurs" EntitySet="Joueurs" />
+            <End Role="Paniers" EntitySet="Paniers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Sacs_Items" Association="Self.fk_Sacs_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Sacs" EntitySet="Sacs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Sacs_Joueurs" Association="Self.fk_Sacs_Joueurs">
+            <End Role="Joueurs" EntitySet="Joueurs" />
+            <End Role="Sacs" EntitySet="Sacs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Transactions_Joueurs" Association="Self.fk_Transactions_Joueurs">
+            <End Role="Joueurs" EntitySet="Joueurs" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KnapSackDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Arme">
+          <Key>
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="efficacite" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.fk_Armes_Items" FromRole="Armes" ToRole="Items" />
+          <NavigationProperty Name="TypesArme" Relationship="Self.fk_Armes_TypesArmes" FromRole="Armes" ToRole="TypesArmes" />
+        </EntityType>
+        <EntityType Name="Armure">
+          <Key>
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="matiere" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="taille" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.fk_Armures_Items" FromRole="Armures" ToRole="Items" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idItem" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idType" Type="Int16" Nullable="false" />
+          <Property Name="prix" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="poid" Type="Decimal" Precision="5" Scale="1" Nullable="false" />
+          <Property Name="urlImage" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="qte" Type="Int32" Nullable="false" />
+          <Property Name="disponibilite" Type="Boolean" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Arme" Relationship="Self.fk_Armes_Items" FromRole="Items" ToRole="Armes" />
+          <NavigationProperty Name="Armure" Relationship="Self.fk_Armures_Items" FromRole="Items" ToRole="Armures" />
+          <NavigationProperty Name="TypesItem" Relationship="Self.fk_Items_TypesItems" FromRole="Items" ToRole="TypesItems" />
+          <NavigationProperty Name="Medicament" Relationship="Self.fk_Medicaments_Items" FromRole="Items" ToRole="Medicaments" />
+          <NavigationProperty Name="Paniers" Relationship="Self.fk_Paniers_Items" FromRole="Items" ToRole="Paniers" />
+          <NavigationProperty Name="Sacs" Relationship="Self.fk_Sacs_Items" FromRole="Items" ToRole="Sacs" />
+          <NavigationProperty Name="TypesArme" Relationship="Self.Munitions" FromRole="Items" ToRole="TypesArmes" />
+          <NavigationProperty Name="Joueurs" Relationship="Self.Collections" FromRole="Items" ToRole="Joueurs" />
+        </EntityType>
+        <EntityType Name="Joueur">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+          </Key>
+          <Property Name="idJoueur" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="password" Type="Binary" MaxLength="256" FixedLength="false" Nullable="false" />
+          <Property Name="alias" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dexterite" Type="Int32" Nullable="false" />
+          <Property Name="poidMaximale" Type="Int32" Nullable="false" />
+          <Property Name="montantCaps" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="isAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Panier" Relationship="Self.fk_Paniers_Joueurs" FromRole="Joueurs" ToRole="Paniers" />
+          <NavigationProperty Name="Sac" Relationship="Self.fk_Sacs_Joueurs" FromRole="Joueurs" ToRole="Sacs" />
+          <NavigationProperty Name="Transaction" Relationship="Self.fk_Transactions_Joueurs" FromRole="Joueurs" ToRole="Transactions" />
+          <NavigationProperty Name="Items" Relationship="Self.Collections" FromRole="Joueurs" ToRole="Items" />
+        </EntityType>
+        <EntityType Name="Medicament">
+          <Key>
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="effetAttendu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dureeEffet" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.fk_Medicaments_Items" FromRole="Medicaments" ToRole="Items" />
+        </EntityType>
+        <EntityType Name="Panier">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+          </Key>
+          <Property Name="idJoueur" Type="Int32" Nullable="false" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="qteItem" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.fk_Paniers_Items" FromRole="Paniers" ToRole="Items" />
+          <NavigationProperty Name="Joueur" Relationship="Self.fk_Paniers_Joueurs" FromRole="Paniers" ToRole="Joueurs" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idJoueur" Type="Int32" Nullable="false" />
+          <Property Name="rating1" Type="Int32" Nullable="false" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="commentaire" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Sac">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+          </Key>
+          <Property Name="idJoueur" Type="Int32" Nullable="false" />
+          <Property Name="qteItem" Type="Int32" Nullable="false" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.fk_Sacs_Items" FromRole="Sacs" ToRole="Items" />
+          <NavigationProperty Name="Joueur" Relationship="Self.fk_Sacs_Joueurs" FromRole="Sacs" ToRole="Joueurs" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+          </Key>
+          <Property Name="idJoueur" Type="Int32" Nullable="false" />
+          <Property Name="montant" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Joueur" Relationship="Self.fk_Transactions_Joueurs" FromRole="Transactions" ToRole="Joueurs" />
+        </EntityType>
+        <EntityType Name="TypesArme">
+          <Key>
+            <PropertyRef Name="idType" />
+          </Key>
+          <Property Name="idType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Armes" Relationship="Self.fk_Armes_TypesArmes" FromRole="TypesArmes" ToRole="Armes" />
+          <NavigationProperty Name="Items" Relationship="Self.Munitions" FromRole="TypesArmes" ToRole="Items" />
+        </EntityType>
+        <EntityType Name="TypesItem">
+          <Key>
+            <PropertyRef Name="idType" />
+          </Key>
+          <Property Name="idType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nomType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.fk_Items_TypesItems" FromRole="TypesItems" ToRole="Items" />
+        </EntityType>
+        <Association Name="fk_Armes_Items">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Armes" Type="Self.Arme" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Armes">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Armes_TypesArmes">
+          <End Role="TypesArmes" Type="Self.TypesArme" Multiplicity="1" />
+          <End Role="Armes" Type="Self.Arme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesArmes">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Armes">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Armures_Items">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Armures" Type="Self.Armure" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Armures">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Items_TypesItems">
+          <End Role="TypesItems" Type="Self.TypesItem" Multiplicity="1" />
+          <End Role="Items" Type="Self.Item" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TypesItems">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Medicaments_Items">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Medicaments" Type="Self.Medicament" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Medicaments">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Paniers_Items">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Paniers" Type="Self.Panier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Paniers">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Sacs_Items">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Sacs" Type="Self.Sac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Sacs">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Paniers_Joueurs">
+          <End Role="Joueurs" Type="Self.Joueur" Multiplicity="1" />
+          <End Role="Paniers" Type="Self.Panier" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Joueurs">
+              <PropertyRef Name="idJoueur" />
+            </Principal>
+            <Dependent Role="Paniers">
+              <PropertyRef Name="idJoueur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Sacs_Joueurs">
+          <End Role="Joueurs" Type="Self.Joueur" Multiplicity="1" />
+          <End Role="Sacs" Type="Self.Sac" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Joueurs">
+              <PropertyRef Name="idJoueur" />
+            </Principal>
+            <Dependent Role="Sacs">
+              <PropertyRef Name="idJoueur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Transactions_Joueurs">
+          <End Role="Joueurs" Type="Self.Joueur" Multiplicity="1" />
+          <End Role="Transactions" Type="Self.Transaction" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Joueurs">
+              <PropertyRef Name="idJoueur" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="idJoueur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Munitions">
+          <End Role="Items" Type="Self.Item" Multiplicity="*" />
+          <End Role="TypesArmes" Type="Self.TypesArme" Multiplicity="0..1" />
+        </Association>
+        <Association Name="Collections">
+          <End Role="Items" Type="Self.Item" Multiplicity="*" />
+          <End Role="Joueurs" Type="Self.Joueur" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="KnapSackDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Armes" EntityType="Self.Arme" />
+          <EntitySet Name="Armures" EntityType="Self.Armure" />
+          <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="Joueurs" EntityType="Self.Joueur" />
+          <EntitySet Name="Medicaments" EntityType="Self.Medicament" />
+          <EntitySet Name="Paniers" EntityType="Self.Panier" />
+          <EntitySet Name="Ratings" EntityType="Self.Rating" />
+          <EntitySet Name="Sacs" EntityType="Self.Sac" />
+          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+          <EntitySet Name="TypesArmes" EntityType="Self.TypesArme" />
+          <EntitySet Name="TypesItems" EntityType="Self.TypesItem" />
+          <AssociationSet Name="fk_Armes_Items" Association="Self.fk_Armes_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Armes" EntitySet="Armes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Armes_TypesArmes" Association="Self.fk_Armes_TypesArmes">
+            <End Role="TypesArmes" EntitySet="TypesArmes" />
+            <End Role="Armes" EntitySet="Armes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Armures_Items" Association="Self.fk_Armures_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Armures" EntitySet="Armures" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Items_TypesItems" Association="Self.fk_Items_TypesItems">
+            <End Role="TypesItems" EntitySet="TypesItems" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Medicaments_Items" Association="Self.fk_Medicaments_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Medicaments" EntitySet="Medicaments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Paniers_Items" Association="Self.fk_Paniers_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Paniers" EntitySet="Paniers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Sacs_Items" Association="Self.fk_Sacs_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Sacs" EntitySet="Sacs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Paniers_Joueurs" Association="Self.fk_Paniers_Joueurs">
+            <End Role="Joueurs" EntitySet="Joueurs" />
+            <End Role="Paniers" EntitySet="Paniers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Sacs_Joueurs" Association="Self.fk_Sacs_Joueurs">
+            <End Role="Joueurs" EntitySet="Joueurs" />
+            <End Role="Sacs" EntitySet="Sacs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Transactions_Joueurs" Association="Self.fk_Transactions_Joueurs">
+            <End Role="Joueurs" EntitySet="Joueurs" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="Munitions" Association="Self.Munitions">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="TypesArmes" EntitySet="TypesArmes" />
+          </AssociationSet>
+          <AssociationSet Name="Collections" Association="Self.Collections">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Joueurs" EntitySet="Joueurs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KnapSackDbModelStoreContainer" CdmEntityContainer="KnapSackDbEntities">
+          <EntitySetMapping Name="Armes">
+            <EntityTypeMapping TypeName="KnapSackDbModel.Arme">
+              <MappingFragment StoreEntitySet="Armes">
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="efficacite" ColumnName="efficacite" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Armures">
+            <EntityTypeMapping TypeName="KnapSackDbModel.Armure">
+              <MappingFragment StoreEntitySet="Armures">
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="matiere" ColumnName="matiere" />
+                <ScalarProperty Name="taille" ColumnName="taille" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="KnapSackDbModel.Item">
+              <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="idType" ColumnName="idType" />
+                <ScalarProperty Name="prix" ColumnName="prix" />
+                <ScalarProperty Name="poid" ColumnName="poid" />
+                <ScalarProperty Name="urlImage" ColumnName="urlImage" />
+                <ScalarProperty Name="qte" ColumnName="qte" />
+                <ScalarProperty Name="disponibilite" ColumnName="disponibilite" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Joueurs">
+            <EntityTypeMapping TypeName="KnapSackDbModel.Joueur">
+              <MappingFragment StoreEntitySet="Joueurs">
+                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="alias" ColumnName="alias" />
+                <ScalarProperty Name="dexterite" ColumnName="dexterite" />
+                <ScalarProperty Name="poidMaximale" ColumnName="poidMaximale" />
+                <ScalarProperty Name="montantCaps" ColumnName="montantCaps" />
+                <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medicaments">
+            <EntityTypeMapping TypeName="KnapSackDbModel.Medicament">
+              <MappingFragment StoreEntitySet="Medicaments">
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="effetAttendu" ColumnName="effetAttendu" />
+                <ScalarProperty Name="dureeEffet" ColumnName="dureeEffet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paniers">
+            <EntityTypeMapping TypeName="KnapSackDbModel.Panier">
+              <MappingFragment StoreEntitySet="Paniers">
+                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="qteItem" ColumnName="qteItem" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="KnapSackDbModel.Rating">
+              <MappingFragment StoreEntitySet="Ratings">
+                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
+                <ScalarProperty Name="rating1" ColumnName="rating" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="commentaire" ColumnName="commentaire" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sacs">
+            <EntityTypeMapping TypeName="KnapSackDbModel.Sac">
+              <MappingFragment StoreEntitySet="Sacs">
+                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
+                <ScalarProperty Name="qteItem" ColumnName="qteItem" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="KnapSackDbModel.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
+                <ScalarProperty Name="montant" ColumnName="montant" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypesArmes">
+            <EntityTypeMapping TypeName="KnapSackDbModel.TypesArme">
+              <MappingFragment StoreEntitySet="TypesArmes">
+                <ScalarProperty Name="idType" ColumnName="idType" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypesItems">
+            <EntityTypeMapping TypeName="KnapSackDbModel.TypesItem">
+              <MappingFragment StoreEntitySet="TypesItems">
+                <ScalarProperty Name="idType" ColumnName="idType" />
+                <ScalarProperty Name="nomType" ColumnName="nomType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Munitions" TypeName="KnapSackDbModel.Munitions" StoreEntitySet="Munitions">
+            <EndProperty Name="Items">
+              <ScalarProperty Name="idItem" ColumnName="idItem" />
+            </EndProperty>
+            <EndProperty Name="TypesArmes">
+              <ScalarProperty Name="idType" ColumnName="typeArme" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Collections" TypeName="KnapSackDbModel.Collections" StoreEntitySet="Collections">
+            <EndProperty Name="Items">
+              <ScalarProperty Name="idItem" ColumnName="idItem" />
+            </EndProperty>
+            <EndProperty Name="Joueurs">
+              <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

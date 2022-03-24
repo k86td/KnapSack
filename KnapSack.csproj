@@ -45,10 +45,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -126,6 +134,54 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Arme.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Armure.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Item.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Joueur.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KnapsackDbEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KnapsackDbEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KnapsackDbEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KnapsackDbEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Medicament.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Panier.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Rating.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sac.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Transaction.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TypesArme.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TypesItem.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -141,8 +197,25 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\KnapsackDbEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>KnapsackDbEntities.Context.cs</LastGenOutput>
+      <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\KnapsackDbEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
+      <LastGenOutput>KnapsackDbEntities.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\KnapsackDbEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>KnapsackDbEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\KnapsackDbEntities.edmx.diagram">
+      <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -170,9 +243,7 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Data\" />
-    <Folder Include="Models\" />
     <Folder Include="Views\Items\" />
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +258,9 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
