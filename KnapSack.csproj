@@ -140,6 +140,7 @@
     <Compile Include="Models\Armure.cs">
       <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DAL.cs" />
     <Compile Include="Models\Item.cs">
       <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
     </Compile>
