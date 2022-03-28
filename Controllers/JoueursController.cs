@@ -33,12 +33,12 @@ namespace KnapSack.Controllers
                     ModelState.AddModelError("Password", "Mot de passe incorrecte.");
                     return View(loginCredential);
                 }
-                if (OnlineUsers.IsOnLine(joueur.idJoueur))
+                if (OnlinePlayers.IsOnLine(joueur.idJoueur))
                 {
                     ModelState.AddModelError("Alias", "Cet usager est déjà connecté.");
                     return View(loginCredential);
                 }
-                OnlineUsers.AddSessionUser(joueur.idJoueur);
+                OnlinePlayers.AddSessionUser(joueur.idJoueur);
                 return RedirectToAction("Index", "Application");
             }
             return View(loginCredential);

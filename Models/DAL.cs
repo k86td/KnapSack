@@ -16,5 +16,11 @@ namespace KnapSack.Models
                                 .FirstOrDefault();
             return user;
         }
+
+        public static Joueur FindUser(this KnapSackDbEntities DB, int id)
+        {
+            Joueur user = DB.Joueurs.Find(id);
+            return user;
+        }
     }
 }
