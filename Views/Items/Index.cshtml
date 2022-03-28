@@ -1,0 +1,107 @@
+﻿@model IEnumerable<KnapSack.Models.Item>
+
+@{
+    ViewBag.Title = "Boutique";
+}
+
+<h2>Boutique</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 col-xs-2">
+            <b>Image</b>
+        </div>
+        <div class="col-md-2 col-xs-2">
+            <b>Objets</b>
+        </div>
+        <div class="col-md-2 col-xs-2">
+            <b>Prix</b>
+        </div>
+    </div>
+
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-md-2 col-xs-2">
+                <a class="thumbnail">
+                    <img class="img-responsive" src="@item.urlImage" />
+                </a>
+            </div>
+            <div class="col-md-2 col-xs-2">
+                <h4>@Html.DisplayFor(_ => item.nom)</h4>
+                <p>@Html.DisplayFor(_ => item.description)</p>
+            </div>
+            <div class="col-md-2 col-xs-2">
+                <p>@Html.DisplayFor(_ => item.prix)</p>
+            </div>
+
+        </div>
+    }
+
+</div>
+
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idItem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.prix)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.poid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.urlImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.qte)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.disponibilite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idItem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.prix)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.poid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.urlImage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.qte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.disponibilite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+        </tr>
+    }
+
+    </table>*@
