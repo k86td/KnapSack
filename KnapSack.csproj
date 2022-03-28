@@ -146,6 +146,7 @@
     <Compile Include="Models\Item.cs">
       <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ItemsView.cs" />
     <Compile Include="Models\Joueur.cs">
       <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
     </Compile>
@@ -245,6 +246,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Items\Index.cshtml" />
     <Content Include="Views\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
