@@ -16,6 +16,16 @@ namespace KnapSack.Controllers
             return View();
         }
 
+        public bool Alias_isAvailable (string alias)
+        {
+            if (DB.Joueurs.Where(el => el.alias == alias).Count() > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public ActionResult Login(string message)
         {
             ViewBag.Message = message;
@@ -42,6 +52,11 @@ namespace KnapSack.Controllers
                 return RedirectToAction("Index", "Application");
             }
             return View(loginCredential);
+        }
+
+        public ActionResult Create ()
+        {
+            return View(new Joueur());
         }
     }
 }
