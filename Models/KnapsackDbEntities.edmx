@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="KnapSackDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="KnapSackDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Armes">
           <Key>
             <PropertyRef Name="idItem" />
@@ -21,15 +21,13 @@
           <Property Name="matiere" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="taille" Type="int" Nullable="false" />
         </EntityType>
-        <!--Erreurs détectées durant la génération :
-avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_DATA\KNAPSACKDB.MDF.dbo.Collections' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
         <EntityType Name="Collections">
           <Key>
-            <PropertyRef Name="idJoueur" />
-            <PropertyRef Name="idItem" />
+            <PropertyRef Name="Items_idItem" />
+            <PropertyRef Name="Joueurs_idJoueur" />
           </Key>
-          <Property Name="idJoueur" Type="int" Nullable="false" />
-          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="Items_idItem" Type="int" Nullable="false" />
+          <Property Name="Joueurs_idJoueur" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Items">
           <Key>
@@ -38,12 +36,13 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
           <Property Name="idItem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nom" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="idType" Type="smallint" Nullable="false" />
-          <Property Name="prix" Type="money" Nullable="false" />
-          <Property Name="poid" Type="numeric" Precision="5" Scale="1" Nullable="false" />
+          <Property Name="prix" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="poid" Type="decimal" Precision="5" Scale="1" Nullable="false" />
           <Property Name="urlImage" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="qte" Type="int" Nullable="false" />
           <Property Name="disponibilite" Type="bit" />
           <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="TypesArme_idType" Type="int" />
         </EntityType>
         <EntityType Name="Joueurs">
           <Key>
@@ -54,7 +53,7 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
           <Property Name="alias" Type="varchar" MaxLength="25" Nullable="false" />
           <Property Name="dexterite" Type="int" Nullable="false" />
           <Property Name="poidMaximale" Type="int" Nullable="false" />
-          <Property Name="montantCaps" Type="money" Nullable="false" />
+          <Property Name="montantCaps" Type="decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="isAdmin" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Medicaments">
@@ -64,13 +63,6 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
           <Property Name="idItem" Type="int" Nullable="false" />
           <Property Name="effetAttendu" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="dureeEffet" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Munitions">
-          <Key>
-            <PropertyRef Name="idItem" />
-          </Key>
-          <Property Name="idItem" Type="int" Nullable="false" />
-          <Property Name="typeArme" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Paniers">
           <Key>
@@ -86,7 +78,7 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
             <PropertyRef Name="idItem" />
           </Key>
           <Property Name="idJoueur" Type="int" Nullable="false" />
-          <Property Name="rating" Type="int" Nullable="false" />
+          <Property Name="rating1" Type="int" Nullable="false" />
           <Property Name="idItem" Type="int" Nullable="false" />
           <Property Name="commentaire" Type="varchar" MaxLength="250" />
         </EntityType>
@@ -103,7 +95,7 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
             <PropertyRef Name="idJoueur" />
           </Key>
           <Property Name="idJoueur" Type="int" Nullable="false" />
-          <Property Name="montant" Type="money" Nullable="false" />
+          <Property Name="montant" Type="decimal" Precision="19" Scale="4" Nullable="false" />
         </EntityType>
         <EntityType Name="TypesArmes">
           <Key>
@@ -155,7 +147,7 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Collections_Items">
+        <Association Name="FK_Collections_Items">
           <End Role="Items" Type="Self.Items" Multiplicity="1" />
           <End Role="Collections" Type="Self.Collections" Multiplicity="*" />
           <ReferentialConstraint>
@@ -163,11 +155,11 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
               <PropertyRef Name="idItem" />
             </Principal>
             <Dependent Role="Collections">
-              <PropertyRef Name="idItem" />
+              <PropertyRef Name="Items_idItem" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Collections_Joueurs">
+        <Association Name="FK_Collections_Joueurs">
           <End Role="Joueurs" Type="Self.Joueurs" Multiplicity="1" />
           <End Role="Collections" Type="Self.Collections" Multiplicity="*" />
           <ReferentialConstraint>
@@ -175,7 +167,7 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
               <PropertyRef Name="idJoueur" />
             </Principal>
             <Dependent Role="Collections">
-              <PropertyRef Name="idJoueur" />
+              <PropertyRef Name="Joueurs_idJoueur" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -203,27 +195,15 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Munitions_Items">
-          <End Role="Items" Type="Self.Items" Multiplicity="1" />
-          <End Role="Munitions" Type="Self.Munitions" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Items">
-              <PropertyRef Name="idItem" />
-            </Principal>
-            <Dependent Role="Munitions">
-              <PropertyRef Name="idItem" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Munitions_TypesArmes">
-          <End Role="TypesArmes" Type="Self.TypesArmes" Multiplicity="1" />
-          <End Role="Munitions" Type="Self.Munitions" Multiplicity="*" />
+        <Association Name="FK_Munitions">
+          <End Role="TypesArmes" Type="Self.TypesArmes" Multiplicity="0..1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TypesArmes">
               <PropertyRef Name="idType" />
             </Principal>
-            <Dependent Role="Munitions">
-              <PropertyRef Name="typeArme" />
+            <Dependent Role="Items">
+              <PropertyRef Name="TypesArme_idType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -290,22 +270,16 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
         <EntityContainer Name="KnapSackDbModelStoreContainer">
           <EntitySet Name="Armes" EntityType="Self.Armes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Armures" EntityType="Self.Armures" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Collections" EntityType="Self.Collections" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Joueurs" EntityType="Self.Joueurs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Medicaments" EntityType="Self.Medicaments" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Munitions" EntityType="Self.Munitions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Paniers" EntityType="Self.Paniers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ratings" EntityType="Self.Ratings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sacs" EntityType="Self.Sacs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypesArmes" EntityType="Self.TypesArmes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypesItems" EntityType="Self.TypesItems" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Collections" EntityType="Self.Collections" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Collections].[idJoueur] AS [idJoueur], 
-    [Collections].[idItem] AS [idItem]
-    FROM [dbo].[Collections] AS [Collections]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="fk_Armes_Items" Association="Self.fk_Armes_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="Armes" EntitySet="Armes" />
@@ -318,11 +292,11 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
             <End Role="Items" EntitySet="Items" />
             <End Role="Armures" EntitySet="Armures" />
           </AssociationSet>
-          <AssociationSet Name="fk_Collections_Items" Association="Self.fk_Collections_Items">
+          <AssociationSet Name="FK_Collections_Items" Association="Self.FK_Collections_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="Collections" EntitySet="Collections" />
           </AssociationSet>
-          <AssociationSet Name="fk_Collections_Joueurs" Association="Self.fk_Collections_Joueurs">
+          <AssociationSet Name="FK_Collections_Joueurs" Association="Self.FK_Collections_Joueurs">
             <End Role="Joueurs" EntitySet="Joueurs" />
             <End Role="Collections" EntitySet="Collections" />
           </AssociationSet>
@@ -334,13 +308,9 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
             <End Role="Items" EntitySet="Items" />
             <End Role="Medicaments" EntitySet="Medicaments" />
           </AssociationSet>
-          <AssociationSet Name="fk_Munitions_Items" Association="Self.fk_Munitions_Items">
-            <End Role="Items" EntitySet="Items" />
-            <End Role="Munitions" EntitySet="Munitions" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Munitions_TypesArmes" Association="Self.fk_Munitions_TypesArmes">
+          <AssociationSet Name="FK_Munitions" Association="Self.FK_Munitions">
             <End Role="TypesArmes" EntitySet="TypesArmes" />
-            <End Role="Munitions" EntitySet="Munitions" />
+            <End Role="Items" EntitySet="Items" />
           </AssociationSet>
           <AssociationSet Name="fk_Paniers_Items" Association="Self.fk_Paniers_Items">
             <End Role="Items" EntitySet="Items" />
@@ -363,8 +333,7 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
             <End Role="Transactions" EntitySet="Transactions" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KnapSackDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -408,6 +377,9 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
           <NavigationProperty Name="Sacs" Relationship="Self.fk_Sacs_Items" FromRole="Items" ToRole="Sacs" />
           <NavigationProperty Name="TypesArme" Relationship="Self.Munitions" FromRole="Items" ToRole="TypesArmes" />
           <NavigationProperty Name="Joueurs" Relationship="Self.Collections" FromRole="Items" ToRole="Joueurs" />
+          <Property Name="TypesArme_idType" Type="Int32" />
+          <NavigationProperty Name="TypesArme1" Relationship="KnapSackDbModel.FK_Munitions" FromRole="Item" ToRole="TypesArme" />
+          <NavigationProperty Name="Joueurs1" Relationship="KnapSackDbModel.Collections1" FromRole="Item" ToRole="Joueur" />
         </EntityType>
         <EntityType Name="Joueur">
           <Key>
@@ -424,6 +396,7 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
           <NavigationProperty Name="Sac" Relationship="Self.fk_Sacs_Joueurs" FromRole="Joueurs" ToRole="Sacs" />
           <NavigationProperty Name="Transaction" Relationship="Self.fk_Transactions_Joueurs" FromRole="Joueurs" ToRole="Transactions" />
           <NavigationProperty Name="Items" Relationship="Self.Collections" FromRole="Joueurs" ToRole="Items" />
+          <NavigationProperty Name="Items1" Relationship="KnapSackDbModel.Collections1" FromRole="Joueur" ToRole="Item" />
         </EntityType>
         <EntityType Name="Medicament">
           <Key>
@@ -453,6 +426,7 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
           <Property Name="rating1" Type="Int32" Nullable="false" />
           <Property Name="idItem" Type="Int32" Nullable="false" />
           <Property Name="commentaire" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="rating11" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Sac">
           <Key>
@@ -480,6 +454,7 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
           <Property Name="nom" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Armes" Relationship="Self.fk_Armes_TypesArmes" FromRole="TypesArmes" ToRole="Armes" />
           <NavigationProperty Name="Items" Relationship="Self.Munitions" FromRole="TypesArmes" ToRole="Items" />
+          <NavigationProperty Name="Items1" Relationship="KnapSackDbModel.FK_Munitions" FromRole="TypesArme" ToRole="Item" />
         </EntityType>
         <EntityType Name="TypesItem">
           <Key>
@@ -677,7 +652,31 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
             <End Role="Items" EntitySet="Items" />
             <End Role="Joueurs" EntitySet="Joueurs" />
           </AssociationSet>
+          <AssociationSet Name="FK_Munitions" Association="KnapSackDbModel.FK_Munitions">
+            <End Role="TypesArme" EntitySet="TypesArmes" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="Collections1" Association="KnapSackDbModel.Collections1">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Joueur" EntitySet="Joueurs" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Munitions">
+          <End Type="KnapSackDbModel.TypesArme" Role="TypesArme" Multiplicity="0..1" />
+          <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesArme">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="TypesArme_idType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Collections1">
+          <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="*" />
+          <End Type="KnapSackDbModel.Joueur" Role="Joueur" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -705,6 +704,7 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="KnapSackDbModel.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="TypesArme_idType" ColumnName="TypesArme_idType" />
                 <ScalarProperty Name="idItem" ColumnName="idItem" />
                 <ScalarProperty Name="nom" ColumnName="nom" />
                 <ScalarProperty Name="idType" ColumnName="idType" />
@@ -751,8 +751,8 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
           <EntitySetMapping Name="Ratings">
             <EntityTypeMapping TypeName="KnapSackDbModel.Rating">
               <MappingFragment StoreEntitySet="Ratings">
+                <ScalarProperty Name="rating11" ColumnName="rating1" />
                 <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
-                <ScalarProperty Name="rating1" ColumnName="rating" />
                 <ScalarProperty Name="idItem" ColumnName="idItem" />
                 <ScalarProperty Name="commentaire" ColumnName="commentaire" />
               </MappingFragment>
@@ -791,20 +791,14 @@ avertissement 6002: La table/vue 'D:\USERS\201941963\SOURCE\REPOS\KNAPSACK\APP_D
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Munitions" TypeName="KnapSackDbModel.Munitions" StoreEntitySet="Munitions">
-            <EndProperty Name="Items">
-              <ScalarProperty Name="idItem" ColumnName="idItem" />
-            </EndProperty>
-            <EndProperty Name="TypesArmes">
-              <ScalarProperty Name="idType" ColumnName="typeArme" />
-            </EndProperty>
-          </AssociationSetMapping>
           <AssociationSetMapping Name="Collections" TypeName="KnapSackDbModel.Collections" StoreEntitySet="Collections">
-            <EndProperty Name="Items">
-              <ScalarProperty Name="idItem" ColumnName="idItem" />
+            </AssociationSetMapping>
+          <AssociationSetMapping Name="Collections1" TypeName="KnapSackDbModel.Collections1" StoreEntitySet="Collections">
+            <EndProperty Name="Joueur">
+              <ScalarProperty Name="idJoueur" ColumnName="Joueurs_idJoueur" />
             </EndProperty>
-            <EndProperty Name="Joueurs">
-              <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
+            <EndProperty Name="Item">
+              <ScalarProperty Name="idItem" ColumnName="Items_idItem" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

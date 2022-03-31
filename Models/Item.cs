@@ -20,6 +20,7 @@ namespace KnapSack.Models
             this.Paniers = new HashSet<Panier>();
             this.Sacs = new HashSet<Sac>();
             this.Joueurs = new HashSet<Joueur>();
+            this.Joueurs1 = new HashSet<Joueur>();
         }
     
         public int idItem { get; set; }
@@ -31,6 +32,7 @@ namespace KnapSack.Models
         public int qte { get; set; }
         public Nullable<bool> disponibilite { get; set; }
         public string description { get; set; }
+        public Nullable<int> TypesArme_idType { get; set; }
     
         public virtual Arme Arme { get; set; }
         public virtual Armure Armure { get; set; }
@@ -43,5 +45,8 @@ namespace KnapSack.Models
         public virtual TypesArme TypesArme { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Joueur> Joueurs { get; set; }
+        public virtual TypesArme TypesArme1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Joueur> Joueurs1 { get; set; }
     }
 }

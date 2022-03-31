@@ -18,5 +18,6 @@ namespace KnapSack.Models
         public int rating1 { get; set; }
         public int idItem { get; set; }
         public string commentaire { get; set; }
+        public int rating11 { get; set; }
     }
 }
