@@ -1,7 +1,30 @@
-﻿
+﻿@model IEnumerable<KnapSack.Models.Sac>
 @{
-    ViewBag.Title = "Sac";
+    ViewBag.Title = "Sac à dos";
 }
 
-<h2>Sac</h2>
+<h2>Sac à dos</h2>
+
+@foreach (var item in Model)
+{
+    if (item.idJoueur == ViewBag.playerId)
+    {
+        <div class="row">
+            <div class="col-md-2 col-xs-2">
+                <a class="thumbnail">
+                    <img class="img-responsive" src="@item.Item.urlImage" />
+                </a>
+            </div>
+            <div class="col-md-2 col-xs-2">
+                <h4>@Html.DisplayFor(_ => item.Item.nom)</h4>
+                <p>@Html.DisplayFor(_ => item.Item.description)</p>
+            </div>
+            <div class="col-md-2 col-xs-2">
+                <p>@Html.DisplayFor(_ => item.Item.qte)</p>
+            </div>
+        </div>
+    }
+}
+
+@Html.ActionLink("Retour", "Items","Index")
 

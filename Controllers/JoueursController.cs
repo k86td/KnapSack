@@ -58,5 +58,11 @@ namespace KnapSack.Controllers
         {
             return View(new Joueur());
         }
+
+        public ActionResult Backpack()
+        {
+            ViewBag.playerId = OnlinePlayers.GetSessionUser();
+            return View(DB.Sacs);
+        }
     }
 }
