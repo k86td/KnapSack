@@ -251,6 +251,8 @@
     <Content Include="Views\Login.cshtml" />
     <Content Include="Views\Joueurs\Create.cshtml" />
     <Content Include="Views\Joueurs\_JoueursForm.cshtml" />
+    <Content Include="Views\Joueurs\Login.cshtml" />
+    <Content Include="Views\Joueurs\Sac.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
