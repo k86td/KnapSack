@@ -26,10 +26,10 @@
         <AssociationConnector Association="KnapSackDbModel.fk_Paniers_Joueurs" ManuallyRouted="false" />
         <AssociationConnector Association="KnapSackDbModel.fk_Sacs_Joueurs" ManuallyRouted="false" />
         <AssociationConnector Association="KnapSackDbModel.fk_Transactions_Joueurs" ManuallyRouted="false" />
-        <AssociationConnector Association="KnapSackDbModel.Collections" ManuallyRouted="false" />
         <AssociationConnector Association="KnapSackDbModel.FK_Munitions" />
         <AssociationConnector Association="KnapSackDbModel.fk_ratings_items" />
         <AssociationConnector Association="KnapSackDbModel.fk_ratings_joueurs" />
+        <AssociationConnector Association="KnapSackDbModel.Collections" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -19,8 +19,8 @@ namespace KnapSack.Models
         {
             this.Paniers = new HashSet<Panier>();
             this.Sacs = new HashSet<Sac>();
-            this.Joueurs = new HashSet<Joueur>();
             this.Ratings = new HashSet<Rating>();
+            this.Joueurs = new HashSet<Joueur>();
         }
     
         public int idItem { get; set; }
@@ -43,8 +43,8 @@ namespace KnapSack.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sac> Sacs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Joueur> Joueurs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rating> Ratings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Joueur> Joueurs { get; set; }
     }
 }
