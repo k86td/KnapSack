@@ -49,7 +49,7 @@ namespace KnapSack.Controllers
                     return View(loginCredential);
                 }
                 OnlinePlayers.AddSessionUser(joueur.idJoueur);
-                return RedirectToAction("Index", "Application");
+                return RedirectToAction("Index", "Items");
             }
             return View(loginCredential);
         }
