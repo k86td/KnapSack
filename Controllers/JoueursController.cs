@@ -72,8 +72,7 @@ namespace KnapSack.Controllers
 
         public ActionResult Backpack()
         {
-            ViewBag.playerId = OnlinePlayers.GetSessionUser();
-            return View(DB.Sacs);
+            return View("Sac", DB.Sacs);
         }
     }
 }
