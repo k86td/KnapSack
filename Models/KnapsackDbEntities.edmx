@@ -51,10 +51,10 @@
           <Property Name="idJoueur" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="password" Type="varbinary" MaxLength="256" Nullable="false" />
           <Property Name="alias" Type="varchar" MaxLength="25" Nullable="false" />
-          <Property Name="dexterite" Type="int" Nullable="false" />
-          <Property Name="poidMaximale" Type="int" Nullable="false" />
-          <Property Name="montantCaps" Type="decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="isAdmin" Type="bit" Nullable="false" />
+          <Property Name="dexterite" Type="int" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="poidMaximale" Type="int" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="montantCaps" Type="decimal" Precision="19" Scale="4" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="isAdmin" Type="bit" Nullable="false" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Medicaments">
           <Key>
@@ -418,10 +418,10 @@
           <Property Name="idJoueur" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="password" Type="Binary" MaxLength="256" FixedLength="false" Nullable="false" />
           <Property Name="alias" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="dexterite" Type="Int32" Nullable="false" />
-          <Property Name="poidMaximale" Type="Int32" Nullable="false" />
-          <Property Name="montantCaps" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="isAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="dexterite" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="poidMaximale" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="montantCaps" Type="Decimal" Precision="19" Scale="4" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="isAdmin" Type="Boolean" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="Panier" Relationship="Self.fk_Paniers_Joueurs" FromRole="Joueurs" ToRole="Paniers" />
           <NavigationProperty Name="Sac" Relationship="Self.fk_Sacs_Joueurs" FromRole="Joueurs" ToRole="Sacs" />
           <NavigationProperty Name="Transaction" Relationship="Self.fk_Transactions_Joueurs" FromRole="Joueurs" ToRole="Transactions" />

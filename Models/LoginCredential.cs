@@ -18,6 +18,14 @@ namespace KnapSack.Models
                 password = Encoding.UTF8.GetBytes(this.Password)
             };
         }
+
+        public byte[] GetEncodedPassword()
+        {
+            if (this.Password is null)
+                throw new Exception("Le password n'est pas definit!");
+
+            return Encoding.UTF8.GetBytes(this.Password);
+        }
         
         public int Id { get; set; }
         public string Alias { get; set; }

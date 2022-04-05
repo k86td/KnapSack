@@ -9,6 +9,22 @@ namespace KnapSack.Models
 {
     public static class KnapsackDBDAL
     {
+        public static bool CreateJoueurFromCredentials(this KnapSackDbEntities DB, LoginCredential credential)
+        {
+            try
+            {
+                Joueur toInsert = new Joueur(credential);
+
+                DB.Joueurs.Add(toInsert);
+                DB.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static Joueur GetJoueur(this KnapSackDbEntities DB, LoginCredential loginCredential)
         {
             Joueur user = DB.Joueurs.Where(u => (u.alias.ToLower() == loginCredential.Alias.ToLower()) &&

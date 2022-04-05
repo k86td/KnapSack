@@ -65,8 +65,8 @@ namespace KnapSack.Controllers
             if (!ModelState.IsValid)
                 return View(credential);
 
-            DB.Joueurs.Add(credential.ConvertToJoueur());
-            DB.SaveChanges();
+            DB.CreateJoueurFromCredentials(credential);
+
             return RedirectToAction("Index", "Home", null);
         }
 

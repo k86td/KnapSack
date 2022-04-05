@@ -4,22 +4,23 @@ using System.Linq;
 using System.Web.Mvc;
 
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace KnapSack.Models
 {
     [MetadataType(typeof(JoueursView))]
     public partial class Joueur 
     {
-        private string _passwordString;
-
-        [DataType(DataType.Password)]
-        public string PasswordString
+        // need to do this since the generated schema doesn't permit using default values
+        public Joueur(LoginCredential credential)
         {
-            get => _passwordString;
-            set { 
-                password = System.Text.Encoding.UTF8.GetBytes(value);
-                _passwordString = value;
-            }
+            this.alias = credential.Alias;
+            this.password = credential.GetEncodedPassword();
+
+            this.dexterite = 100;
+            this.poidMaximale = 50;
+            this.isAdmin = false;
+            this.montantCaps = 1000;
         }
     }
 
@@ -31,8 +32,7 @@ namespace KnapSack.Models
         [Remote("Alias_isAvailable", "Joueurs", HttpMethod = "GET", ErrorMessage = "Cet alias existe deja! Utiliser en un autre")]
         public string alias { get; set; }
 
-        [Range(0, 100, ErrorMessage = "La dexterite doit etre entre {1} et {2}")]
+        [Range(1, 100, ErrorMessage = "La dexterite doit etre entre {1} et {2}")]
         public int dexterite { get; set; }
-
     }
 }
