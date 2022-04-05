@@ -56,7 +56,18 @@ namespace KnapSack.Controllers
 
         public ActionResult Create ()
         {
-            return View(new Joueur());
+            return View(new LoginCredential());
+        }
+
+        [HttpPost]
+        public ActionResult Create (LoginCredential credential)
+        {
+            if (!ModelState.IsValid)
+                return View(credential);
+
+            DB.Joueurs.Add(credential.ConvertToJoueur());
+            DB.SaveChanges();
+            return RedirectToAction("Index", "Home", null);
         }
 
         public ActionResult Backpack()
