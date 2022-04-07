@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<KnapSack.Models.Sac>
 @{
     ViewBag.Title = "Sac à dos";
+    KnapSack.Models.Joueur currentUser = KnapSack.Models.OnlinePlayers.GetSessionUser();
 }
 
 <h2>Sac à dos</h2>
 
 @foreach (var item in Model)
 {
-    if (item.idJoueur == ViewBag.playerId)
+    if (item.idJoueur == currentUser.idJoueur)
     {
         <div class="row">
             <div class="col-md-2 col-xs-2">
@@ -26,5 +27,5 @@
     }
 }
 
-@Html.ActionLink("Retour", "Items","Index")
+@Html.ActionLink("Retour", "Index", "Items")
 

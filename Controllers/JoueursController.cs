@@ -50,7 +50,7 @@ namespace KnapSack.Controllers
                     return View(loginCredential);
                 }
                 OnlinePlayers.AddSessionUser(joueur.idJoueur);
-                return RedirectToAction("Index", "Application");
+                return RedirectToAction("Index", "Items");
             }
             return View(loginCredential);
         }
@@ -84,8 +84,7 @@ namespace KnapSack.Controllers
 
         public ActionResult Backpack()
         {
-            ViewBag.playerId = OnlinePlayers.GetSessionUser();
-            return View(DB.Sacs);
+            return View("Sac", DB.Sacs);
         }
     }
 }

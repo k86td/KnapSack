@@ -27,9 +27,7 @@ namespace KnapSack.Models
 
         public static Joueur GetJoueur(this KnapSackDbEntities DB, LoginCredential loginCredential)
         {
-            Joueur user = DB.Joueurs.Where(u => (u.alias.ToLower() == loginCredential.Alias.ToLower()) &&
-                                            (u.password == Encoding.UTF8.GetBytes(loginCredential.Password)))
-                                .FirstOrDefault();
+            Joueur user = DB.Joueurs.Where(u => (u.alias == loginCredential.Alias)).FirstOrDefault();
             return user;
         }
 
