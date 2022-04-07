@@ -30,6 +30,7 @@
         <AssociationConnector Association="KnapSackDbModel.fk_ratings_items" />
         <AssociationConnector Association="KnapSackDbModel.fk_ratings_joueurs" />
         <AssociationConnector Association="KnapSackDbModel.Collections" />
+        <AssociationConnector Association="KnapSackDbModel.fk_Items_TypesItems1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,7 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var user = KnapSack.Models.OnlinePlayers.GetSessionUser();
+}
+
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mon application ASP.NET</title>
@@ -23,8 +27,16 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Accueil", "Index", "Items")</li>
                     <li>@Html.ActionLink("À propos de", "About", "Home")</li>
-                    <li>@Html.ActionLink("S'inscrire", "Create", "Joueurs")</li>
-                    <li>@Html.ActionLink("Sac à dos", "Backpack", "Joueurs")</li> @* only show this if logged in *@
+
+                    @if (user == null)
+                    {
+                        <li>@Html.ActionLink("S'inscrire", "Create", "Joueurs")</li>
+                        <li>@Html.ActionLink("Sac à dos", "Backpack", "Joueurs")</li> @* only show this if logged in *@
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Se deconnecter", "Logout", "Joueurs")</li>
+                    }
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
             </div>

@@ -14,7 +14,16 @@ namespace KnapSack.Models
 
     public partial class ItemsView
     {
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0} caps")]
+        [Display(Name = "Nom objet")]
+        public string nom { get; set; }
+
+        [Display(Name = "Image")]
+        public string urlImage { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0} caps"), Display(Name = "Prix")]
         public decimal prix { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0} livres"), Display(Name = "Poid")]
+        public decimal poid { get; set; }
     }
 }

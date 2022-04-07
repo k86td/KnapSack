@@ -16,14 +16,15 @@ namespace KnapSack.Controllers
             return View();
         }
 
-        public bool Alias_isAvailable (string alias)
+        [HttpPost]
+        public JsonResult Alias_isAvailable (string alias)
         {
             if (DB.Joueurs.Where(el => el.alias == alias).Count() > 0)
             {
-                return true;
+                return Json(false);
             }
 
-            return false;
+            return Json(true);
         }
 
         public ActionResult Login(string message)
@@ -54,6 +55,13 @@ namespace KnapSack.Controllers
             return View(loginCredential);
         }
 
+        public ActionResult Logout()
+        {
+            OnlinePlayers.RemoveSessionUser();
+            return RedirectToAction("Index", "Items");
+        }
+
+
         public ActionResult Create ()
         {
             return View(new LoginCredential());
@@ -62,12 +70,16 @@ namespace KnapSack.Controllers
         [HttpPost]
         public ActionResult Create (LoginCredential credential)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid == false)
                 return View(credential);
 
-            DB.CreateJoueurFromCredentials(credential);
+            Joueur inserted = DB.CreateJoueurFromCredentials(credential);
 
-            return RedirectToAction("Index", "Home", null);
+            if (inserted is null)
+                throw new Exception("Creation du joueur error! Le joueur est null");
+            OnlinePlayers.AddSessionUser(inserted.idJoueur);
+
+            return RedirectToAction("Index", "Items");
         }
 
         public ActionResult Backpack()

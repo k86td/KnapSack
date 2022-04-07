@@ -9,7 +9,7 @@ namespace KnapSack.Models
 {
     public static class KnapsackDBDAL
     {
-        public static bool CreateJoueurFromCredentials(this KnapSackDbEntities DB, LoginCredential credential)
+        public static Joueur CreateJoueurFromCredentials(this KnapSackDbEntities DB, LoginCredential credential)
         {
             try
             {
@@ -17,11 +17,11 @@ namespace KnapSack.Models
 
                 DB.Joueurs.Add(toInsert);
                 DB.SaveChanges();
-                return true;
+                return toInsert;
             }
             catch
             {
-                return false;
+                return null;
             }
         }
 

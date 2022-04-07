@@ -35,7 +35,7 @@
           </Key>
           <Property Name="idItem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nom" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="idType" Type="smallint" Nullable="false" />
+          <Property Name="idType" Type="int" Nullable="false" />
           <Property Name="prix" Type="decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="poid" Type="decimal" Precision="5" Scale="1" Nullable="false" />
           <Property Name="urlImage" Type="varchar" MaxLength="500" Nullable="false" />
@@ -173,13 +173,13 @@
         </Association>
         <Association Name="fk_Items_TypesItems">
           <End Role="TypesItems" Type="Self.TypesItems" Multiplicity="1" />
-          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TypesItems">
               <PropertyRef Name="idType" />
             </Principal>
             <Dependent Role="Items">
-              <PropertyRef Name="idItem" />
+              <PropertyRef Name="idType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -394,7 +394,7 @@
           </Key>
           <Property Name="idItem" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="idType" Type="Int16" Nullable="false" />
+          <Property Name="idType" Type="Int32" Nullable="false" />
           <Property Name="prix" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="poid" Type="Decimal" Precision="5" Scale="1" Nullable="false" />
           <Property Name="urlImage" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
@@ -492,6 +492,7 @@
           <Property Name="idType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nomType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Self.fk_Items_TypesItems" FromRole="TypesItems" ToRole="Items" />
+          <NavigationProperty Name="Items" Relationship="KnapSackDbModel.fk_Items_TypesItems1" FromRole="TypesItem" ToRole="Item" />
         </EntityType>
         <Association Name="fk_Armes_Items">
           <End Role="Items" Type="Self.Item" Multiplicity="1" />
@@ -681,6 +682,10 @@
             <End Role="Item" EntitySet="Items" />
             <End Role="Joueur" EntitySet="Joueurs" />
           </AssociationSet>
+          <AssociationSet Name="fk_Items_TypesItems1" Association="KnapSackDbModel.fk_Items_TypesItems1">
+            <End Role="TypesItem" EntitySet="TypesItems" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Munitions">
           <End Type="KnapSackDbModel.TypesArme" Role="TypesArme" Multiplicity="0..1" />
@@ -721,6 +726,18 @@
         <Association Name="Collections">
           <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="*" />
           <End Type="KnapSackDbModel.Joueur" Role="Joueur" Multiplicity="*" />
+        </Association>
+        <Association Name="fk_Items_TypesItems1">
+          <End Type="KnapSackDbModel.TypesItem" Role="TypesItem" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesItem">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="idType" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>

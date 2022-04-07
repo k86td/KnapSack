@@ -25,7 +25,7 @@ namespace KnapSack.Models
     
         public int idItem { get; set; }
         public string nom { get; set; }
-        public short idType { get; set; }
+        public int idType { get; set; }
         public decimal prix { get; set; }
         public decimal poid { get; set; }
         public string urlImage { get; set; }

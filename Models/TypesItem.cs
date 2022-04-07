@@ -14,9 +14,17 @@ namespace KnapSack.Models
     
     public partial class TypesItem
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TypesItem()
+        {
+            this.Items = new HashSet<Item>();
+        }
+    
         public int idType { get; set; }
         public string nomType { get; set; }
     
         public virtual Item Item { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Item> Items { get; set; }
     }
 }

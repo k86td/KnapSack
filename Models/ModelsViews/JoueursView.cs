@@ -29,7 +29,6 @@ namespace KnapSack.Models
         public byte[] password { get; set; }
 
         [Required(ErrorMessage = "Obligatoire")]
-        [Remote("Alias_isAvailable", "Joueurs", HttpMethod = "GET", ErrorMessage = "Cet alias existe deja! Utiliser en un autre")]
         public string alias { get; set; }
 
         [Range(1, 100, ErrorMessage = "La dexterite doit etre entre {1} et {2}")]
