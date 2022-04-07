@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<KnapSack.Models.Sac>
 @{
     ViewBag.Title = "Sac à dos";
-    KnapSack.Models.Joueur currentUser = KnapSack.Models.OnlinePlayers.GetSessionUser();
+    var currentUser = KnapSack.Models.OnlinePlayers.GetSessionUser();
 }
 
 <h2>Sac à dos</h2>
