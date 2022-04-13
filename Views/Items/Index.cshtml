@@ -2,107 +2,62 @@
 
 @{
     ViewBag.Title = "Boutique";
+
 }
 
 <h2>Boutique</h2>
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-xs-4">
-            <b>@Html.DisplayNameFor(m => m.urlImage)</b>
+
+        <div id="filters_container" class="col-md-4 col-lg-2">
+            <!-- Seach query parameters -->
+
+            <fieldset id="filtersFieldSet" style="text-align: right;">
+                <legend>Parametre de recherche</legend>
+
+                @if (ViewBag.TypesItems is null)
+                {
+                    // check if TypesItems is valid, if not, display an error message
+                    <div class="row">
+                        <h6 class="text-danger">Impossible de faire le rendu du filtrage!</h6>
+                    </div>
+                }
+                else
+                {
+                    // go through every entries inside ViewBag.TypesItems
+                    foreach (KnapSack.Models.TypesItem type in ViewBag.TypesItems)
+                    {
+                        <div class="row">
+                            <label for="@type.nomType">@type.nomType</label>
+                            <input type="checkbox" id="@type.nomType" value="@type.idType" />
+                        </div>
+                    }
+
+                    <br />
+
+                    <div class="row">
+                        <button onclick="updateFilters('#filtersFieldSet', '#items-container', '@Url.Action("GetItemsGrid", "Items", null, Request.Url.Scheme)')" class="btn btn-primary">Filtrer</button>
+                    </div>
+                }
+
+            </fieldset>
+
         </div>
-        <div class="col-md-4 col-xs-4">
-            <b>@Html.DisplayNameFor(m => m.nom)</b>
+
+        <hr />
+
+        <div id="items-container" class="col-md-8 col-lg-10">
+            <!-- This is where the Items will be rendered -->
+
+            <h2 style="text-align: center;" class="text-info">Loading items...</h2>
         </div>
-        <div class="col-md-2 col-xs-2">
-            <b>Détail</b>
-        </div>
+
     </div>
-
-    @foreach (var item in Model)
-    {
-        <div class="row">
-            <div class="col-md-4 col-xs-4">
-                <a class="thumbnail">
-                    <img class="img-responsive" src="@item.urlImage" />
-                </a>
-            </div>
-            <div class="col-md-4 col-xs-4">
-                <h4>@Html.DisplayFor(_ => item.nom)</h4>
-                <p>@Html.DisplayFor(_ => item.description)</p>
-            </div>
-            <div class="col-md-2 col-xs-2">
-                <p>@Html.DisplayFor(_ => item.prix)</p>
-                <p>@Html.DisplayFor(_ => item.poid)</p>
-            </div>
-
-        </div>
-    }
-
 </div>
 
-@*<table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.idItem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.nom)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.idType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.prix)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.poid)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.urlImage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.qte)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.disponibilite)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.description)
-            </th>
-            <th></th>
-        </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.idItem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.idType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.prix)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.poid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.urlImage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.qte)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.disponibilite)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-        </tr>
-    }
-
-    </table>*@
+@section Scripts {
+    <script defer>
+        updateFilters('#filtersFieldSet', '#items-container', '@Url.Action("GetItemsGrid", "Items", null, Request.Url.Scheme)');
+    </script>
+}

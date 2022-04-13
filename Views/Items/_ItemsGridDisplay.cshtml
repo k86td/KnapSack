@@ -1,0 +1,39 @@
+﻿@model IEnumerable<KnapSack.Models.Item>
+
+
+<div class="col-md-8 col-xs-10">
+    <!-- Listing of the items -->
+
+    <div class="row">
+        <div class="col-md-4 col-xs-4">
+            <b>@Html.DisplayNameFor(m => m.urlImage)</b>
+        </div>
+        <div class="col-md-4 col-xs-4">
+            <b>@Html.DisplayNameFor(m => m.nom)</b>
+        </div>
+        <div class="col-md-2 col-xs-2">
+            <b>Détail</b>
+        </div>
+    </div>
+
+
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-md-3 col-xs-3">
+                <a class="thumbnail">
+                    <img class="img-responsive" src="@item.urlImage" />
+                </a>
+            </div>
+            <div class="col-md-5 col-xs-5">
+                <h4>@Html.DisplayFor(_ => item.nom) - <small>@item.TypeItem</small></h4>
+                <p>@Html.DisplayFor(_ => item.description)</p>
+            </div>
+            <div class="col-md-2 col-xs-2">
+                <p>@Html.DisplayFor(_ => item.prix)</p>
+                <p>@Html.DisplayFor(_ => item.poid)</p>
+            </div>
+        </div>
+    }
+
+</div>

@@ -190,6 +190,7 @@
       <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\RequestUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\KnapSackDb.mdf" />
@@ -223,7 +224,10 @@
     <Content Include="Models\KnapsackDbEntities.edmx.diagram">
       <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
     </Content>
+    <Content Include="App_Code\Helpers.cshtml" />
+    <None Include="Properties\PublishProfiles\knap - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\ItemsScripts.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -253,6 +257,7 @@
     <Content Include="Views\Joueurs\_JoueursForm.cshtml" />
     <Content Include="Views\Joueurs\Login.cshtml" />
     <Content Include="Views\Joueurs\Sac.cshtml" />
+    <Content Include="Views\Items\_ItemsGridDisplay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />

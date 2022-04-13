@@ -12,7 +12,7 @@ namespace KnapSack.Models
     public partial class Joueur 
     {
         // need to do this since the generated schema doesn't permit using default values
-        public Joueur(LoginCredential credential)
+        public Joueur(LoginCredentialCreate credential)
         {
             this.alias = credential.Alias;
             this.password = credential.GetEncodedPassword();

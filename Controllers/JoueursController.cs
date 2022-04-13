@@ -30,11 +30,11 @@ namespace KnapSack.Controllers
         public ActionResult Login(string message)
         {
             ViewBag.Message = message;
-            return View(new LoginCredential());
+            return View(new LoginCredentialAccess());
         }
 
         [HttpPost]
-        public ActionResult Login(LoginCredential loginCredential)
+        public ActionResult Login(LoginCredentialAccess loginCredential)
         {
             if (ModelState.IsValid)
             {
@@ -64,11 +64,11 @@ namespace KnapSack.Controllers
 
         public ActionResult Create ()
         {
-            return View(new LoginCredential());
+            return View(new LoginCredentialCreate());
         }
 
         [HttpPost]
-        public ActionResult Create (LoginCredential credential)
+        public ActionResult Create (LoginCredentialCreate credential)
         {
             if (ModelState.IsValid == false)
                 return View(credential);

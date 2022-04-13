@@ -9,7 +9,7 @@ namespace KnapSack.Models
 {
     public static class KnapsackDBDAL
     {
-        public static Joueur CreateJoueurFromCredentials(this KnapSackDbEntities DB, LoginCredential credential)
+        public static Joueur CreateJoueurFromCredentials(this KnapSackDbEntities DB, LoginCredentialCreate credential)
         {
             try
             {
