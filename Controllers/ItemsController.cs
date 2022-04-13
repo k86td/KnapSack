@@ -14,21 +14,27 @@ namespace KnapSack.Controllers
         readonly KnapSackDbEntities DB = new KnapSackDbEntities();
 
         // GET: Items
-        public ActionResult Index(string onlyTheseTypes = null)
+        public ActionResult Index()
         {
-            var defaultQuery =
+            // set all TypesItems inside the ViewBag for use inside Index page (for the search parameters)
+            ViewBag.TypesItems = DB.TypesItems;
+            return View();
+
+        }
+
+        public PartialViewResult GetItemsGrid (int[] typeFilterInclude = null)
+        {
+            var query =
                 from items in DB.Items
                 join typeItems in DB.TypesItems on items.idType equals typeItems.idType
                 orderby typeItems.nomType, items.poid, items.prix
-                where typeItems.idType == 1 || typeItems.idType == 2
                 select items;
 
-            if (! (onlyTheseTypes is null))
-            {
-                
-            }
+            // if typeFilterInclude is defined
+            if ((typeFilterInclude is null) == false)
+                query = query.Where(el => typeFilterInclude.Contains(el.idType)); // filter the items for the specified idType
 
-            return View(defaultQuery);
+            return PartialView("_ItemsGridDisplay", query);
         }
     }
 }
