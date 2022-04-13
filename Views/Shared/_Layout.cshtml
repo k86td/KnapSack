@@ -31,10 +31,11 @@
                     @if (user == null)
                     {
                         <li>@Html.ActionLink("S'inscrire", "Create", "Joueurs")</li>
-                        <li>@Html.ActionLink("Sac à dos", "Backpack", "Joueurs")</li> @* only show this if logged in *@
                     }
-                    else
+                    else /* only show this if logged in */
                     {
+                        <li>@Html.ActionLink("Sac à dos", "Backpack", "Joueurs")</li>
+                        <li>@Html.ActionLink("Panier", "Panier", "Paniers")</li>
                         <li>@Html.ActionLink("Se deconnecter", "Logout", "Joueurs")</li>
                     }
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
