@@ -10,6 +10,14 @@ namespace KnapSack.Models
     [MetadataType(typeof(ItemsView))]
     public partial class Item
     {
+        public string TypeItem 
+        {
+            get
+            {
+                KnapSackDbEntities DB = new KnapSackDbEntities();
+                return DB.TypesItems.Where(sel => sel.idType == this.idType).First().nomType;
+            }
+        }
     }
 
     public partial class ItemsView

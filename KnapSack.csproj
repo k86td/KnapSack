@@ -189,6 +189,7 @@
       <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\RequestUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\KnapSackDb.mdf" />
@@ -222,6 +223,7 @@
     <Content Include="Models\KnapsackDbEntities.edmx.diagram">
       <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\knap - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
