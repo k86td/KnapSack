@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 using KnapSack.Utilities;
 using KnapSack.Models;
+using System.Data.Entity;
 
 namespace KnapSack.Controllers
 {
@@ -35,6 +36,31 @@ namespace KnapSack.Controllers
                 query = query.Where(el => typeFilterInclude.Contains(el.idType)); // filter the items for the specified idType
 
             return PartialView("_ItemsGridDisplay", query);
+        }
+        public ActionResult AddPanier(int? id)
+        {
+            int t = OnlinePlayers.GetSessionUser().idJoueur;
+            Panier panier = new Panier();
+            panier.idJoueur = OnlinePlayers.GetSessionUser().idJoueur;
+            //panier.idJoueur = 8;
+            panier.idItem = (int) id;
+            if(DB.Paniers.Where(e => e.idItem == id && e.idJoueur == t).Count() == 0)
+            {
+                
+                panier.qteItem = 1;
+                DB.Paniers.Add(panier);
+            }
+            else
+            {
+                panier = DB.Paniers.Where(e => e.idItem == id && e.idJoueur == t).FirstOrDefault();
+                panier.qteItem += 1;
+                DB.Entry(panier).State = EntityState.Modified;
+            }
+            
+
+            DB.SaveChanges();
+            
+            return RedirectToAction("Index");
         }
     }
 }

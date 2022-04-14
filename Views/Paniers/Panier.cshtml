@@ -1,0 +1,53 @@
+﻿@model IEnumerable<KnapSack.Models.Panier>
+
+@{
+    ViewBag.Title = "Panier";
+
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var link = Url.Action("BuyCart/", "Paniers");
+}
+
+<h2>Cout totale: @ViewBag.totale</h2>
+
+<h2>Panier</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.idJoueur)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.idItem)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.qteItem)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+               
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idJoueur)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idItem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.qteItem)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                @Html.ActionLink("Delete", "Delete", new { id = item.idItem })
+            </td>
+        </tr>
+    }
+
+</table>
+<a href="@link">    
+    Acheter
+</a>

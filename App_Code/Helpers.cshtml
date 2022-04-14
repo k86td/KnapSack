@@ -1,1 +1,7 @@
-﻿
+﻿@helper ButonAdd (KnapSack.Models.Item item) 
+{ 
+
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var link = Url.Action("AddPanier/", "Items") + item.idItem;
+    <a href="@link"> Ajouter </a>
+}

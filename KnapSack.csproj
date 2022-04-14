@@ -142,16 +142,19 @@
     <Compile Include="Models\Armure.cs">
       <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelsViews\JoueursView.cs" />
-    <Compile Include="Models\LoginCredential.cs" />
-    <Compile Include="Models\DAL.cs" />
     <Compile Include="Models\Item.cs">
       <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelsViews\ItemsView.cs" />
     <Compile Include="Models\Joueur.cs">
       <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Medicament.cs">
+      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelsViews\JoueursView.cs" />
+    <Compile Include="Models\LoginCredential.cs" />
+    <Compile Include="Models\DAL.cs" />
+    <Compile Include="Models\ModelsViews\ItemsView.cs" />
     <Compile Include="Models\KnapsackDbEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -166,9 +169,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Medicament.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OnlinePlayers.cs" />
     <Compile Include="Models\Panier.cs">
@@ -210,6 +210,7 @@
       <LastGenOutput>KnapsackDbEntities.Context.cs</LastGenOutput>
       <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
     </Content>
+    <Content Include="Models\KnapsackDbEntities.edmx.sql" />
     <Content Include="Models\KnapsackDbEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
@@ -258,10 +259,10 @@
     <Content Include="Views\Joueurs\Login.cshtml" />
     <Content Include="Views\Joueurs\Sac.cshtml" />
     <Content Include="Views\Items\_ItemsGridDisplay.cshtml" />
+    <Content Include="Views\Paniers\Panier.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Views\Paniers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -77,5 +77,30 @@ namespace KnapSack.Models
             var cart = DB.Paniers.Where(c => c.idJoueur == player.idJoueur).ToList();
             return cart;
         }
+
+        public static float CalculeTotale(this KnapSackDbEntities DB, Joueur player)
+        {
+            List<Panier> panier = DB.Paniers.Where(e => e.idJoueur == player.idJoueur).ToList();
+            float totale = 0;
+
+            foreach (var item in panier)
+            {
+                Item nItem = DB.Items.Find(item.idItem);
+                
+                totale += (float)nItem.prix * item.qteItem;
+            }
+
+            return totale;
+        }
+        public static void BuyCart(this KnapSackDbEntities DB, Joueur player)
+        {
+            decimal totale = (decimal)DB.CalculeTotale(player);
+            player.montantCaps -= totale;
+            DB.Entry(player).State = EntityState.Modified;
+            DB.SaveChanges();
+
+            //OnlinePlayers.AddSessionUser(player.idJoueur);
+        }
+        
     }
 }
