@@ -94,9 +94,10 @@ namespace KnapSack.Models
         }
         public static void BuyCart(this KnapSackDbEntities DB, Joueur player)
         {
+            DB.Entry(player).State = EntityState.Modified;
             decimal totale = (decimal)DB.CalculeTotale(player);
             player.montantCaps -= totale;
-            DB.Entry(player).State = EntityState.Modified;
+            
             DB.SaveChanges();
 
             //OnlinePlayers.AddSessionUser(player.idJoueur);
