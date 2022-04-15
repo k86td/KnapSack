@@ -36,5 +36,11 @@ namespace KnapSack.Controllers
 
             return PartialView("_ItemsGridDisplay", query);
         }
+
+        public ViewResult Details (int id)
+        {
+            Item toDisplay = DB.Items.Where(el => el.idItem == id).First();
+            return View(toDisplay);
+        }
     }
 }

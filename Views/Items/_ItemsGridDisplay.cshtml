@@ -19,21 +19,21 @@
 
     @foreach (var item in Model)
     {
-        <div class="row">
-            <div class="col-md-3 col-xs-3">
-                <a class="thumbnail">
+        <a href="@Url.Action("Details", new { Id = item.idItem })">
+            <div class="row">
+                <div class="col-md-3 col-xs-3">
                     <img class="img-responsive" src="@item.urlImage" />
-                </a>
+                </div>
+                <div class="col-md-5 col-xs-5">
+                    <h4>@Html.DisplayFor(_ => item.nom) - <small>@item.TypeItem</small></h4>
+                    <p>@Html.DisplayFor(_ => item.description)</p>
+                </div>
+                <div class="col-md-2 col-xs-2">
+                    <p>@Html.DisplayFor(_ => item.prix)</p>
+                    <p>@Html.DisplayFor(_ => item.poid)</p>
+                </div>
             </div>
-            <div class="col-md-5 col-xs-5">
-                <h4>@Html.DisplayFor(_ => item.nom) - <small>@item.TypeItem</small></h4>
-                <p>@Html.DisplayFor(_ => item.description)</p>
-            </div>
-            <div class="col-md-2 col-xs-2">
-                <p>@Html.DisplayFor(_ => item.prix)</p>
-                <p>@Html.DisplayFor(_ => item.poid)</p>
-            </div>
-        </div>
+        </a>
     }
 
 </div>
