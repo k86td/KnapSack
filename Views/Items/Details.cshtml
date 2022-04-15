@@ -1,0 +1,51 @@
+﻿@model KnapSack.Models.Item
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Image</h2>
+        </div>
+        <div class="col-md-3">
+            <h2>Objet</h2>
+        </div>
+        <div class="col-md-3">
+            <h2>Prix</h2>
+        </div>
+        <div class="col-md-3">
+            <h2>Poid</h2>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-3">
+            <a class="thumbnail">
+                <img src="@Model.urlImage" />
+            </a>
+        </div>
+        <div class="col-md-3">
+            <h4>
+                @Html.DisplayFor(el => el.nom)
+            </h4>
+
+            <br />
+            
+            <p>
+                @Html.DisplayFor(el => el.description)
+            </p>
+        </div>
+        <div class="col-md-3">
+            @Html.DisplayFor(el => el.prix)
+        </div>
+        <div class="col-md-3">
+            @Html.DisplayFor(el => el.poid)
+        </div>
+    </div>
+</div>

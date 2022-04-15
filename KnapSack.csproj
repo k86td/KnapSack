@@ -260,6 +260,7 @@
     <Content Include="Views\Joueurs\Sac.cshtml" />
     <Content Include="Views\Items\_ItemsGridDisplay.cshtml" />
     <Content Include="Views\Paniers\Panier.cshtml" />
+    <Content Include="Views\Items\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
