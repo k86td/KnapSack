@@ -14,6 +14,9 @@ namespace KnapSack.Models
         // need to do this since the generated schema doesn't permit using default values
         public Joueur(LoginCredentialCreate credential)
         {
+            this.nom = credential.Nom;
+            this.prenom = credential.Prenom;
+
             this.alias = credential.Alias;
             this.password = credential.GetEncodedPassword();
 

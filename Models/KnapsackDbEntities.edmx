@@ -55,6 +55,8 @@
           <Property Name="poidMaximale" Type="int" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="montantCaps" Type="decimal" Precision="19" Scale="4" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="isAdmin" Type="bit" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="nom" Type="nvarchar" MaxLength="50" />
+          <Property Name="prenom" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Medicaments">
           <Key>
@@ -67,6 +69,7 @@
         <EntityType Name="Paniers">
           <Key>
             <PropertyRef Name="idJoueur" />
+            <PropertyRef Name="idItem" />
           </Key>
           <Property Name="idJoueur" Type="int" Nullable="false" />
           <Property Name="idItem" Type="int" Nullable="false" />
@@ -221,7 +224,7 @@
         </Association>
         <Association Name="fk_Paniers_Joueurs">
           <End Role="Joueurs" Type="Self.Joueurs" Multiplicity="1" />
-          <End Role="Paniers" Type="Self.Paniers" Multiplicity="0..1" />
+          <End Role="Paniers" Type="Self.Paniers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Joueurs">
               <PropertyRef Name="idJoueur" />
@@ -405,11 +408,11 @@
           <NavigationProperty Name="Armure" Relationship="Self.fk_Armures_Items" FromRole="Items" ToRole="Armures" />
           <NavigationProperty Name="TypesItem" Relationship="Self.fk_Items_TypesItems" FromRole="Items" ToRole="TypesItems" />
           <NavigationProperty Name="Medicament" Relationship="Self.fk_Medicaments_Items" FromRole="Items" ToRole="Medicaments" />
-          <NavigationProperty Name="Paniers" Relationship="Self.fk_Paniers_Items" FromRole="Items" ToRole="Paniers" />
           <NavigationProperty Name="Sacs" Relationship="Self.fk_Sacs_Items" FromRole="Items" ToRole="Sacs" />
           <Property Name="TypesArme_idType" Type="Int32" />
           <NavigationProperty Name="Ratings" Relationship="KnapSackDbModel.fk_ratings_items" FromRole="Item" ToRole="Rating" />
           <NavigationProperty Name="Joueurs" Relationship="KnapSackDbModel.Collections" FromRole="Item" ToRole="Joueur" />
+          <NavigationProperty Name="Paniers" Relationship="KnapSackDbModel.fk_Paniers_Items" FromRole="Item" ToRole="Panier" />
         </EntityType>
         <EntityType Name="Joueur">
           <Key>
@@ -422,11 +425,13 @@
           <Property Name="poidMaximale" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="montantCaps" Type="Decimal" Precision="19" Scale="4" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="isAdmin" Type="Boolean" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="Panier" Relationship="Self.fk_Paniers_Joueurs" FromRole="Joueurs" ToRole="Paniers" />
           <NavigationProperty Name="Sac" Relationship="Self.fk_Sacs_Joueurs" FromRole="Joueurs" ToRole="Sacs" />
           <NavigationProperty Name="Transaction" Relationship="Self.fk_Transactions_Joueurs" FromRole="Joueurs" ToRole="Transactions" />
           <NavigationProperty Name="Ratings" Relationship="KnapSackDbModel.fk_ratings_joueurs" FromRole="Joueur" ToRole="Rating" />
           <NavigationProperty Name="Items" Relationship="KnapSackDbModel.Collections" FromRole="Joueur" ToRole="Item" />
+          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Paniers" Relationship="KnapSackDbModel.fk_Paniers_Joueurs" FromRole="Joueur" ToRole="Panier" />
         </EntityType>
         <EntityType Name="Medicament">
           <Key>
@@ -436,16 +441,6 @@
           <Property Name="effetAttendu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="dureeEffet" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Self.fk_Medicaments_Items" FromRole="Medicaments" ToRole="Items" />
-        </EntityType>
-        <EntityType Name="Panier">
-          <Key>
-            <PropertyRef Name="idJoueur" />
-          </Key>
-          <Property Name="idJoueur" Type="Int32" Nullable="false" />
-          <Property Name="idItem" Type="Int32" Nullable="false" />
-          <Property Name="qteItem" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.fk_Paniers_Items" FromRole="Paniers" ToRole="Items" />
-          <NavigationProperty Name="Joueur" Relationship="Self.fk_Paniers_Joueurs" FromRole="Paniers" ToRole="Joueurs" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
@@ -554,18 +549,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Paniers_Items">
-          <End Role="Items" Type="Self.Item" Multiplicity="1" />
-          <End Role="Paniers" Type="Self.Panier" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Items">
-              <PropertyRef Name="idItem" />
-            </Principal>
-            <Dependent Role="Paniers">
-              <PropertyRef Name="idItem" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_Sacs_Items">
           <End Role="Items" Type="Self.Item" Multiplicity="1" />
           <End Role="Sacs" Type="Self.Sac" Multiplicity="*" />
@@ -575,18 +558,6 @@
             </Principal>
             <Dependent Role="Sacs">
               <PropertyRef Name="idItem" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Paniers_Joueurs">
-          <End Role="Joueurs" Type="Self.Joueur" Multiplicity="1" />
-          <End Role="Paniers" Type="Self.Panier" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Joueurs">
-              <PropertyRef Name="idJoueur" />
-            </Principal>
-            <Dependent Role="Paniers">
-              <PropertyRef Name="idJoueur" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -620,7 +591,6 @@
           <EntitySet Name="Items" EntityType="Self.Item" />
           <EntitySet Name="Joueurs" EntityType="Self.Joueur" />
           <EntitySet Name="Medicaments" EntityType="Self.Medicament" />
-          <EntitySet Name="Paniers" EntityType="Self.Panier" />
           <EntitySet Name="Ratings" EntityType="Self.Rating" />
           <EntitySet Name="Sacs" EntityType="Self.Sac" />
           <EntitySet Name="Transactions" EntityType="Self.Transaction" />
@@ -646,17 +616,9 @@
             <End Role="Items" EntitySet="Items" />
             <End Role="Medicaments" EntitySet="Medicaments" />
           </AssociationSet>
-          <AssociationSet Name="fk_Paniers_Items" Association="Self.fk_Paniers_Items">
-            <End Role="Items" EntitySet="Items" />
-            <End Role="Paniers" EntitySet="Paniers" />
-          </AssociationSet>
           <AssociationSet Name="fk_Sacs_Items" Association="Self.fk_Sacs_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="Sacs" EntitySet="Sacs" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Paniers_Joueurs" Association="Self.fk_Paniers_Joueurs">
-            <End Role="Joueurs" EntitySet="Joueurs" />
-            <End Role="Paniers" EntitySet="Paniers" />
           </AssociationSet>
           <AssociationSet Name="fk_Sacs_Joueurs" Association="Self.fk_Sacs_Joueurs">
             <End Role="Joueurs" EntitySet="Joueurs" />
@@ -685,6 +647,15 @@
           <AssociationSet Name="fk_Items_TypesItems1" Association="KnapSackDbModel.fk_Items_TypesItems1">
             <End Role="TypesItem" EntitySet="TypesItems" />
             <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <EntitySet Name="Paniers" EntityType="KnapSackDbModel.Panier" />
+          <AssociationSet Name="fk_Paniers_Items" Association="KnapSackDbModel.fk_Paniers_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Panier" EntitySet="Paniers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Paniers_Joueurs" Association="KnapSackDbModel.fk_Paniers_Joueurs">
+            <End Role="Joueur" EntitySet="Joueurs" />
+            <End Role="Panier" EntitySet="Paniers" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Munitions">
@@ -739,6 +710,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Panier">
+          <Key>
+            <PropertyRef Name="idJoueur" />
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idJoueur" Type="Int32" Nullable="false" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="qteItem" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="KnapSackDbModel.fk_Paniers_Items" FromRole="Panier" ToRole="Item" />
+          <NavigationProperty Name="Joueur" Relationship="KnapSackDbModel.fk_Paniers_Joueurs" FromRole="Panier" ToRole="Joueur" />
+        </EntityType>
+        <Association Name="fk_Paniers_Items">
+          <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Panier" Role="Panier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Panier">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Paniers_Joueurs">
+          <End Type="KnapSackDbModel.Joueur" Role="Joueur" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Panier" Role="Panier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Joueur">
+              <PropertyRef Name="idJoueur" />
+            </Principal>
+            <Dependent Role="Panier">
+              <PropertyRef Name="idJoueur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -782,6 +788,8 @@
           <EntitySetMapping Name="Joueurs">
             <EntityTypeMapping TypeName="KnapSackDbModel.Joueur">
               <MappingFragment StoreEntitySet="Joueurs">
+                <ScalarProperty Name="prenom" ColumnName="prenom" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
                 <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="alias" ColumnName="alias" />
@@ -798,15 +806,6 @@
                 <ScalarProperty Name="idItem" ColumnName="idItem" />
                 <ScalarProperty Name="effetAttendu" ColumnName="effetAttendu" />
                 <ScalarProperty Name="dureeEffet" ColumnName="dureeEffet" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Paniers">
-            <EntityTypeMapping TypeName="KnapSackDbModel.Panier">
-              <MappingFragment StoreEntitySet="Paniers">
-                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
-                <ScalarProperty Name="idItem" ColumnName="idItem" />
-                <ScalarProperty Name="qteItem" ColumnName="qteItem" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -861,6 +860,15 @@
               <ScalarProperty Name="idItem" ColumnName="Items_idItem" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Paniers">
+            <EntityTypeMapping TypeName="KnapSackDbModel.Panier">
+              <MappingFragment StoreEntitySet="Paniers">
+                <ScalarProperty Name="qteItem" ColumnName="qteItem" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
