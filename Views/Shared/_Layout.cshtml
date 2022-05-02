@@ -35,6 +35,10 @@
                         <li>@Html.ActionLink("Panier", "Panier", "Paniers") </li>
                         <li>@Html.ActionLink("Ce connecter","Login", "Joueurs" )</li>
                     }
+                    else if (user.isAdmin)
+                    {
+                        <li>@Html.ActionLink("Ajouter un item", "Create", "Items")</li>
+                    }
                     else /* only show this if logged in */
                     {
                         <li>@Html.ActionLink("Sac à dos", "Backpack", "Joueurs")</li>

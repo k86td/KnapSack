@@ -62,5 +62,18 @@ namespace KnapSack.Controllers
             
             return RedirectToAction("Index");
         }
+
+        [AdminAccess]
+        public ActionResult Create ()
+        {
+            return View(new Item());
+        }
+
+        [AdminAccess, HttpPost]
+        public ActionResult Create (Item item)
+        {
+            DB.Items.Add(item);
+            return RedirectToAction("Index");
+        }
     }
 }
