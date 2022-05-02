@@ -17,10 +17,10 @@ namespace KnapSack.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Item()
         {
-            this.Paniers = new HashSet<Panier>();
             this.Sacs = new HashSet<Sac>();
             this.Ratings = new HashSet<Rating>();
             this.Joueurs = new HashSet<Joueur>();
+            this.Paniers = new HashSet<Panier>();
         }
     
         public int idItem { get; set; }
@@ -39,12 +39,12 @@ namespace KnapSack.Models
         public virtual TypesItem TypesItem { get; set; }
         public virtual Medicament Medicament { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Panier> Paniers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sac> Sacs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rating> Ratings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Joueur> Joueurs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Panier> Paniers { get; set; }
     }
 }

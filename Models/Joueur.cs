@@ -19,6 +19,7 @@ namespace KnapSack.Models
         {
             this.Ratings = new HashSet<Rating>();
             this.Items = new HashSet<Item>();
+            this.Paniers = new HashSet<Panier>();
         }
     
         public int idJoueur { get; set; }
@@ -31,12 +32,13 @@ namespace KnapSack.Models
         public string nom { get; set; }
         public string prenom { get; set; }
     
-        public virtual Panier Panier { get; set; }
         public virtual Sac Sac { get; set; }
         public virtual Transaction Transaction { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rating> Ratings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Item> Items { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Panier> Paniers { get; set; }
     }
 }
