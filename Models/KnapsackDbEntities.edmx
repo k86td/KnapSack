@@ -55,6 +55,8 @@
           <Property Name="poidMaximale" Type="int" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="montantCaps" Type="decimal" Precision="19" Scale="4" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="isAdmin" Type="bit" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="nom" Type="nvarchar" MaxLength="50" />
+          <Property Name="prenom" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Medicaments">
           <Key>
@@ -147,7 +149,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Collections_Items">
+        <Association Name="FK_Collections_Item">
           <End Role="Items" Type="Self.Items" Multiplicity="1" />
           <End Role="Collections" Type="Self.Collections" Multiplicity="*" />
           <ReferentialConstraint>
@@ -159,7 +161,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Collections_Joueurs">
+        <Association Name="FK_Collections_Joueur">
           <End Role="Joueurs" Type="Self.Joueurs" Multiplicity="1" />
           <End Role="Collections" Type="Self.Collections" Multiplicity="*" />
           <ReferentialConstraint>
@@ -172,6 +174,18 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Items_TypesItems">
+          <End Role="TypesItems" Type="Self.TypesItems" Multiplicity="1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TypesItems">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Items_TypesItems1">
           <End Role="TypesItems" Type="Self.TypesItems" Multiplicity="1" />
           <End Role="Items" Type="Self.Items" Multiplicity="*" />
           <ReferentialConstraint>
@@ -316,15 +330,19 @@
             <End Role="Items" EntitySet="Items" />
             <End Role="Armures" EntitySet="Armures" />
           </AssociationSet>
-          <AssociationSet Name="FK_Collections_Items" Association="Self.FK_Collections_Items">
+          <AssociationSet Name="FK_Collections_Item" Association="Self.FK_Collections_Item">
             <End Role="Items" EntitySet="Items" />
             <End Role="Collections" EntitySet="Collections" />
           </AssociationSet>
-          <AssociationSet Name="FK_Collections_Joueurs" Association="Self.FK_Collections_Joueurs">
+          <AssociationSet Name="FK_Collections_Joueur" Association="Self.FK_Collections_Joueur">
             <End Role="Joueurs" EntitySet="Joueurs" />
             <End Role="Collections" EntitySet="Collections" />
           </AssociationSet>
           <AssociationSet Name="fk_Items_TypesItems" Association="Self.fk_Items_TypesItems">
+            <End Role="TypesItems" EntitySet="TypesItems" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Items_TypesItems1" Association="Self.fk_Items_TypesItems1">
             <End Role="TypesItems" EntitySet="TypesItems" />
             <End Role="Items" EntitySet="Items" />
           </AssociationSet>
@@ -427,6 +445,8 @@
           <NavigationProperty Name="Transaction" Relationship="Self.fk_Transactions_Joueurs" FromRole="Joueurs" ToRole="Transactions" />
           <NavigationProperty Name="Ratings" Relationship="KnapSackDbModel.fk_ratings_joueurs" FromRole="Joueur" ToRole="Rating" />
           <NavigationProperty Name="Items" Relationship="KnapSackDbModel.Collections" FromRole="Joueur" ToRole="Item" />
+          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Medicament">
           <Key>
@@ -782,6 +802,8 @@
           <EntitySetMapping Name="Joueurs">
             <EntityTypeMapping TypeName="KnapSackDbModel.Joueur">
               <MappingFragment StoreEntitySet="Joueurs">
+                <ScalarProperty Name="prenom" ColumnName="prenom" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
                 <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="alias" ColumnName="alias" />

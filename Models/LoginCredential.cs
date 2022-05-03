@@ -17,7 +17,7 @@ namespace KnapSack.Models
             return new Joueur
             {
                 alias = this.Alias,
-                password = Encoding.UTF8.GetBytes(this.Password)
+                password = Encoding.UTF8.GetBytes(this.Password),
             };
         }
 
@@ -29,20 +29,30 @@ namespace KnapSack.Models
             return Encoding.UTF8.GetBytes(this.Password);
         }
 
-
         public int Id { get; set; }
         public string Alias { get; set; }
         public string Password { get; set; }
     }
 
     /// <summary>
-    /// Used for DataAnnotation of creation of a LoginCredential
+    /// Used for DataAnnotation of creation of a LoginCredential. Some additional proprety are created here in order to permit the usage
+    /// of more advance forms
     /// </summary>
     [MetadataType(typeof(LoginCredentialCreateView))]
     public partial class LoginCredentialCreate : LoginCredential
-    { }
+    {
+        public string Prenom { get; set; }
+        public string Nom { get; set; }
+    }
+
     public partial class LoginCredentialCreateView
     {
+        [Display(Name = "Prénom")]
+        public string Prenom { get; set; }
+
+        [Display(Name = "Nom")]
+        public string Nom { get; set; }
+
         [DataType(DataType.Text)]
         [Display(Name = "Alias"), Required(ErrorMessage = "Obligatoire")]
         [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "L'alias doit etre entre 3 et 50 charactere")]
