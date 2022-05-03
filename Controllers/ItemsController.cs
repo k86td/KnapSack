@@ -12,7 +12,7 @@ namespace KnapSack.Controllers
 {
     public class ItemsController : Controller
     {
-        readonly KnapSackDbEntities DB = new KnapSackDbEntities();
+        readonly KnapsackDBEntities DB = new KnapsackDBEntities();
 
         // GET: Items
         public ActionResult Index()
@@ -61,6 +61,45 @@ namespace KnapSack.Controllers
             DB.SaveChanges();
             
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Details(int Id)
+        {
+            Session["RatingFieldSortDir"] = true;
+            Item item = DB.Items.Find(Id);
+            if (item != null)
+                return View(item);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult UpdateCurrentUserRating(int itemId, int rating, string comment)
+        {
+            Rating itemRating = new Rating
+            {
+                idItem = itemId,
+                idJoueur = OnlinePlayers.GetSessionUser().idJoueur,
+                rating = rating,
+                commentaire = comment,
+            };
+
+            DB.AddItemRating(itemRating);
+
+            DB.Update_Items_Ratings();
+            return View();
+        }
+        public ActionResult SortRatingsBy(string fieldToSort)
+        {
+            try
+            {
+                Session["RatingFieldToSort"] = fieldToSort;
+                Session["RatingFieldSortDir"] = !(bool)Session["RatingFieldToSort"];
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

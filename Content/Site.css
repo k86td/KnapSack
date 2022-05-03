@@ -18,7 +18,199 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select,
-textarea {
+select {
     max-width: 280px;
+}
+
+    input[type=search]::-webkit-search-cancel-button {
+        -webkit-appearance: searchfield-cancel-button;
+    }
+
+textarea {
+    display: block;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    max-width: 280px;
+}
+
+fieldset {
+    display: block;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-top: 40px;
+    border-radius: 6px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+    border: 1px solid lightgray;
+}
+
+legend {
+    position: absolute;
+    margin-top: -35px;
+    margin-left: 0px;
+    border: 0;
+    font-weight: 600;
+    font-size: 18px;
+    color: deepskyblue;
+}
+
+.formField {
+    width: 280px;
+}
+
+.UploadedImage {
+    max-width: 100%;
+}
+
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 25px;
+}
+
+.smallAvatar {
+    margin-top: -6px;
+    margin-right: 4px;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    float: left;
+}
+
+.mediumAvatar {
+    margin-right: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    float: left;
+}
+
+.userContainer {
+    display: grid;
+    grid-template-columns: 220px 100px 80px 80px 120px 80px 80px 80px;
+    height: 60px;
+}
+
+.CB_Blocked {
+    width: 18px;
+    height: 18px;
+}
+
+.small_icon {
+    height: 24px;
+}
+
+
+.medium_icon {
+    height: 32px;
+}
+
+.UploadedImage {
+    border: 2px solid white;
+}
+
+    .UploadedImage:hover {
+        border: 2px solid blue;
+    }
+
+
+.glyphiconStyle {
+    color: black;
+    font-size: 18px;
+}
+
+.sortButton:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.glyphSelected {
+    color: dodgerblue;
+}
+
+.glyphiconStyle:hover {
+    color: dodgerblue;
+}
+
+.glyphicon-green {
+    color: green;
+}
+
+.glyphicon-gold {
+    color: gold;
+}
+
+.glyphicon-red {
+    color: red;
+}
+
+.glyphicon-active {
+    cursor: pointer;
+}
+
+
+div2 {
+    border: 1px solid red;
+}
+
+
+
+.photosContainerGrid {
+    display: grid;
+    grid-gap: 1em;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    grid-auto-rows: minmax(120px, auto);
+}
+
+.photoContainer {
+    padding: 5px;
+    border: 3px solid white;
+    width: 180px;
+    height: 250px;
+}
+
+.photo {
+    text-align: center;
+    width: 165px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 145px;
+}
+
+.photoBig {
+    width: 95%;
+    height: 400px;
+}
+
+.imageUploaderContainer {
+    width: 280px;
+}
+
+.imageUploader {
+    width: 100%;
+}
+
+.PhotoDetailsLayout {
+    display: grid;
+    grid-template-columns: 65% 35%;
+}
+
+.PhotoRatingsContainer {
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 800px) {
+    .PhotoDetailsLayout {
+        display: block;
+    }
 }

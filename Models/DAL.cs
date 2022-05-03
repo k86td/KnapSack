@@ -9,7 +9,8 @@ namespace KnapSack.Models
 {
     public static class KnapsackDBDAL
     {
-        public static Joueur CreateJoueurFromCredentials(this KnapSackDbEntities DB, LoginCredentialCreate credential)
+
+        public static Joueur CreateJoueurFromCredentials(this KnapsackDBEntities DB, LoginCredentialCreate credential)
         {
             try
             {
@@ -25,46 +26,26 @@ namespace KnapSack.Models
             }
         }
 
-        public static Joueur GetJoueur(this KnapSackDbEntities DB, LoginCredential loginCredential)
+        public static Joueur GetJoueur(this KnapsackDBEntities DB, LoginCredential loginCredential)
         {
             Joueur user = DB.Joueurs.Where(u => (u.alias == loginCredential.Alias)).FirstOrDefault();
             return user;
         }
 
-        public static Joueur FindUser(this KnapSackDbEntities DB, int id)
+        public static Joueur FindUser(this KnapsackDBEntities DB, int id)
         {
             Joueur user = DB.Joueurs.Find(id);
             return user;
         }
 
-        public static void AddItemToCart(this KnapSackDbEntities DB, Item item, Joueur player)
-        {
-            Panier existingCartItem = DB.Paniers.Where(c => c.idJoueur == player.idJoueur && c.idItem == item.idItem).FirstOrDefault();
-           
-            if (existingCartItem == null) {
-                Panier cartItem = new Panier
-                {
-                    idItem = item.idItem,
-                    idJoueur = player.idJoueur,
-                    qteItem = 1
-                };
-                DB.Paniers.Add(cartItem);
-                DB.SaveChanges();
-            }
-            else
-            {
-                DB.ModifyCartQuantityItem(item, player, (existingCartItem.qteItem + 1));
-            }
-        }
-
-        public static void DeleteCart(this KnapSackDbEntities DB, Joueur player)
+        public static void DeleteCart(this KnapsackDBEntities DB, Joueur player)
         {
             var cartToDelete = DB.Paniers.Where(c => c.idJoueur == player.idJoueur);
             DB.Paniers.RemoveRange(cartToDelete);
             DB.SaveChanges();
         }
 
-        public static void ModifyCartQuantityItem(this KnapSackDbEntities DB, Item item, Joueur player  , int newQuantity)
+        public static void ModifyCartQuantityItem(this KnapsackDBEntities DB, Item item, Joueur player  , int newQuantity)
         {
             var itemToModify = DB.Paniers.Where(c => c.idJoueur == player.idJoueur && c.idItem == item.idItem).FirstOrDefault();
             itemToModify.qteItem = newQuantity;
@@ -72,13 +53,13 @@ namespace KnapSack.Models
             DB.SaveChanges();
         }
 
-        public static List<Panier> FindCart(this KnapSackDbEntities DB, Joueur player)
+        public static List<Panier> FindCart(this KnapsackDBEntities DB, Joueur player)
         {
             var cart = DB.Paniers.Where(c => c.idJoueur == player.idJoueur).ToList();
             return cart;
         }
 
-        public static float CalculeTotale(this KnapSackDbEntities DB, Joueur player)
+        public static float CalculeTotale(this KnapsackDBEntities DB, Joueur player)
         {
             List<Panier> panier = DB.Paniers.Where(e => e.idJoueur == player.idJoueur).ToList();
             float totale = 0;
@@ -92,10 +73,12 @@ namespace KnapSack.Models
 
             return totale;
         }
-        public static void BuyCart(this KnapSackDbEntities DB, Joueur player)
+        public static void BuyCart(this KnapsackDBEntities DB, Joueur player)
         {
             DB.Entry(player).State = EntityState.Modified;
+            var cart = DB.FindCart(player);
             decimal totale = (decimal)DB.CalculeTotale(player);
+            DB.AddToBackpack(player, cart);
             player.montantCaps -= totale;
             
             DB.SaveChanges();
@@ -103,5 +86,83 @@ namespace KnapSack.Models
             //OnlinePlayers.AddSessionUser(player.idJoueur);
         }
         
+        public static void AddToBackpack(this KnapsackDBEntities DB, Joueur player, List<Panier> cart)
+        {
+            foreach(var item in cart)
+            {
+                var backpackItem = new Sac
+                {
+                    idItem = item.idItem,
+                    idJoueur = player.idJoueur,
+                    qteItem = item.qteItem
+                };
+                DB.Sacs.Add(backpackItem);
+                DB.SaveChanges();
+            }
+        }
+
+        public static Rating AddItemRating(this KnapsackDBEntities DB, Rating itemRating)
+        {
+            Rating existingItemRating = DB.Ratings.Where(r => r.idItem == itemRating.idItem && r.idJoueur ==
+           itemRating.idJoueur).FirstOrDefault();
+            if (existingItemRating != null)
+            {
+                existingItemRating.rating = itemRating.rating;
+                existingItemRating.commentaire = itemRating.commentaire;
+                DB.Entry(existingItemRating).State = EntityState.Modified;
+            }
+            else
+            {
+                itemRating = DB.Ratings.Add(itemRating);
+            }
+
+            Rating toUpdate = existingItemRating == null ? itemRating : existingItemRating;
+
+            DB.Entry(toUpdate.Item).State = EntityState.Modified;
+
+            int averageRating = (int)Math.Round(toUpdate.Item.Ratings.Average(ob => ob.rating));
+            int ratingCount = toUpdate.Item.Ratings.Count();
+
+            toUpdate.Item.rating = averageRating;
+            toUpdate.Item.ratingCount = ratingCount;
+
+            DB.SaveChanges();
+            return itemRating;
+        }
+
+        public static bool CompileItemsRating(this KnapsackDBEntities DB, Item item)
+        {
+            int ratingsCount = 0;
+            double ratingsTotal = 0;
+            foreach (Rating rating in item.Ratings)
+            {
+                ratingsCount++;
+                ratingsTotal += rating.rating;
+            }
+            if (ratingsCount > 0)
+            {
+                item.rating = (int)Math.Round(ratingsTotal / ratingsCount);
+                item.ratingCount = ratingsCount;
+            }
+            else
+            {
+                item.rating = 0;
+                item.ratingCount = 0;
+            }
+            DB.Entry(item).State = EntityState.Modified;
+            DB.SaveChanges();
+            return true;
+        }
+
+        public static bool Update_Items_Ratings(this KnapsackDBEntities DB)
+        {
+            foreach (Item item in DB.Items)
+            {
+                DB.CompileItemsRating(item);
+            }
+            return true;
+        }
     }
+
+
 }
