@@ -9,7 +9,7 @@ namespace KnapSack.Controllers
 {
     public class PaniersController : Controller
     {
-        KnapSackDbEntities DB = new KnapSackDbEntities();
+        KnapsackDBEntities DB = new KnapsackDBEntities();
         // GET: Paniers
 
         public ActionResult Panier()
@@ -21,22 +21,13 @@ namespace KnapSack.Controllers
             return View(panierList);
         }
 
-        public ActionResult AddToCart(Item item) 
+        public ActionResult ModifyQuantity(int idItem, int newQuantity)
         {
-            DB.AddItemToCart(item, OnlinePlayers.GetSessionUser());
-            return RedirectToAction("Panier");
-        }
-
-        public ActionResult ModifyQuantity(Item item, int newQuantity)
-        {
+            var item = DB.Items.Where(i => i.idItem == idItem).FirstOrDefault();
             DB.ModifyCartQuantityItem(item, OnlinePlayers.GetSessionUser(), newQuantity);
             return RedirectToAction("Panier");
         }
 
-        //public ActionResult BuyCart()
-        //{
-
-        //}
         public ActionResult Delete(int id)
         {
             int t = OnlinePlayers.GetSessionUser().idJoueur;

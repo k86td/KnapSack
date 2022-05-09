@@ -12,7 +12,7 @@ namespace KnapSack.Controllers
 {
     public class ItemsController : Controller
     {
-        readonly KnapSackDbEntities DB = new KnapSackDbEntities();
+        readonly KnapsackDBEntities DB = new KnapsackDBEntities();
 
         // GET: Items
         public ActionResult Index()
@@ -137,21 +137,49 @@ namespace KnapSack.Controllers
                 return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Create", "Items", new { idType = item.idType });
+        [HttpGet]
+        public ActionResult Details(int Id)
+        {
+            Session["RatingFieldSortDir"] = true;
+            Item item = DB.Items.Find(Id);
+            if (item != null)
+                return View(item);
+            return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        [SetTempDataModelState, AdminAccess]
-        public ActionResult CreateNourriture([Bind(Prefix = "Item")] Item item)
+        public ActionResult UpdateCurrentUserRating(int itemId, int rating, string comment)
         {
-            if (ModelState.IsValid)
+            Rating itemRating = new Rating
             {
-                Item added = DB.Items.Add(item);
-                DB.SaveChanges();
+                idItem = itemId,
+                idJoueur = OnlinePlayers.GetSessionUser().idJoueur,
+                rating = rating,
+                commentaire = comment,
+            };
+
+            DB.AddItemRating(itemRating);
+
+            DB.Update_Items_Ratings();
+            return View();
+        }
+        public ActionResult SortRatingsBy(string fieldToSort)
+        {
+            try
+            {
+                Session["RatingFieldToSort"] = fieldToSort;
+                Session["RatingFieldSortDir"] = !(bool)Session["RatingFieldToSort"];
+                return View();
+            }
+            catch
+            {
                 return RedirectToAction("Index");
             }
+        }
 
-            return RedirectToAction("Create", "Items", new { idType = item.idType });
+        [AdminAccess]
+        public ActionResult Create ()
+        {
+            return View(new Item());
         }
 
         [HttpPost]

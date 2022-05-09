@@ -6,6 +6,38 @@
     <a href="@link"> Ajouter </a>
 }
 
+@helper GlyphiconAction(string Action, string glyphiconClass, string TooltipMessage, string ToolTipPlacement = "bottom")
+{glyphiconClass += " glyphicon-active";
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <a href="@Url.Action(Action)" style="text-decoration:none">
+        <span class="glyphicon glyphiconStyle @glyphiconClass"
+              title="@TooltipMessage"
+              data-placement="@ToolTipPlacement">
+        </span>
+    </a>
+}
+
+@helper PhotoBig(KnapSack.Models.Item item)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var imageUrl = item.urlImage;
+    <div>
+        <a href="@imageUrl" target="_blank">
+            <div class="photoBig"
+                 style="background: url(@imageUrl) no-repeat center center;
+                 background-size: cover;">
+            </div>
+        </a>
+    </div>
+}
+
+@helper Rating(string id, double value, bool readOnly = false, double scale = 2)
+{
+    int roundedValue = (int)Math.Round(value);
+    <div class="rating" ratingId="@id" value="@roundedValue.ToString()" locked="@readOnly.ToString()" scale=@scale.ToString()></div>
+}
+}
+
 @helper ListToRadioButtonGroup(string name, System.Web.Mvc.SelectList options, int selectedValue)
 {foreach (System.Web.Mvc.SelectListItem option in options.Items)
     {

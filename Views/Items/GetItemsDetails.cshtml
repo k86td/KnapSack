@@ -1,0 +1,116 @@
+﻿@model KnapSack.Models.Item
+@{
+    KnapSack.Models.Joueur currentPlayer = KnapSack.Models.OnlinePlayers.GetSessionUser();
+    KnapSack.Models.Rating currentPhotoRating = Model.Ratings.Where(pr => (pr.idItem == Model.idItem && pr.idJoueur == currentPlayer.idJoueur)).FirstOrDefault();
+    int currentUserRating = 0;
+    string currentUserComment = "";
+    DateTime currentUserRatingCreationDate = DateTime.Now;
+    if (currentPhotoRating != null)
+    {
+        currentUserRating = currentPhotoRating.rating;
+        currentUserComment = currentPhotoRating.commentaire;
+    }
+    string sortDatesIconColor = ((string)Session["RatingFieldToSort"] == "dates" ? "blue" : "black");
+    string sortUsersIconColor = ((string)Session["RatingFieldToSort"] == "users" ? "blue" : "black");
+    string sortRatingsIconColor = ((string)Session["RatingFieldToSort"] == "ratings" ? "blue" : "black");
+}
+<div>
+    <h2>@Model.nom</h2>
+    <div style="display:grid; grid-template-columns:30px 30px 30px">
+        @Helper.GlyphiconAction("Index", "glyphicon-circle-arrow-left", "Retour à la liste")
+    </div>
+</div>
+<hr />
+<div class="PhotoDetailsLayout">
+    <div>
+        <div style="display:grid; grid-template-columns: 180px 26px">
+            <div>@Model.</div>
+            <div style="margin-top:-25px"><h3>@ViewBag.Visility</h3></div>
+        </div>
+        <div style="display:grid; grid-template-columns:150px auto">
+            @Helper.Rating(Model.idItem.ToString(), Model.Ratings, true, 2) <span style="font-size:20px">@Math.Round(Model.rating, 1) / @Model.ratingCount</span>
+        </div>
+
+        @Helper.PhotoBig(Model)
+
+        <div style="margin-top:8px; width:700px; text-align:justify">
+            @Model.description
+            <br /> <br />
+        </div>
+    </div>
+    <fieldset style="min-width: 320px;">
+        <legend>
+            Évaluations
+        </legend>
+        <div id="commandSection" style="display:grid; grid-template-columns: 60px 30px 30px 30px">
+            <span id="AddModifyCurrentUserRating" class="glyphicon glyphiconStyle glyphicon-edit pointer" title="Ajouter/Modifier votre évaluation" style="color: #337ab7"></span>
+            <span id="sortDates" fieldToSort="dates" style="color:@sortDatesIconColor" class="sortRatings glyphicon glyphiconStyle glyphicon-calendar pointer" title="Trier par dates d'évaluation"></span>
+            <span id="sortUsers" fieldToSort="users" style="color:@sortUsersIconColor" class="sortRatings glyphicon glyphiconStyle glyphicon-user pointer" title="Trier noms d’usager"></span>
+            <span id="sortRatings" fieldToSort="ratings" style="color:@sortRatingsIconColor" class="sortRatings glyphicon glyphiconStyle glyphicon-star pointer" title="Trier par évaluations"></span>
+        </div>
+        <div id="RatingContainer" class="RatingContainer">
+            <div id="currentUserRatingForm">
+                <hr />
+                <div style="height: 40px; display:grid; grid-template-columns: 180px auto">
+                    <div>
+                        @Html.Display(currentPlayer.alias)
+                    </div>
+                </div>
+                <div style="height: 25px; display:grid; grid-template-columns: 110px 26px 26px">
+                    @Helper.Rating("ratingCurrentUser", currentUserRating, false, 1.4)
+                    <div id="updateCurrentUserRating" class="glyphicon glyphicon-green glyphiconStyle glyphicon-ok pointer"
+                         title="Modifier votre évaluation" style=""></div>
+                    <div id="cancelCurrentUserRating" class="glyphicon glyphicon-red glyphiconStyle glyphicon-remove pointer"
+                         title="Annuler la Modification de votre évaluation" style=""></div>
+                </div>
+                <textarea id="commentCurrentUser" style="width:100%">@currentUserComment</textarea>
+            </div>
+            @{
+                IEnumerable<KnapSack.Models.Rating> Rating = null;
+
+                switch ((string)Session["RatingFieldToSort"])
+                {
+                    case "users":
+                        if ((bool)Session["RatingFieldSortDir"])
+                        {
+                            Rating = Model.Ratings.OrderBy(i => i.Joueur.alias);
+                        }
+                        else
+                        {
+                            Rating = Model.Ratings.OrderByDescending(i => i.Joueur.alias);
+                        }
+                        break;
+                    case "ratings":
+                        if ((bool)Session["RatingFieldSortDir"])
+                        {
+                            Rating = Model.Ratings.OrderBy(i => i.rating);
+                        }
+                        else
+                        {
+                            Rating = Model.Ratings.OrderByDescending(i =>i.rating);
+                        }
+                        break;
+                    default:
+                        Rating = Model.Ratings.OrderBy(i => i.rating);
+                        break;
+                }
+                foreach (KnapSack.Models.Rating rating in Rating)
+                {
+                    <hr />
+                    <div style="height: 40px; display:grid; grid-template-columns: 180px auto">
+                        <div>
+                            @rating.Joueur.alias
+                        </div>
+                    </div>
+                    <div>
+                        @Helper.Rating("rating_" + rating.idItem, rating.rating, true, 1.4)
+                    </div>
+                    <div>
+                        @rating.commentaire
+                    </div>
+                }
+
+            }
+        </div>
+    </fieldset>
+</div>

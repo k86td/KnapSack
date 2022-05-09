@@ -1,51 +1,44 @@
 ﻿@model KnapSack.Models.Item
+@{ ViewBag.Title = "Details"; }
 
-@{
-    ViewBag.Title = "Details";
+<div id="ItemDetailsContainer"> <!-- Periodically refreshed --> </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/ratings")
+    @Scripts.Render("~/bundles/partialRefresh")
+    <script defer>
+	let partialRefresh =
+		new PartialRefresh("@Url.Action("GetItemDetails", new { itemId = (int)Model.idItem })", "ItemDetailsContainer", 5, PostRefreshTasks);
+	function PostRefreshTasks() {
+		InstallRating();
+		$("#currentUserRatingForm").hide();
+		$("#commandSection").show();
+		$("#AddModifyCurrentUserRating").click(function () {
+			$("#currentUserRatingForm").show();
+			$("#commandSection").hide();
+            $("#ItemDetailsContainer").scrollTop(0);
+			partialRefresh.pause();
+		});
+		$("#updateCurrentUserRating").click(function () {
+			let rating = $("input[name=ratingCurrentUser").val();
+			let comment = $("#commentCurrentUser").val();
+			let url =
+				@Url.Action("/") + "UpdateCurrentUserRating?itemId=" + "@((int)Model.idItem)" + "&rating=" + rating + "&comment=" + comment;
+		partialRefresh.command(url);
+		partialRefresh.restart();
+		$("#currentUserRatingForm").hide();
+		$("#commandSection").show();
+		})
+		$("#cancelCurrentUserRating").click(function () {
+			partialRefresh.restart();
+			$("#currentUserRatingForm").hide();
+			$("#commandSection").show();
+		})
+		$(".sortRatings").click(function () {
+			$(".sortRatings").css("color", "black");
+			let url = @Url.Action("/") + "SortRatingsBy?fieldToSort=" + $(this).attr("fieldToSort");
+			partialRefresh.command(url);
+		});
+
+	}
+    </script>
 }
-
-<h2>Details</h2>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <h2>Image</h2>
-        </div>
-        <div class="col-md-3">
-            <h2>Objet</h2>
-        </div>
-        <div class="col-md-3">
-            <h2>Prix</h2>
-        </div>
-        <div class="col-md-3">
-            <h2>Poid</h2>
-        </div>
-    </div>
-
-    <hr />
-
-    <div class="row">
-        <div class="col-md-3">
-            <a class="thumbnail">
-                <img src="@Model.urlImage" />
-            </a>
-        </div>
-        <div class="col-md-3">
-            <h4>
-                @Html.DisplayFor(el => el.nom)
-            </h4>
-
-            <br />
-            
-            <p>
-                @Html.DisplayFor(el => el.description)
-            </p>
-        </div>
-        <div class="col-md-3">
-            @Html.DisplayFor(el => el.prix)
-        </div>
-        <div class="col-md-3">
-            @Html.DisplayFor(el => el.poid)
-        </div>
-    </div>
-</div>

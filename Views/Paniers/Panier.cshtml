@@ -2,9 +2,8 @@
 
 @{
     ViewBag.Title = "Panier";
-
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
-    var link = Url.Action("BuyCart/", "Paniers");
+    var link = Url.Action("BuyCart", "Paniers");
 }
 
 <h2>Cout totale: @ViewBag.totale</h2>
@@ -14,30 +13,33 @@
 
 <table class="table">
     <tr>
+        <text>Panier de @KnapSack.Models.OnlinePlayers.GetSessionUser().alias.ToString()</text>
+    </tr>
+    <tr>
         <th>
-            @Html.DisplayNameFor(model => model.idJoueur)
+            <text>Image</text>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.idItem)
+            <text>Nom</text>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.qteItem)
+            <text>Quantité</text>
         </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-               
+        var urlImage = item.Item.urlImage;
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.idJoueur)
+                <img class="img-responsive" src="@urlImage"/>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.idItem)
+                @Html.DisplayFor(modelItem => item.Item.nom)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.qteItem)
+                <div><button onclick="">+</button></div> <div>@Html.DisplayFor(modelItem => item.qteItem)</div> <div><button onclick="">-</button></div>
             </td>
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

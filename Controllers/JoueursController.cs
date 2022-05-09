@@ -9,7 +9,7 @@ namespace KnapSack.Controllers
 {
     public class JoueursController : Controller
     {
-        KnapSackDbEntities DB = new KnapSackDbEntities();
+        KnapsackDBEntities DB = new KnapsackDBEntities();
         // GET: Joueurs
         public ActionResult Index()
         {
