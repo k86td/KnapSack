@@ -24,7 +24,7 @@
             @Html.EditorFor(model => model.Alias, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(model => model.Alias) } })
             @Html.ValidationMessageFor(model => model.Alias, "", new { @class = "text-danger" })
             <br />
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(model => model.Password) } })
+            @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = @Html.DisplayNameFor(model => model.Password) })
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             <br />
             <input type="submit" value="Se connecter..." class="btn btn-default" />

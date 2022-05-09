@@ -5,32 +5,31 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="e7cb1f321e0b4afeb5775475af050ed9" Name="Diagram1" ZoomLevel="96">
-        <EntityTypeShape EntityType="KnapSackDbModel.Arme" Width="1.5" PointX="7.5" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="KnapSackDbModel.Armure" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="KnapSackDbModel.Item" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="KnapSackDbModel.Joueur" Width="1.5" PointX="5.25" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="KnapSackDbModel.Medicament" Width="1.5" PointX="5.25" PointY="15" IsExpanded="true" />
-        <EntityTypeShape EntityType="KnapSackDbModel.Rating" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="KnapSackDbModel.Sac" Width="1.5" PointX="10.5" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KnapSackDbModel.Transaction" Width="1.5" PointX="7.5" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="KnapSackDbModel.TypesArme" Width="1.5" PointX="4.5" PointY="18" IsExpanded="true" />
-        <EntityTypeShape EntityType="KnapSackDbModel.TypesItem" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
-        <AssociationConnector Association="KnapSackDbModel.fk_Armes_Items" ManuallyRouted="false" />
-        <AssociationConnector Association="KnapSackDbModel.fk_Armes_TypesArmes" ManuallyRouted="false" />
-        <AssociationConnector Association="KnapSackDbModel.fk_Armures_Items" ManuallyRouted="false" />
-        <AssociationConnector Association="KnapSackDbModel.fk_Items_TypesItems" ManuallyRouted="false" />
-        <AssociationConnector Association="KnapSackDbModel.fk_Medicaments_Items" ManuallyRouted="false" />
-        <AssociationConnector Association="KnapSackDbModel.fk_Sacs_Items" ManuallyRouted="false" />
-        <AssociationConnector Association="KnapSackDbModel.fk_Sacs_Joueurs" ManuallyRouted="false" />
-        <AssociationConnector Association="KnapSackDbModel.fk_Transactions_Joueurs" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="KnapSackDbModel.Arme" Width="1.5" PointX="5.25" PointY="10.75" />
+        <EntityTypeShape EntityType="KnapSackDbModel.Armure" Width="1.5" PointX="5.25" PointY="7.375" />
+        <EntityTypeShape EntityType="KnapSackDbModel.Item" Width="1.5" PointX="3" PointY="9.375" />
+        <EntityTypeShape EntityType="KnapSackDbModel.Joueur" Width="1.5" PointX="5.25" PointY="15.625" />
+        <EntityTypeShape EntityType="KnapSackDbModel.Medicament" Width="1.5" PointX="5.25" PointY="22.75" />
+        <EntityTypeShape EntityType="KnapSackDbModel.Panier" Width="1.5" PointX="10.5" PointY="13.375" />
+        <EntityTypeShape EntityType="KnapSackDbModel.Rating" Width="1.5" PointX="7.5" PointY="10.25" />
+        <EntityTypeShape EntityType="KnapSackDbModel.Sac" Width="1.5" PointX="7.5" PointY="13.375" />
+        <EntityTypeShape EntityType="KnapSackDbModel.Transaction" Width="1.5" PointX="7.5" PointY="16.625" />
+        <EntityTypeShape EntityType="KnapSackDbModel.TypesArme" Width="1.5" PointX="0.75" PointY="10.875" />
+        <EntityTypeShape EntityType="KnapSackDbModel.TypesItem" Width="1.5" PointX="0.75" PointY="8" />
+        <AssociationConnector Association="KnapSackDbModel.fk_Armes_Items" />
+        <AssociationConnector Association="KnapSackDbModel.fk_Armes_TypesArmes" />
+        <AssociationConnector Association="KnapSackDbModel.fk_Armures_Items" />
+        <AssociationConnector Association="KnapSackDbModel.fk_Items_TypesItems" />
+        <AssociationConnector Association="KnapSackDbModel.fk_Medicaments_Items" />
         <AssociationConnector Association="KnapSackDbModel.FK_Munitions" />
-        <AssociationConnector Association="KnapSackDbModel.fk_ratings_items" />
-        <AssociationConnector Association="KnapSackDbModel.fk_ratings_joueurs" />
-        <AssociationConnector Association="KnapSackDbModel.Collections" />
-        <AssociationConnector Association="KnapSackDbModel.fk_Items_TypesItems1" />
-        <EntityTypeShape EntityType="KnapSackDbModel.Panier" Width="1.5" PointX="7.5" PointY="9" />
         <AssociationConnector Association="KnapSackDbModel.fk_Paniers_Items" />
+        <AssociationConnector Association="KnapSackDbModel.fk_ratings_items" />
+        <AssociationConnector Association="KnapSackDbModel.fk_Sacs_Items" />
         <AssociationConnector Association="KnapSackDbModel.fk_Paniers_Joueurs" />
+        <AssociationConnector Association="KnapSackDbModel.fk_ratings_joueurs" />
+        <AssociationConnector Association="KnapSackDbModel.fk_Sacs_Joueurs" />
+        <AssociationConnector Association="KnapSackDbModel.fk_Transactions_Joueurs" />
+        <AssociationConnector Association="KnapSackDbModel.Collections" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

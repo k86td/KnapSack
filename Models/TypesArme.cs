@@ -18,12 +18,15 @@ namespace KnapSack.Models
         public TypesArme()
         {
             this.Armes = new HashSet<Arme>();
+            this.Items = new HashSet<Item>();
         }
     
         public int idType { get; set; }
-        public string nom { get; set; }
+        public string nomType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Arme> Armes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Item> Items { get; set; }
     }
 }

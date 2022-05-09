@@ -1,92 +1,86 @@
-﻿@model KnapSack.Models.Item
+﻿@model KnapSack.Models.ItemSpecific<KnapSack.Models.ISpecific>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("CreateArmure", "Items"))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Item</h4>
         <hr />
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.Item.idItem)
+
         <div class="form-group">
-            @Html.LabelFor(model => model.idItem, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item.nom, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.idItem, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.idItem, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Item.nom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Item.nom, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.nom, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item.prix, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.nom, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nom, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Item.prix, new { htmlAttributes = new { @class = "form-control", @Value = 1 } })
+                @Html.ValidationMessageFor(model => model.Item.prix, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.idType, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item.poid, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.idType, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.idType, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Item.poid, new { htmlAttributes = new { @class = "form-control", @Value = 1 } })
+                @Html.ValidationMessageFor(model => model.Item.poid, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.prix, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item.urlImage, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.prix, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.prix, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Item.urlImage, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Item.urlImage, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.poid, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item.qte, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.poid, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.poid, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Item.qte, new { htmlAttributes = new { @class = "form-control", @Value = 1 } })
+                @Html.ValidationMessageFor(model => model.Item.qte, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.urlImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item.disponibilite, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.urlImage, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.urlImage, "", new { @class = "text-danger" })
+                @Html.CheckBoxFor(model => model.Item.disponibilite)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.qte, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item.description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.qte, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.qte, "", new { @class = "text-danger" })
+                @Html.TextAreaFor(model => model.Item.description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Item.description, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.disponibilite, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item.idType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.disponibilite, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.disponibilite, "", new { @class = "text-danger" })
+                @Helpers.ListToRadioButtonGroup("Item.idType", ViewBag.selectList, Model.Item.idType)
+                @Html.ValidationMessageFor(model => model.Item.idType, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
-            </div>
+            @Html.HiddenFor(model => model.Item.TypesArme_idType, new { htmlAttributes = new { @Value = 0 } })
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TypesArme_idType, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TypesArme_idType, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TypesArme_idType, "", new { @class = "text-danger" })
-            </div>
+        <div id="specificForm">
+        
         </div>
 
         <div class="form-group">
@@ -103,4 +97,57 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script defer>
+        function GetHtmlFromLabel(id) {
+            return $(`label[for="${id}"]`).html();
+        }
+
+        // initialize form on load
+        const updateForm = () => {
+            let form = $("form");
+            let route = form.attr("action").split("/");
+            let name = GetHtmlFromLabel($("input[name='Item.idType']:checked")[0].id);
+
+            route[route.length - 1] = "Create" + name;
+            route = route.join("/");
+
+            form.attr("action", route);
+
+            jQuery.ajax("/Items/GetSpecificForm?formName=" + name, {
+                success: function (data) {
+                    $("#specificForm").html(data);
+                },
+                error: function () {
+                    $("#specificForm").html("");
+                }
+            });
+        };
+
+        updateForm();
+
+        // grab every input
+        let inputs = $('input[name="Item.idType"]');
+
+        inputs.click(e => {
+            let form = $("form");
+            let route = form.attr("action").split("/");
+            let name = GetHtmlFromLabel(e.target.id);
+
+            route[route.length - 1] = "Create" + name;
+            route = route.join("/");
+
+            form.attr("action", route);
+
+            jQuery.ajax("/Items/GetSpecificForm?formName=" + name, {
+                success: function (data) {
+                    $("#specificForm").html(data);
+                },
+                error: function () {
+                    $("#specificForm").html("");
+                }
+            });
+        });
+
+    </script>
 }

@@ -22,16 +22,21 @@ namespace KnapSack.Models
 
     public partial class ItemsView
     {
-        [Display(Name = "Nom objet")]
+        [Display(Name = "Nom objet"), Required(ErrorMessage = "Obligatoire")]
         public string nom { get; set; }
 
-        [Display(Name = "Image")]
+        [Display(Name = "Image"), Required(ErrorMessage = "Obligatoire")]
         public string urlImage { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0} caps"), Display(Name = "Prix")]
+        [Display(Name = "Disponibilité"), Required(ErrorMessage = "Obligatoire")]
+        public bool disponibilite { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0} caps"), Display(Name = "Prix"), Required(ErrorMessage = "Obligatoire")]
+        [Range(1, 100, ErrorMessage = "Le prix n'est pas valide!")]
         public decimal prix { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0} livres"), Display(Name = "Poid")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0} livres"), Display(Name = "Poid"), Required(ErrorMessage = "Obligatoire")]
+        [Range(1, 20, ErrorMessage = "Le poid n'est pas valide!")]
         public decimal poid { get; set; }
     }
 }

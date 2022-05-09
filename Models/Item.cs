@@ -17,10 +17,10 @@ namespace KnapSack.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Item()
         {
-            this.Sacs = new HashSet<Sac>();
-            this.Ratings = new HashSet<Rating>();
-            this.Joueurs = new HashSet<Joueur>();
             this.Paniers = new HashSet<Panier>();
+            this.Ratings = new HashSet<Rating>();
+            this.Sacs = new HashSet<Sac>();
+            this.Joueurs = new HashSet<Joueur>();
         }
     
         public int idItem { get; set; }
@@ -30,7 +30,7 @@ namespace KnapSack.Models
         public decimal poid { get; set; }
         public string urlImage { get; set; }
         public int qte { get; set; }
-        public Nullable<bool> disponibilite { get; set; }
+        public bool disponibilite { get; set; }
         public string description { get; set; }
         public Nullable<int> TypesArme_idType { get; set; }
     
@@ -38,13 +38,14 @@ namespace KnapSack.Models
         public virtual Armure Armure { get; set; }
         public virtual TypesItem TypesItem { get; set; }
         public virtual Medicament Medicament { get; set; }
+        public virtual TypesArme TypesArme { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Sac> Sacs { get; set; }
+        public virtual ICollection<Panier> Paniers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rating> Ratings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Joueur> Joueurs { get; set; }
+        public virtual ICollection<Sac> Sacs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Panier> Paniers { get; set; }
+        public virtual ICollection<Joueur> Joueurs { get; set; }
     }
 }

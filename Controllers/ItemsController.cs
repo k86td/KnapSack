@@ -23,6 +23,11 @@ namespace KnapSack.Controllers
 
         }
 
+        public ActionResult Details(int id)
+        {
+            return View(DB.Items.Where(el => el.idItem == id).First());
+        }
+
         public PartialViewResult GetItemsGrid (int[] typeFilterInclude = null)
         {
             var query =
@@ -63,17 +68,106 @@ namespace KnapSack.Controllers
             return RedirectToAction("Index");
         }
 
-        [AdminAccess]
-        public ActionResult Create ()
+        [RestoreModelStateFromTempData]
+        public ActionResult GetSpecificForm (string formName)
         {
-            return View(new Item());
+            try
+            {
+                return PartialView("SpecificsForm/" + formName);
+            }
+            catch (Exception)
+            {
+                return new EmptyResult();
+            }
         }
 
-        [AdminAccess, HttpPost]
-        public ActionResult Create (Item item)
+        [PropagateModelStateFromTempData, AdminAccess]
+        public ActionResult Create (int idType = 1)
         {
-            DB.Items.Add(item);
-            return RedirectToAction("Index");
+            ViewBag.selectList = SelectListItemConverter<TypesItem>.Convert(DB.TypesItems.ToList());
+
+            // TODO implement getting all the 
+            return View(new ItemSpecific<ISpecific>
+            {
+                Item = new Item
+                {
+                    idType = idType,
+                    disponibilite = true,
+                },
+                Specifics = DB.GetISpecificFromId(idType),
+            });
         }
+
+        [HttpPost]
+        [SetTempDataModelState, AdminAccess]
+        public ActionResult CreateArmure ([Bind(Prefix = "Item")] Item item, Armure specific)
+        {
+            if (ModelState.IsValid)
+            {
+                DB.Armures.Add(specific);
+                DB.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Create", "Items", new { idType = item.idType });
+        }
+
+        [HttpPost]
+        [SetTempDataModelState, AdminAccess]
+        public ActionResult CreateArme([Bind(Prefix = "Item")] Item item, Arme specific)
+        {
+            if (ModelState.IsValid)
+            {
+                DB.Armes.Add(specific);
+                DB.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Create", "Items", new { idType = item.idType });
+        }
+
+        [HttpPost]
+        [SetTempDataModelState, AdminAccess]
+        public ActionResult CreateMedicament([Bind(Prefix = "Item")] Item item, Medicament specific)
+        {
+            if (ModelState.IsValid)
+            {
+                DB.Medicaments.Add(specific);
+                DB.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Create", "Items", new { idType = item.idType });
+        }
+
+        [HttpPost]
+        [SetTempDataModelState, AdminAccess]
+        public ActionResult CreateNourriture([Bind(Prefix = "Item")] Item item)
+        {
+            if (ModelState.IsValid)
+            {
+                Item added = DB.Items.Add(item);
+                DB.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Create", "Items", new { idType = item.idType });
+        }
+
+        [HttpPost]
+        [SetTempDataModelState, AdminAccess]
+        public ActionResult CreateMunition([Bind(Prefix = "Item")] Item item)
+        {
+            if (ModelState.IsValid)
+            {
+                Item added = DB.Items.Add(item);
+                DB.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Create", "Items", new { idType = item.idType });
+        }
+
+
     }
 }
