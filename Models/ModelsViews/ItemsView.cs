@@ -14,7 +14,7 @@ namespace KnapSack.Models
         {
             get
             {
-                KnapsackDBEntities DB = new KnapsackDBEntities();
+                KnapSackDbEntities DB = new KnapSackDbEntities();
                 return DB.TypesItems.Where(sel => sel.idType == this.idType).First().nomType;
             }
         }

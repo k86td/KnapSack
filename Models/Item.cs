@@ -33,6 +33,8 @@ namespace KnapSack.Models
         public bool disponibilite { get; set; }
         public string description { get; set; }
         public Nullable<int> TypesArme_idType { get; set; }
+        public int ratingCount { get; set; }
+        public int rating { get; set; }
     
         public virtual Arme Arme { get; set; }
         public virtual Armure Armure { get; set; }

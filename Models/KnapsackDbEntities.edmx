@@ -43,6 +43,8 @@
           <Property Name="disponibilite" Type="bit" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="500" />
           <Property Name="TypesArme_idType" Type="int" />
+          <Property Name="ratingCount" Type="int" Nullable="false" />
+          <Property Name="rating" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Joueurs">
           <Key>
@@ -483,6 +485,8 @@
           <NavigationProperty Name="Ratings" Relationship="KnapSackDbModel.fk_ratings_items" FromRole="Item" ToRole="Rating" />
           <NavigationProperty Name="Sacs" Relationship="KnapSackDbModel.fk_Sacs_Items" FromRole="Item" ToRole="Sac" />
           <NavigationProperty Name="Joueurs" Relationship="KnapSackDbModel.Collections" FromRole="Item" ToRole="Joueur" />
+          <Property Name="ratingCount" Type="Int32" Nullable="false" />
+          <Property Name="rating" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Joueur">
           <Key>
@@ -529,7 +533,7 @@
             <PropertyRef Name="idItem" />
           </Key>
           <Property Name="idJoueur" Type="Int32" Nullable="false" />
-          <Property Name="rating1" Type="Int32" Nullable="false" />
+          <Property Name="rating" Type="Int32" Nullable="false" />
           <Property Name="idItem" Type="Int32" Nullable="false" />
           <Property Name="commentaire" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Item" Relationship="KnapSackDbModel.fk_ratings_items" FromRole="Rating" ToRole="Item" />
@@ -757,6 +761,8 @@
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="KnapSackDbModel.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="ratingCount" ColumnName="ratingCount" />
                 <ScalarProperty Name="TypesArme_idType" ColumnName="TypesArme_idType" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="disponibilite" ColumnName="disponibilite" />
@@ -808,7 +814,7 @@
               <MappingFragment StoreEntitySet="Ratings">
                 <ScalarProperty Name="commentaire" ColumnName="commentaire" />
                 <ScalarProperty Name="idItem" ColumnName="idItem" />
-                <ScalarProperty Name="rating1" ColumnName="rating" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
                 <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -12,7 +12,7 @@ namespace KnapSack.Controllers
 {
     public class ItemsController : Controller
     {
-        readonly KnapsackDBEntities DB = new KnapsackDBEntities();
+        readonly KnapSackDbEntities DB = new KnapSackDbEntities();
 
         // GET: Items
         public ActionResult Index()
@@ -22,12 +22,6 @@ namespace KnapSack.Controllers
             return View();
 
         }
-
-        public ActionResult Details(int id)
-        {
-            return View(DB.Items.Where(el => el.idItem == id).First());
-        }
-
         public PartialViewResult GetItemsGrid (int[] typeFilterInclude = null)
         {
             var query =
@@ -136,6 +130,8 @@ namespace KnapSack.Controllers
                 DB.SaveChanges();
                 return RedirectToAction("Index");
             }
+            return RedirectToAction("Create", "Items");
+        }
 
         [HttpGet]
         public ActionResult Details(int Id)
@@ -176,15 +172,23 @@ namespace KnapSack.Controllers
             }
         }
 
-        [AdminAccess]
-        public ActionResult Create ()
+        [HttpPost]
+        [SetTempDataModelState, AdminAccess]
+        public ActionResult CreateMunition([Bind(Prefix = "Item")] Item item)
         {
-            return View(new Item());
+            if (ModelState.IsValid)
+            {
+                Item added = DB.Items.Add(item);
+                DB.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Create", "Items", new { idType = item.idType });
         }
 
         [HttpPost]
         [SetTempDataModelState, AdminAccess]
-        public ActionResult CreateMunition([Bind(Prefix = "Item")] Item item)
+        public ActionResult CreateNourriture([Bind(Prefix = "Item")] Item item)
         {
             if (ModelState.IsValid)
             {

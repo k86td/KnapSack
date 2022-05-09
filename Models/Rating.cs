@@ -15,7 +15,7 @@ namespace KnapSack.Models
     public partial class Rating
     {
         public int idJoueur { get; set; }
-        public int rating1 { get; set; }
+        public int rating { get; set; }
         public int idItem { get; set; }
         public string commentaire { get; set; }
     
