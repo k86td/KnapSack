@@ -8,12 +8,15 @@
 
 <h2>Cout totale: @ViewBag.totale</h2>
 
+
 <h2>Panier</h2>
 
 
 <table class="table">
     <tr>
         <text>Panier de @KnapSack.Models.OnlinePlayers.GetSessionUser().alias.ToString()</text>
+        <br>
+        <text>Montant de caps restant: @KnapSack.Models.OnlinePlayers.GetSessionUser().montantCaps.ToString()</text>
     </tr>
     <tr>
         <th>
@@ -30,26 +33,40 @@
 
     @foreach (var item in Model)
     {
+        var linkMod = Url.Action("ModCart", "Paniers");
         var urlImage = item.Item.urlImage;
         <tr>
             <td>
-                <img class="img-responsive" src="@urlImage"/>
+                <img class="img-responsive" src="@urlImage" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Item.nom)
             </td>
             <td>
-                <div><button onclick="">+</button></div> <div>@Html.DisplayFor(modelItem => item.qteItem)</div> <div><button onclick="">-</button></div>
+                @Html.DisplayFor(modelItem => item.qteItem)
             </td>
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
-                @Html.ActionLink("Delete", "Delete", new { id = item.idItem })
-            </td>
+            @using (Html.BeginForm("ModCart", "Paniers", FormMethod.Post))
+            {
+                <td>
+                    <input id="qteItem" name="qteItem" type="number" min="1" max=@item.Item.qte value="@item.qteItem" />
+                    <input id="idItem" name="idItem" type="hidden" value="@item.idItem" />
+                </td>
+                <td>
+                    <button type="submit">Modifier la quantite</button>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.idItem })
+                </td>
+            }
         </tr>
     }
 
 </table>
-<a href="@link">    
-    Acheter
-</a>
+@if (KnapSack.Models.OnlinePlayers.GetSessionUser().montantCaps < ViewBag.totale)
+{
+    <div>Impossible d'effectuer l'achat : caps insuffisants</div>
+}
+else
+{
+    <a href="@link">
+        Acheter
+    </a>
+}

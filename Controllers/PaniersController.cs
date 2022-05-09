@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using KnapSack.Models;
+using System.Data.Entity;
 
 namespace KnapSack.Controllers
 {
@@ -49,6 +50,16 @@ namespace KnapSack.Controllers
 
             DB.DeleteCart(OnlinePlayers.GetSessionUser());
             return RedirectToAction("Index", "Items");
+        }
+
+        public ActionResult ModCart(int idItem, int qteItem)
+        {
+            Panier panier = DB.Paniers.Find(idItem);
+            panier.qteItem = qteItem;
+            DB.Entry(panier).State = EntityState.Modified;
+            DB.SaveChanges();
+
+            return RedirectToAction("Panier");
         }
     }
 }

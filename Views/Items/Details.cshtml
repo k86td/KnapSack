@@ -4,10 +4,10 @@
 <div id="ItemDetailsContainer"> <!-- Periodically refreshed --> </div>
 @section Scripts {
     @Scripts.Render("~/bundles/ratings")
-    @Scripts.Render("~/bundles/partialRefresh")
-    <script defer>
+	@Scripts.Render("~/bundles/partialRefresh")
+<script defer>
 	let partialRefresh =
-		new PartialRefresh("@Url.Action("GetItemDetails", new { itemId = (int)Model.idItem })", "ItemDetailsContainer", 5, PostRefreshTasks);
+        new PartialRefresh("@Url.Action("GetItemDetails", new { itemId = (int)Model.idItem })", "ItemDetailsContainer", 5, PostRefreshTasks);
 	function PostRefreshTasks() {
 		InstallRating();
 		$("#currentUserRatingForm").hide();
@@ -15,7 +15,7 @@
 		$("#AddModifyCurrentUserRating").click(function () {
 			$("#currentUserRatingForm").show();
 			$("#commandSection").hide();
-            $("#ItemDetailsContainer").scrollTop(0);
+			$("#PhotoRatingsContainer").scrollTop(0);
 			partialRefresh.pause();
 		});
 		$("#updateCurrentUserRating").click(function () {
@@ -37,8 +37,14 @@
 			$(".sortRatings").css("color", "black");
 			let url = @Url.Action("/") + "SortRatingsBy?fieldToSort=" + $(this).attr("fieldToSort");
 			partialRefresh.command(url);
+		})
+		$("#removeRating").click(function () {
+			let url =
+			@Url.Action("/") + "RemoveRating?itemId=" + "@((int)Model.idItem)" + "&playerId=" + $("#ratingPlayerId").val();
+			partialRefresh.command(url);
+			partialRefresh.restart();
 		});
 
 	}
-    </script>
+</script>
 }

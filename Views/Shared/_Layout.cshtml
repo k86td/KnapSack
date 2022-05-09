@@ -37,6 +37,8 @@
                     else if (user.isAdmin)
                     {
                         <li>@Html.ActionLink("Ajouter un item", "Create", "Items")</li>
+                        <li>@Html.ActionLink("Liste des joueur", "ListUsers", "Joueurs")</li>
+                        <li>@Html.ActionLink("Se deconnecter", "Logout", "Joueurs")</li>
                     }
                     else /* only show this if logged in */
                     {

@@ -26,6 +26,12 @@ namespace KnapSack
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/partialRefresh").Include(
+              "~/Scripts/PartialRefresh.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ratings").Include(
+            "~/Scripts/ratings.js"));
         }
     }
 }

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<KnapSack.Models.Joueur>
+
+@{
+    ViewBag.Title = "ListUsers";
+}
+
+<h2>ListUsers</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.alias)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.prenom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dexterite)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.montantCaps)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remainGiveAdmin)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (!item.isAdmin)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.alias)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.prenom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dexterite)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.montantCaps)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.remainGiveAdmin)
+                </td>
+
+                @using (Html.BeginForm("AddCaps", "Joueurs", FormMethod.Post))
+                {
+                    <td>
+                        <input id="capsUser" name="capsUser" type="number" min="0" max="@item.remainGiveAdmin" step="200" value="0" />
+                        <input id="idUser" name="idUser" type="hidden" value="@item.idJoueur" />
+                    </td>
+                    <td>
+                        <button type="submit">Ajouter des caps</button>
+                    </td>
+                }
+            </tr>
+        }
+    }
+
+</table>

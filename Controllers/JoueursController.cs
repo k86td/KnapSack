@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using KnapSack.Models;
+using System.Data.Entity;
+
 
 namespace KnapSack.Controllers
 {
@@ -85,6 +87,22 @@ namespace KnapSack.Controllers
         public ActionResult Backpack()
         {
             return View("Sac", DB.Sacs);
+        }
+
+        public ActionResult ListUsers()
+        {
+            return View(DB.Joueurs);
+        }
+        public ActionResult AddCaps(int idUser, int capsUser)
+        {
+            Joueur joueur = DB.Joueurs.Find(idUser);
+            joueur.montantCaps = joueur.montantCaps + capsUser;
+            joueur.remainGiveAdmin = joueur.remainGiveAdmin - capsUser;
+            DB.Entry(joueur).State = EntityState.Modified;
+            DB.SaveChanges();
+
+            return RedirectToAction("ListUsers");
+
         }
     }
 }

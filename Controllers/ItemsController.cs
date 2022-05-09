@@ -59,7 +59,7 @@ namespace KnapSack.Controllers
             
 
             DB.SaveChanges();
-            
+
             return RedirectToAction("Index");
         }
 
@@ -73,14 +73,23 @@ namespace KnapSack.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult GetItemDetails(int itemId, bool boolRefresh = false)
+        {
+            return View(DB.Items.Find(itemId));
+        }
+
         public ActionResult UpdateCurrentUserRating(int itemId, int rating, string comment)
         {
+            Joueur player = DB.Joueurs.Find(OnlinePlayers.GetSessionUser().idJoueur);
+            Item item = DB.Items.Find(itemId);
             Rating itemRating = new Rating
             {
                 idItem = itemId,
                 idJoueur = OnlinePlayers.GetSessionUser().idJoueur,
                 rating = rating,
                 commentaire = comment,
+                Joueur = player,
+                Item = item
             };
 
             DB.AddItemRating(itemRating);
@@ -113,6 +122,13 @@ namespace KnapSack.Controllers
         {
             DB.Items.Add(item);
             return RedirectToAction("Index");
+        }
+
+        public ActionResult RemoveRating(int itemId, int playerId)
+        {
+            DB.Remove_Rating(itemId, playerId);
+            DB.Update_Items_Ratings();
+            return View();
         }
     }
 }

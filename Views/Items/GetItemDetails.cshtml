@@ -1,0 +1,118 @@
+﻿@model KnapSack.Models.Item
+@{
+    KnapSack.Models.Joueur currentUser = KnapSack.Models.OnlinePlayers.GetSessionUser();
+    KnapSack.Models.Rating currentPhotoRating = Model.Ratings.Where(r => (r.idItem == Model.idItem && r.idJoueur == currentUser.idJoueur)).FirstOrDefault();
+    int currentUserRating = 0;
+    string currentUserComment = "";
+    if (currentPhotoRating != null)
+    {
+        currentUserRating = currentPhotoRating.rating;
+        currentUserComment = currentPhotoRating.commentaire;
+    }
+    string sortUsersIconColor = ((string)Session["RatingFieldToSort"] == "users" ? "blue" : "black");
+    string sortRatingsIconColor = ((string)Session["RatingFieldToSort"] == "ratings" ? "blue" : "black");
+}
+<div>
+    <div style="display:grid; grid-template-columns:30px 30px 30px">
+        @Helpers.GlyphiconAction("Index", "glyphicon-circle-arrow-left", "Retour à la liste")
+        <span></span> <span></span>
+    </div>
+</div>
+<hr />
+<div class="PhotoDetailsLayout">
+    <div>
+        <div style="display:grid; grid-template-columns: 180px 26px">
+            <div>@Model.nom</div>
+        </div>
+        <div style="display:grid; grid-template-columns:150px auto">
+            @Helpers.Rating(Model.idItem.ToString(), (double)Model.rating, true, 2) <span style="font-size:20px">@Math.Round((double)Model.rating, 1) / @Model.ratingCount</span>
+        </div>
+
+        @Helpers.PhotoBig(Model)
+
+        <div style="margin-top:8px; width:700px; text-align:justify">
+            @Model.description
+            <br /> <br />
+        </div>
+    </div>
+    <fieldset style="min-width: 320px;">
+        <legend>
+            Évaluations
+        </legend>
+        <div id="commandSection" style="display:grid; grid-template-columns: 60px 30px 30px 30px">
+            <span id="AddModifyCurrentUserRating" class="glyphicon glyphiconStyle glyphicon-edit pointer" title="Ajouter/Modifier votre évaluation" style="color: #337ab7"></span>
+            <span id="sortUsers" fieldToSort="users" style="color:@sortUsersIconColor" class="sortRatings glyphicon glyphiconStyle glyphicon-user pointer" title="Trier noms d’usager"></span>
+            <span id="sortRatings" fieldToSort="ratings" style="color:@sortRatingsIconColor" class="sortRatings glyphicon glyphiconStyle glyphicon-star pointer" title="Trier par évaluations"></span>
+        </div>
+        <div id="PhotoRatingsContainer" class="PhotoRatingsContainer">
+            <div id="currentUserRatingForm">
+                <hr />
+                <div style="height: 40px; display:grid; grid-template-columns: 180px auto">
+                    <div>
+                        @Html.Display(currentUser.alias)
+                    </div>
+                </div>
+                <div style="height: 25px; display:grid; grid-template-columns: 110px 26px 26px">
+                    @Helpers.Rating("ratingCurrentUser", currentUserRating, false, 1.4)
+                    <div id="updateCurrentUserRating" class="glyphicon glyphicon-green glyphiconStyle glyphicon-ok pointer"
+                         title="Modifier votre évaluation" style=""></div>
+                    <div id="cancelCurrentUserRating" class="glyphicon glyphicon-red glyphiconStyle glyphicon-remove pointer"
+                         title="Annuler la Modification de votre évaluation" style=""></div>
+                </div>
+                <textarea id="commentCurrentUser" style="width:100%">@currentUserComment</textarea>
+            </div>
+            @{
+                IEnumerable<KnapSack.Models.Rating> ratings = null;
+
+                switch ((string)Session["RatingFieldToSort"])
+                {
+                    
+                    case "users":
+                        if ((bool)Session["RatingFieldSortDir"])
+                        {
+                            ratings = Model.Ratings.OrderBy(r => r.Joueur.alias);
+                        }
+                        else
+                        {
+                            ratings = Model.Ratings.OrderByDescending(r => r.Joueur.alias);
+                        }
+                        break;
+                    case "ratings":
+                        if ((bool)Session["RatingFieldSortDir"])
+                        {
+                            ratings = Model.Ratings.OrderBy(r => r.rating);
+                        }
+                        else
+                        {
+                            ratings = Model.Ratings.OrderByDescending(r => r.rating);
+                        }
+                        break;
+                    default:
+                        ratings = Model.Ratings.OrderBy(r => r.Joueur.alias);
+                        break;
+                }
+                foreach (KnapSack.Models.Rating rating in ratings)
+                {
+                    <hr />
+                    <div style="height: 40px; display:grid; grid-template-columns: 180px auto">
+                        <div>
+                            <div>@rating.Joueur.alias</div>
+                        </div>
+                        @if (currentUser.idJoueur == rating.idJoueur || currentUser.isAdmin)
+                        {
+                            <div id="removeRating" class="glyphicon glyphicon-red glyphiconStyle glyphicon-remove pointer" title="Retirer le commentaire"></div>
+                            <input id="ratingPlayerId" value=@rating.idJoueur hidden />
+                        }
+                    </div>
+                    <div>
+                        @Helpers.Rating("rating_", rating.rating, true, 1.4)
+                    </div>
+                    <div>
+                        @rating.commentaire
+                    </div>
+                }
+
+            }
+        </div>
+    </fieldset>
+</div>
