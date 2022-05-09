@@ -12,7 +12,7 @@ namespace KnapSack.Controllers
 {
     public class ItemsController : Controller
     {
-        readonly KnapsackDBEntities DB = new KnapsackDBEntities();
+        readonly KnapSackDbEntities DB = new KnapSackDbEntities();
 
         // GET: Items
         public ActionResult Index()
@@ -22,7 +22,6 @@ namespace KnapSack.Controllers
             return View();
 
         }
-
         public PartialViewResult GetItemsGrid (int[] typeFilterInclude = null)
         {
             var query =
@@ -59,8 +58,82 @@ namespace KnapSack.Controllers
             
 
             DB.SaveChanges();
+            
+            return RedirectToAction("Index");
+        }
+
+        [RestoreModelStateFromTempData]
+        public ActionResult GetSpecificForm (string formName)
+        {
+            try
+            {
+                return PartialView("SpecificsForm/" + formName);
+            }
+            catch (Exception)
+            {
+                return new EmptyResult();
+            }
+        }
+
+        [PropagateModelStateFromTempData, AdminAccess]
+        public ActionResult Create (int idType = 1)
+        {
+            ViewBag.selectList = SelectListItemConverter<TypesItem>.Convert(DB.TypesItems.ToList());
+
+            // TODO implement getting all the 
+            return View(new ItemSpecific<ISpecific>
+            {
+                Item = new Item
+                {
+                    idType = idType,
+                    disponibilite = true,
+                },
+                Specifics = DB.GetISpecificFromId(idType),
+            });
+        }
+
+        [HttpPost]
+        [SetTempDataModelState, AdminAccess]
+        public ActionResult CreateArmure ([Bind(Prefix = "Item")] Item item, Armure specific)
+        {
+            if (ModelState.IsValid)
+            {
+                DB.Armures.Add(specific);
+                DB.SaveChanges();
+                return RedirectToAction("Index");
+            }
 
             return RedirectToAction("Index");
+        }
+
+            return RedirectToAction("Create", "Items", new { idType = item.idType });
+        }
+
+        [HttpPost]
+        [SetTempDataModelState, AdminAccess]
+        public ActionResult CreateArme([Bind(Prefix = "Item")] Item item, Arme specific)
+        {
+            if (ModelState.IsValid)
+            {
+                DB.Armes.Add(specific);
+                DB.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Create", "Items", new { idType = item.idType });
+        }
+
+        [HttpPost]
+        [SetTempDataModelState, AdminAccess]
+        public ActionResult CreateMedicament([Bind(Prefix = "Item")] Item item, Medicament specific)
+        {
+            if (ModelState.IsValid)
+            {
+                DB.Medicaments.Add(specific);
+                DB.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Create", "Items");
         }
 
         [HttpGet]
@@ -88,8 +161,6 @@ namespace KnapSack.Controllers
                 idJoueur = OnlinePlayers.GetSessionUser().idJoueur,
                 rating = rating,
                 commentaire = comment,
-                Joueur = player,
-                Item = item
             };
 
             DB.AddItemRating(itemRating);
@@ -111,11 +182,34 @@ namespace KnapSack.Controllers
             }
         }
 
-        [AdminAccess]
-        public ActionResult Create ()
+        [HttpPost]
+        [SetTempDataModelState, AdminAccess]
+        public ActionResult CreateMunition([Bind(Prefix = "Item")] Item item)
         {
-            return View(new Item());
+            if (ModelState.IsValid)
+            {
+                Item added = DB.Items.Add(item);
+                DB.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Create", "Items", new { idType = item.idType });
         }
+
+        [HttpPost]
+        [SetTempDataModelState, AdminAccess]
+        public ActionResult CreateNourriture([Bind(Prefix = "Item")] Item item)
+        {
+            if (ModelState.IsValid)
+            {
+                Item added = DB.Items.Add(item);
+                DB.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Create", "Items", new { idType = item.idType });
+        }
+
 
         [AdminAccess, HttpPost]
         public ActionResult Create (Item item)

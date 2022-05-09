@@ -40,9 +40,11 @@
           <Property Name="poid" Type="decimal" Precision="5" Scale="1" Nullable="false" />
           <Property Name="urlImage" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="qte" Type="int" Nullable="false" />
-          <Property Name="disponibilite" Type="bit" />
+          <Property Name="disponibilite" Type="bit" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="500" />
           <Property Name="TypesArme_idType" Type="int" />
+          <Property Name="ratingCount" Type="int" Nullable="false" />
+          <Property Name="rating" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Joueurs">
           <Key>
@@ -51,10 +53,10 @@
           <Property Name="idJoueur" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="password" Type="varbinary" MaxLength="256" Nullable="false" />
           <Property Name="alias" Type="varchar" MaxLength="25" Nullable="false" />
-          <Property Name="dexterite" Type="int" Nullable="false" StoreGeneratedPattern="Computed" />
-          <Property Name="poidMaximale" Type="int" Nullable="false" StoreGeneratedPattern="Computed" />
-          <Property Name="montantCaps" Type="decimal" Precision="19" Scale="4" Nullable="false" StoreGeneratedPattern="Computed" />
-          <Property Name="isAdmin" Type="bit" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="dexterite" Type="int" Nullable="false" />
+          <Property Name="poidMaximale" Type="int" Nullable="false" />
+          <Property Name="montantCaps" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="isAdmin" Type="bit" Nullable="false" />
           <Property Name="nom" Type="nvarchar" MaxLength="50" />
           <Property Name="prenom" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -69,6 +71,7 @@
         <EntityType Name="Paniers">
           <Key>
             <PropertyRef Name="idJoueur" />
+            <PropertyRef Name="idItem" />
           </Key>
           <Property Name="idJoueur" Type="int" Nullable="false" />
           <Property Name="idItem" Type="int" Nullable="false" />
@@ -104,7 +107,7 @@
             <PropertyRef Name="idType" />
           </Key>
           <Property Name="idType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nom" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="nomType" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
         <EntityType Name="TypesItems">
           <Key>
@@ -175,18 +178,6 @@
         </Association>
         <Association Name="fk_Items_TypesItems">
           <End Role="TypesItems" Type="Self.TypesItems" Multiplicity="1" />
-          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="TypesItems">
-              <PropertyRef Name="idType" />
-            </Principal>
-            <Dependent Role="Items">
-              <PropertyRef Name="idItem" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Items_TypesItems1">
-          <End Role="TypesItems" Type="Self.TypesItems" Multiplicity="1" />
           <End Role="Items" Type="Self.Items" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TypesItems">
@@ -235,7 +226,7 @@
         </Association>
         <Association Name="fk_Paniers_Joueurs">
           <End Role="Joueurs" Type="Self.Joueurs" Multiplicity="1" />
-          <End Role="Paniers" Type="Self.Paniers" Multiplicity="0..1" />
+          <End Role="Paniers" Type="Self.Paniers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Joueurs">
               <PropertyRef Name="idJoueur" />
@@ -342,10 +333,6 @@
             <End Role="TypesItems" EntitySet="TypesItems" />
             <End Role="Items" EntitySet="Items" />
           </AssociationSet>
-          <AssociationSet Name="fk_Items_TypesItems1" Association="Self.fk_Items_TypesItems1">
-            <End Role="TypesItems" EntitySet="TypesItems" />
-            <End Role="Items" EntitySet="Items" />
-          </AssociationSet>
           <AssociationSet Name="fk_Medicaments_Items" Association="Self.fk_Medicaments_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="Medicaments" EntitySet="Medicaments" />
@@ -387,6 +374,75 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KnapSackDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="KnapSackDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Armes" EntityType="KnapSackDbModel.Arme" />
+          <EntitySet Name="Armures" EntityType="KnapSackDbModel.Armure" />
+          <EntitySet Name="Items" EntityType="KnapSackDbModel.Item" />
+          <EntitySet Name="Joueurs" EntityType="KnapSackDbModel.Joueur" />
+          <EntitySet Name="Medicaments" EntityType="KnapSackDbModel.Medicament" />
+          <EntitySet Name="Paniers" EntityType="KnapSackDbModel.Panier" />
+          <EntitySet Name="Ratings" EntityType="KnapSackDbModel.Rating" />
+          <EntitySet Name="Sacs" EntityType="KnapSackDbModel.Sac" />
+          <EntitySet Name="Transactions" EntityType="KnapSackDbModel.Transaction" />
+          <EntitySet Name="TypesArmes" EntityType="KnapSackDbModel.TypesArme" />
+          <EntitySet Name="TypesItems" EntityType="KnapSackDbModel.TypesItem" />
+          <AssociationSet Name="fk_Armes_Items" Association="KnapSackDbModel.fk_Armes_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Arme" EntitySet="Armes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Armes_TypesArmes" Association="KnapSackDbModel.fk_Armes_TypesArmes">
+            <End Role="TypesArme" EntitySet="TypesArmes" />
+            <End Role="Arme" EntitySet="Armes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Armures_Items" Association="KnapSackDbModel.fk_Armures_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Armure" EntitySet="Armures" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Items_TypesItems" Association="KnapSackDbModel.fk_Items_TypesItems">
+            <End Role="TypesItem" EntitySet="TypesItems" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Medicaments_Items" Association="KnapSackDbModel.fk_Medicaments_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Medicament" EntitySet="Medicaments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Munitions" Association="KnapSackDbModel.FK_Munitions">
+            <End Role="TypesArme" EntitySet="TypesArmes" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Paniers_Items" Association="KnapSackDbModel.fk_Paniers_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Panier" EntitySet="Paniers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ratings_items" Association="KnapSackDbModel.fk_ratings_items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Sacs_Items" Association="KnapSackDbModel.fk_Sacs_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Sac" EntitySet="Sacs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Paniers_Joueurs" Association="KnapSackDbModel.fk_Paniers_Joueurs">
+            <End Role="Joueur" EntitySet="Joueurs" />
+            <End Role="Panier" EntitySet="Paniers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ratings_joueurs" Association="KnapSackDbModel.fk_ratings_joueurs">
+            <End Role="Joueur" EntitySet="Joueurs" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Sacs_Joueurs" Association="KnapSackDbModel.fk_Sacs_Joueurs">
+            <End Role="Joueur" EntitySet="Joueurs" />
+            <End Role="Sac" EntitySet="Sacs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Transactions_Joueurs" Association="KnapSackDbModel.fk_Transactions_Joueurs">
+            <End Role="Joueur" EntitySet="Joueurs" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="Collections" Association="KnapSackDbModel.Collections">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Joueur" EntitySet="Joueurs" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Arme">
           <Key>
             <PropertyRef Name="idItem" />
@@ -394,78 +450,82 @@
           <Property Name="idItem" Type="Int32" Nullable="false" />
           <Property Name="efficacite" Type="Int32" Nullable="false" />
           <Property Name="type" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.fk_Armes_Items" FromRole="Armes" ToRole="Items" />
-          <NavigationProperty Name="TypesArme" Relationship="Self.fk_Armes_TypesArmes" FromRole="Armes" ToRole="TypesArmes" />
+          <NavigationProperty Name="Item" Relationship="KnapSackDbModel.fk_Armes_Items" FromRole="Arme" ToRole="Item" />
+          <NavigationProperty Name="TypesArme" Relationship="KnapSackDbModel.fk_Armes_TypesArmes" FromRole="Arme" ToRole="TypesArme" />
         </EntityType>
         <EntityType Name="Armure">
           <Key>
             <PropertyRef Name="idItem" />
           </Key>
           <Property Name="idItem" Type="Int32" Nullable="false" />
-          <Property Name="matiere" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="matiere" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="taille" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.fk_Armures_Items" FromRole="Armures" ToRole="Items" />
+          <NavigationProperty Name="Item" Relationship="KnapSackDbModel.fk_Armures_Items" FromRole="Armure" ToRole="Item" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
             <PropertyRef Name="idItem" />
           </Key>
           <Property Name="idItem" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="idType" Type="Int32" Nullable="false" />
-          <Property Name="prix" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="poid" Type="Decimal" Precision="5" Scale="1" Nullable="false" />
-          <Property Name="urlImage" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="prix" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="poid" Type="Decimal" Nullable="false" Precision="5" Scale="1" />
+          <Property Name="urlImage" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="qte" Type="Int32" Nullable="false" />
-          <Property Name="disponibilite" Type="Boolean" />
+          <Property Name="disponibilite" Type="Boolean" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Arme" Relationship="Self.fk_Armes_Items" FromRole="Items" ToRole="Armes" />
-          <NavigationProperty Name="Armure" Relationship="Self.fk_Armures_Items" FromRole="Items" ToRole="Armures" />
-          <NavigationProperty Name="TypesItem" Relationship="Self.fk_Items_TypesItems" FromRole="Items" ToRole="TypesItems" />
-          <NavigationProperty Name="Medicament" Relationship="Self.fk_Medicaments_Items" FromRole="Items" ToRole="Medicaments" />
-          <NavigationProperty Name="Paniers" Relationship="Self.fk_Paniers_Items" FromRole="Items" ToRole="Paniers" />
-          <NavigationProperty Name="Sacs" Relationship="Self.fk_Sacs_Items" FromRole="Items" ToRole="Sacs" />
           <Property Name="TypesArme_idType" Type="Int32" />
+          <NavigationProperty Name="Arme" Relationship="KnapSackDbModel.fk_Armes_Items" FromRole="Item" ToRole="Arme" />
+          <NavigationProperty Name="Armure" Relationship="KnapSackDbModel.fk_Armures_Items" FromRole="Item" ToRole="Armure" />
+          <NavigationProperty Name="TypesItem" Relationship="KnapSackDbModel.fk_Items_TypesItems" FromRole="Item" ToRole="TypesItem" />
+          <NavigationProperty Name="Medicament" Relationship="KnapSackDbModel.fk_Medicaments_Items" FromRole="Item" ToRole="Medicament" />
+          <NavigationProperty Name="TypesArme" Relationship="KnapSackDbModel.FK_Munitions" FromRole="Item" ToRole="TypesArme" />
+          <NavigationProperty Name="Paniers" Relationship="KnapSackDbModel.fk_Paniers_Items" FromRole="Item" ToRole="Panier" />
           <NavigationProperty Name="Ratings" Relationship="KnapSackDbModel.fk_ratings_items" FromRole="Item" ToRole="Rating" />
+          <NavigationProperty Name="Sacs" Relationship="KnapSackDbModel.fk_Sacs_Items" FromRole="Item" ToRole="Sac" />
           <NavigationProperty Name="Joueurs" Relationship="KnapSackDbModel.Collections" FromRole="Item" ToRole="Joueur" />
+          <Property Name="ratingCount" Type="Int32" Nullable="false" />
+          <Property Name="rating" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Joueur">
           <Key>
             <PropertyRef Name="idJoueur" />
           </Key>
           <Property Name="idJoueur" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="password" Type="Binary" MaxLength="256" FixedLength="false" Nullable="false" />
-          <Property Name="alias" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="dexterite" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="poidMaximale" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="montantCaps" Type="Decimal" Precision="19" Scale="4" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="isAdmin" Type="Boolean" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="Panier" Relationship="Self.fk_Paniers_Joueurs" FromRole="Joueurs" ToRole="Paniers" />
-          <NavigationProperty Name="Sac" Relationship="Self.fk_Sacs_Joueurs" FromRole="Joueurs" ToRole="Sacs" />
-          <NavigationProperty Name="Transaction" Relationship="Self.fk_Transactions_Joueurs" FromRole="Joueurs" ToRole="Transactions" />
-          <NavigationProperty Name="Ratings" Relationship="KnapSackDbModel.fk_ratings_joueurs" FromRole="Joueur" ToRole="Rating" />
-          <NavigationProperty Name="Items" Relationship="KnapSackDbModel.Collections" FromRole="Joueur" ToRole="Item" />
+          <Property Name="password" Type="Binary" Nullable="false" MaxLength="256" FixedLength="false" />
+          <Property Name="alias" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="dexterite" Type="Int32" Nullable="false" />
+          <Property Name="poidMaximale" Type="Int32" Nullable="false" />
+          <Property Name="montantCaps" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="isAdmin" Type="Boolean" Nullable="false" />
           <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Paniers" Relationship="KnapSackDbModel.fk_Paniers_Joueurs" FromRole="Joueur" ToRole="Panier" />
+          <NavigationProperty Name="Ratings" Relationship="KnapSackDbModel.fk_ratings_joueurs" FromRole="Joueur" ToRole="Rating" />
+          <NavigationProperty Name="Sac" Relationship="KnapSackDbModel.fk_Sacs_Joueurs" FromRole="Joueur" ToRole="Sac" />
+          <NavigationProperty Name="Transaction" Relationship="KnapSackDbModel.fk_Transactions_Joueurs" FromRole="Joueur" ToRole="Transaction" />
+          <NavigationProperty Name="Items" Relationship="KnapSackDbModel.Collections" FromRole="Joueur" ToRole="Item" />
         </EntityType>
         <EntityType Name="Medicament">
           <Key>
             <PropertyRef Name="idItem" />
           </Key>
           <Property Name="idItem" Type="Int32" Nullable="false" />
-          <Property Name="effetAttendu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="effetAttendu" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="dureeEffet" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.fk_Medicaments_Items" FromRole="Medicaments" ToRole="Items" />
+          <NavigationProperty Name="Item" Relationship="KnapSackDbModel.fk_Medicaments_Items" FromRole="Medicament" ToRole="Item" />
         </EntityType>
         <EntityType Name="Panier">
           <Key>
             <PropertyRef Name="idJoueur" />
+            <PropertyRef Name="idItem" />
           </Key>
           <Property Name="idJoueur" Type="Int32" Nullable="false" />
           <Property Name="idItem" Type="Int32" Nullable="false" />
           <Property Name="qteItem" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.fk_Paniers_Items" FromRole="Paniers" ToRole="Items" />
-          <NavigationProperty Name="Joueur" Relationship="Self.fk_Paniers_Joueurs" FromRole="Paniers" ToRole="Joueurs" />
+          <NavigationProperty Name="Item" Relationship="KnapSackDbModel.fk_Paniers_Items" FromRole="Panier" ToRole="Item" />
+          <NavigationProperty Name="Joueur" Relationship="KnapSackDbModel.fk_Paniers_Joueurs" FromRole="Panier" ToRole="Joueur" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
@@ -475,7 +535,7 @@
           <Property Name="idJoueur" Type="Int32" Nullable="false" />
           <Property Name="rating" Type="Int32" Nullable="false" />
           <Property Name="idItem" Type="Int32" Nullable="false" />
-          <Property Name="commentaire" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="commentaire" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Item" Relationship="KnapSackDbModel.fk_ratings_items" FromRole="Rating" ToRole="Item" />
           <NavigationProperty Name="Joueur" Relationship="KnapSackDbModel.fk_ratings_joueurs" FromRole="Rating" ToRole="Joueur" />
         </EntityType>
@@ -486,227 +546,94 @@
           <Property Name="idJoueur" Type="Int32" Nullable="false" />
           <Property Name="qteItem" Type="Int32" Nullable="false" />
           <Property Name="idItem" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.fk_Sacs_Items" FromRole="Sacs" ToRole="Items" />
-          <NavigationProperty Name="Joueur" Relationship="Self.fk_Sacs_Joueurs" FromRole="Sacs" ToRole="Joueurs" />
+          <NavigationProperty Name="Item" Relationship="KnapSackDbModel.fk_Sacs_Items" FromRole="Sac" ToRole="Item" />
+          <NavigationProperty Name="Joueur" Relationship="KnapSackDbModel.fk_Sacs_Joueurs" FromRole="Sac" ToRole="Joueur" />
         </EntityType>
         <EntityType Name="Transaction">
           <Key>
             <PropertyRef Name="idJoueur" />
           </Key>
           <Property Name="idJoueur" Type="Int32" Nullable="false" />
-          <Property Name="montant" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="Joueur" Relationship="Self.fk_Transactions_Joueurs" FromRole="Transactions" ToRole="Joueurs" />
+          <Property Name="montant" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="Joueur" Relationship="KnapSackDbModel.fk_Transactions_Joueurs" FromRole="Transaction" ToRole="Joueur" />
         </EntityType>
         <EntityType Name="TypesArme">
           <Key>
             <PropertyRef Name="idType" />
           </Key>
           <Property Name="idType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nom" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Armes" Relationship="Self.fk_Armes_TypesArmes" FromRole="TypesArmes" ToRole="Armes" />
+          <Property Name="nomType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Armes" Relationship="KnapSackDbModel.fk_Armes_TypesArmes" FromRole="TypesArme" ToRole="Arme" />
+          <NavigationProperty Name="Items" Relationship="KnapSackDbModel.FK_Munitions" FromRole="TypesArme" ToRole="Item" />
         </EntityType>
         <EntityType Name="TypesItem">
           <Key>
             <PropertyRef Name="idType" />
           </Key>
           <Property Name="idType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nomType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.fk_Items_TypesItems" FromRole="TypesItems" ToRole="Items" />
-          <NavigationProperty Name="Items" Relationship="KnapSackDbModel.fk_Items_TypesItems1" FromRole="TypesItem" ToRole="Item" />
+          <Property Name="nomType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Item" Relationship="KnapSackDbModel.fk_Items_TypesItems" FromRole="TypesItem" ToRole="Item" />
         </EntityType>
         <Association Name="fk_Armes_Items">
-          <End Role="Items" Type="Self.Item" Multiplicity="1" />
-          <End Role="Armes" Type="Self.Arme" Multiplicity="0..1" />
+          <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Arme" Role="Arme" Multiplicity="1" />
           <ReferentialConstraint>
-            <Principal Role="Items">
+            <Principal Role="Item">
               <PropertyRef Name="idItem" />
             </Principal>
-            <Dependent Role="Armes">
+            <Dependent Role="Arme">
               <PropertyRef Name="idItem" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Armes_TypesArmes">
-          <End Role="TypesArmes" Type="Self.TypesArme" Multiplicity="1" />
-          <End Role="Armes" Type="Self.Arme" Multiplicity="*" />
+          <End Type="KnapSackDbModel.TypesArme" Role="TypesArme" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Arme" Role="Arme" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TypesArmes">
+            <Principal Role="TypesArme">
               <PropertyRef Name="idType" />
             </Principal>
-            <Dependent Role="Armes">
+            <Dependent Role="Arme">
               <PropertyRef Name="type" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Armures_Items">
-          <End Role="Items" Type="Self.Item" Multiplicity="1" />
-          <End Role="Armures" Type="Self.Armure" Multiplicity="0..1" />
+          <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Armure" Role="Armure" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="Items">
+            <Principal Role="Item">
               <PropertyRef Name="idItem" />
             </Principal>
-            <Dependent Role="Armures">
+            <Dependent Role="Armure">
               <PropertyRef Name="idItem" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Items_TypesItems">
-          <End Role="TypesItems" Type="Self.TypesItem" Multiplicity="1" />
-          <End Role="Items" Type="Self.Item" Multiplicity="0..1" />
+          <End Type="KnapSackDbModel.TypesItem" Role="TypesItem" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TypesItems">
+            <Principal Role="TypesItem">
               <PropertyRef Name="idType" />
             </Principal>
-            <Dependent Role="Items">
-              <PropertyRef Name="idItem" />
+            <Dependent Role="Item">
+              <PropertyRef Name="idType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Medicaments_Items">
-          <End Role="Items" Type="Self.Item" Multiplicity="1" />
-          <End Role="Medicaments" Type="Self.Medicament" Multiplicity="0..1" />
+          <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Medicament" Role="Medicament" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="Items">
+            <Principal Role="Item">
               <PropertyRef Name="idItem" />
             </Principal>
-            <Dependent Role="Medicaments">
-              <PropertyRef Name="idItem" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Paniers_Items">
-          <End Role="Items" Type="Self.Item" Multiplicity="1" />
-          <End Role="Paniers" Type="Self.Panier" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Items">
-              <PropertyRef Name="idItem" />
-            </Principal>
-            <Dependent Role="Paniers">
+            <Dependent Role="Medicament">
               <PropertyRef Name="idItem" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Sacs_Items">
-          <End Role="Items" Type="Self.Item" Multiplicity="1" />
-          <End Role="Sacs" Type="Self.Sac" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Items">
-              <PropertyRef Name="idItem" />
-            </Principal>
-            <Dependent Role="Sacs">
-              <PropertyRef Name="idItem" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Paniers_Joueurs">
-          <End Role="Joueurs" Type="Self.Joueur" Multiplicity="1" />
-          <End Role="Paniers" Type="Self.Panier" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Joueurs">
-              <PropertyRef Name="idJoueur" />
-            </Principal>
-            <Dependent Role="Paniers">
-              <PropertyRef Name="idJoueur" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Sacs_Joueurs">
-          <End Role="Joueurs" Type="Self.Joueur" Multiplicity="1" />
-          <End Role="Sacs" Type="Self.Sac" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Joueurs">
-              <PropertyRef Name="idJoueur" />
-            </Principal>
-            <Dependent Role="Sacs">
-              <PropertyRef Name="idJoueur" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Transactions_Joueurs">
-          <End Role="Joueurs" Type="Self.Joueur" Multiplicity="1" />
-          <End Role="Transactions" Type="Self.Transaction" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Joueurs">
-              <PropertyRef Name="idJoueur" />
-            </Principal>
-            <Dependent Role="Transactions">
-              <PropertyRef Name="idJoueur" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="KnapSackDbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Armes" EntityType="Self.Arme" />
-          <EntitySet Name="Armures" EntityType="Self.Armure" />
-          <EntitySet Name="Items" EntityType="Self.Item" />
-          <EntitySet Name="Joueurs" EntityType="Self.Joueur" />
-          <EntitySet Name="Medicaments" EntityType="Self.Medicament" />
-          <EntitySet Name="Paniers" EntityType="Self.Panier" />
-          <EntitySet Name="Ratings" EntityType="Self.Rating" />
-          <EntitySet Name="Sacs" EntityType="Self.Sac" />
-          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
-          <EntitySet Name="TypesArmes" EntityType="Self.TypesArme" />
-          <EntitySet Name="TypesItems" EntityType="Self.TypesItem" />
-          <AssociationSet Name="fk_Armes_Items" Association="Self.fk_Armes_Items">
-            <End Role="Items" EntitySet="Items" />
-            <End Role="Armes" EntitySet="Armes" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Armes_TypesArmes" Association="Self.fk_Armes_TypesArmes">
-            <End Role="TypesArmes" EntitySet="TypesArmes" />
-            <End Role="Armes" EntitySet="Armes" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Armures_Items" Association="Self.fk_Armures_Items">
-            <End Role="Items" EntitySet="Items" />
-            <End Role="Armures" EntitySet="Armures" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Items_TypesItems" Association="Self.fk_Items_TypesItems">
-            <End Role="TypesItems" EntitySet="TypesItems" />
-            <End Role="Items" EntitySet="Items" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Medicaments_Items" Association="Self.fk_Medicaments_Items">
-            <End Role="Items" EntitySet="Items" />
-            <End Role="Medicaments" EntitySet="Medicaments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Paniers_Items" Association="Self.fk_Paniers_Items">
-            <End Role="Items" EntitySet="Items" />
-            <End Role="Paniers" EntitySet="Paniers" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Sacs_Items" Association="Self.fk_Sacs_Items">
-            <End Role="Items" EntitySet="Items" />
-            <End Role="Sacs" EntitySet="Sacs" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Paniers_Joueurs" Association="Self.fk_Paniers_Joueurs">
-            <End Role="Joueurs" EntitySet="Joueurs" />
-            <End Role="Paniers" EntitySet="Paniers" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Sacs_Joueurs" Association="Self.fk_Sacs_Joueurs">
-            <End Role="Joueurs" EntitySet="Joueurs" />
-            <End Role="Sacs" EntitySet="Sacs" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Transactions_Joueurs" Association="Self.fk_Transactions_Joueurs">
-            <End Role="Joueurs" EntitySet="Joueurs" />
-            <End Role="Transactions" EntitySet="Transactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Munitions" Association="KnapSackDbModel.FK_Munitions">
-            <End Role="TypesArme" EntitySet="TypesArmes" />
-            <End Role="Item" EntitySet="Items" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ratings_items" Association="KnapSackDbModel.fk_ratings_items">
-            <End Role="Item" EntitySet="Items" />
-            <End Role="Rating" EntitySet="Ratings" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ratings_joueurs" Association="KnapSackDbModel.fk_ratings_joueurs">
-            <End Role="Joueur" EntitySet="Joueurs" />
-            <End Role="Rating" EntitySet="Ratings" />
-          </AssociationSet>
-          <AssociationSet Name="Collections" Association="KnapSackDbModel.Collections">
-            <End Role="Item" EntitySet="Items" />
-            <End Role="Joueur" EntitySet="Joueurs" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Items_TypesItems1" Association="KnapSackDbModel.fk_Items_TypesItems1">
-            <End Role="TypesItem" EntitySet="TypesItems" />
-            <End Role="Item" EntitySet="Items" />
-          </AssociationSet>
-        </EntityContainer>
         <Association Name="FK_Munitions">
           <End Type="KnapSackDbModel.TypesArme" Role="TypesArme" Multiplicity="0..1" />
           <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="*" />
@@ -716,6 +643,18 @@
             </Principal>
             <Dependent Role="Item">
               <PropertyRef Name="TypesArme_idType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Paniers_Items">
+          <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Panier" Role="Panier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Panier">
+              <PropertyRef Name="idItem" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -731,6 +670,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Sacs_Items">
+          <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Sac" Role="Sac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="idItem" />
+            </Principal>
+            <Dependent Role="Sac">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Paniers_Joueurs">
+          <End Type="KnapSackDbModel.Joueur" Role="Joueur" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Panier" Role="Panier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Joueur">
+              <PropertyRef Name="idJoueur" />
+            </Principal>
+            <Dependent Role="Panier">
+              <PropertyRef Name="idJoueur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_ratings_joueurs">
           <End Type="KnapSackDbModel.Joueur" Role="Joueur" Multiplicity="1" />
           <End Type="KnapSackDbModel.Rating" Role="Rating" Multiplicity="*" />
@@ -743,23 +706,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Sacs_Joueurs">
+          <End Type="KnapSackDbModel.Joueur" Role="Joueur" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Sac" Role="Sac" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Joueur">
+              <PropertyRef Name="idJoueur" />
+            </Principal>
+            <Dependent Role="Sac">
+              <PropertyRef Name="idJoueur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Transactions_Joueurs">
+          <End Type="KnapSackDbModel.Joueur" Role="Joueur" Multiplicity="1" />
+          <End Type="KnapSackDbModel.Transaction" Role="Transaction" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Joueur">
+              <PropertyRef Name="idJoueur" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="idJoueur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="Collections">
           <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="*" />
           <End Type="KnapSackDbModel.Joueur" Role="Joueur" Multiplicity="*" />
         </Association>
-        <Association Name="fk_Items_TypesItems1">
-          <End Type="KnapSackDbModel.TypesItem" Role="TypesItem" Multiplicity="1" />
-          <End Type="KnapSackDbModel.Item" Role="Item" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TypesItem">
-              <PropertyRef Name="idType" />
-            </Principal>
-            <Dependent Role="Item">
-              <PropertyRef Name="idType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -768,34 +743,36 @@
           <EntitySetMapping Name="Armes">
             <EntityTypeMapping TypeName="KnapSackDbModel.Arme">
               <MappingFragment StoreEntitySet="Armes">
-                <ScalarProperty Name="idItem" ColumnName="idItem" />
-                <ScalarProperty Name="efficacite" ColumnName="efficacite" />
                 <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="efficacite" ColumnName="efficacite" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Armures">
             <EntityTypeMapping TypeName="KnapSackDbModel.Armure">
               <MappingFragment StoreEntitySet="Armures">
-                <ScalarProperty Name="idItem" ColumnName="idItem" />
-                <ScalarProperty Name="matiere" ColumnName="matiere" />
                 <ScalarProperty Name="taille" ColumnName="taille" />
+                <ScalarProperty Name="matiere" ColumnName="matiere" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="KnapSackDbModel.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="ratingCount" ColumnName="ratingCount" />
                 <ScalarProperty Name="TypesArme_idType" ColumnName="TypesArme_idType" />
-                <ScalarProperty Name="idItem" ColumnName="idItem" />
-                <ScalarProperty Name="nom" ColumnName="nom" />
-                <ScalarProperty Name="idType" ColumnName="idType" />
-                <ScalarProperty Name="prix" ColumnName="prix" />
-                <ScalarProperty Name="poid" ColumnName="poid" />
-                <ScalarProperty Name="urlImage" ColumnName="urlImage" />
-                <ScalarProperty Name="qte" ColumnName="qte" />
-                <ScalarProperty Name="disponibilite" ColumnName="disponibilite" />
                 <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="disponibilite" ColumnName="disponibilite" />
+                <ScalarProperty Name="qte" ColumnName="qte" />
+                <ScalarProperty Name="urlImage" ColumnName="urlImage" />
+                <ScalarProperty Name="poid" ColumnName="poid" />
+                <ScalarProperty Name="prix" ColumnName="prix" />
+                <ScalarProperty Name="idType" ColumnName="idType" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -804,74 +781,74 @@
               <MappingFragment StoreEntitySet="Joueurs">
                 <ScalarProperty Name="prenom" ColumnName="prenom" />
                 <ScalarProperty Name="nom" ColumnName="nom" />
-                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="alias" ColumnName="alias" />
-                <ScalarProperty Name="dexterite" ColumnName="dexterite" />
-                <ScalarProperty Name="poidMaximale" ColumnName="poidMaximale" />
-                <ScalarProperty Name="montantCaps" ColumnName="montantCaps" />
                 <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
+                <ScalarProperty Name="montantCaps" ColumnName="montantCaps" />
+                <ScalarProperty Name="poidMaximale" ColumnName="poidMaximale" />
+                <ScalarProperty Name="dexterite" ColumnName="dexterite" />
+                <ScalarProperty Name="alias" ColumnName="alias" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Medicaments">
             <EntityTypeMapping TypeName="KnapSackDbModel.Medicament">
               <MappingFragment StoreEntitySet="Medicaments">
-                <ScalarProperty Name="idItem" ColumnName="idItem" />
-                <ScalarProperty Name="effetAttendu" ColumnName="effetAttendu" />
                 <ScalarProperty Name="dureeEffet" ColumnName="dureeEffet" />
+                <ScalarProperty Name="effetAttendu" ColumnName="effetAttendu" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Paniers">
             <EntityTypeMapping TypeName="KnapSackDbModel.Panier">
               <MappingFragment StoreEntitySet="Paniers">
-                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
-                <ScalarProperty Name="idItem" ColumnName="idItem" />
                 <ScalarProperty Name="qteItem" ColumnName="qteItem" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Ratings">
             <EntityTypeMapping TypeName="KnapSackDbModel.Rating">
               <MappingFragment StoreEntitySet="Ratings">
+                <ScalarProperty Name="commentaire" ColumnName="commentaire" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
                 <ScalarProperty Name="rating" ColumnName="rating" />
                 <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
-                <ScalarProperty Name="idItem" ColumnName="idItem" />
-                <ScalarProperty Name="commentaire" ColumnName="commentaire" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Sacs">
             <EntityTypeMapping TypeName="KnapSackDbModel.Sac">
               <MappingFragment StoreEntitySet="Sacs">
-                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
-                <ScalarProperty Name="qteItem" ColumnName="qteItem" />
                 <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="qteItem" ColumnName="qteItem" />
+                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Transactions">
             <EntityTypeMapping TypeName="KnapSackDbModel.Transaction">
               <MappingFragment StoreEntitySet="Transactions">
-                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
                 <ScalarProperty Name="montant" ColumnName="montant" />
+                <ScalarProperty Name="idJoueur" ColumnName="idJoueur" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TypesArmes">
             <EntityTypeMapping TypeName="KnapSackDbModel.TypesArme">
               <MappingFragment StoreEntitySet="TypesArmes">
+                <ScalarProperty Name="nomType" ColumnName="nomType" />
                 <ScalarProperty Name="idType" ColumnName="idType" />
-                <ScalarProperty Name="nom" ColumnName="nom" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TypesItems">
             <EntityTypeMapping TypeName="KnapSackDbModel.TypesItem">
               <MappingFragment StoreEntitySet="TypesItems">
-                <ScalarProperty Name="idType" ColumnName="idType" />
                 <ScalarProperty Name="nomType" ColumnName="nomType" />
+                <ScalarProperty Name="idType" ColumnName="idType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

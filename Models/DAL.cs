@@ -10,7 +10,7 @@ namespace KnapSack.Models
     public static class KnapsackDBDAL
     {
 
-        public static Joueur CreateJoueurFromCredentials(this KnapsackDBEntities DB, LoginCredentialCreate credential)
+        public static Joueur CreateJoueurFromCredentials(this KnapSackDbEntities DB, LoginCredentialCreate credential)
         {
             try
             {
@@ -26,26 +26,26 @@ namespace KnapSack.Models
             }
         }
 
-        public static Joueur GetJoueur(this KnapsackDBEntities DB, LoginCredential loginCredential)
+        public static Joueur GetJoueur(this KnapSackDbEntities DB, LoginCredential loginCredential)
         {
             Joueur user = DB.Joueurs.Where(u => (u.alias == loginCredential.Alias)).FirstOrDefault();
             return user;
         }
 
-        public static Joueur FindUser(this KnapsackDBEntities DB, int id)
+        public static Joueur FindUser(this KnapSackDbEntities DB, int id)
         {
             Joueur user = DB.Joueurs.Find(id);
             return user;
         }
 
-        public static void DeleteCart(this KnapsackDBEntities DB, Joueur player)
+        public static void DeleteCart(this KnapSackDbEntities DB, Joueur player)
         {
             var cartToDelete = DB.Paniers.Where(c => c.idJoueur == player.idJoueur);
             DB.Paniers.RemoveRange(cartToDelete);
             DB.SaveChanges();
         }
 
-        public static void ModifyCartQuantityItem(this KnapsackDBEntities DB, Item item, Joueur player  , int newQuantity)
+        public static void ModifyCartQuantityItem(this KnapSackDbEntities DB, Item item, Joueur player  , int newQuantity)
         {
             var itemToModify = DB.Paniers.Where(c => c.idJoueur == player.idJoueur && c.idItem == item.idItem).FirstOrDefault();
             itemToModify.qteItem = newQuantity;
@@ -53,13 +53,13 @@ namespace KnapSack.Models
             DB.SaveChanges();
         }
 
-        public static List<Panier> FindCart(this KnapsackDBEntities DB, Joueur player)
+        public static List<Panier> FindCart(this KnapSackDbEntities DB, Joueur player)
         {
             var cart = DB.Paniers.Where(c => c.idJoueur == player.idJoueur).ToList();
             return cart;
         }
 
-        public static float CalculeTotale(this KnapsackDBEntities DB, Joueur player)
+        public static float CalculeTotale(this KnapSackDbEntities DB, Joueur player)
         {
             List<Panier> panier = DB.Paniers.Where(e => e.idJoueur == player.idJoueur).ToList();
             float totale = 0;
@@ -73,7 +73,7 @@ namespace KnapSack.Models
 
             return totale;
         }
-        public static void BuyCart(this KnapsackDBEntities DB, Joueur player)
+        public static void BuyCart(this KnapSackDbEntities DB, Joueur player)
         {
             DB.Entry(player).State = EntityState.Modified;
             var cart = DB.FindCart(player);
@@ -86,7 +86,7 @@ namespace KnapSack.Models
             //OnlinePlayers.AddSessionUser(player.idJoueur);
         }
         
-        public static void AddToBackpack(this KnapsackDBEntities DB, Joueur player, List<Panier> cart)
+        public static void AddToBackpack(this KnapSackDbEntities DB, Joueur player, List<Panier> cart)
         {
             foreach(var item in cart)
             {
@@ -101,7 +101,7 @@ namespace KnapSack.Models
             }
         }
 
-        public static Rating AddItemRating(this KnapsackDBEntities DB, Rating itemRating)
+        public static Rating AddItemRating(this KnapSackDbEntities DB, Rating itemRating)
         {
             Rating existingItemRating = DB.Ratings.Where(r => r.idItem == itemRating.idItem && r.idJoueur ==
            itemRating.idJoueur).FirstOrDefault();
@@ -130,7 +130,7 @@ namespace KnapSack.Models
             return itemRating;
         }
 
-        public static bool CompileItemsRating(this KnapsackDBEntities DB, Item item)
+        public static bool CompileItemsRating(this KnapSackDbEntities DB, Item item)
         {
             int ratingsCount = 0;
             double ratingsTotal = 0;
@@ -154,7 +154,7 @@ namespace KnapSack.Models
             return true;
         }
 
-        public static bool Update_Items_Ratings(this KnapsackDBEntities DB)
+        public static bool Update_Items_Ratings(this KnapSackDbEntities DB)
         {
             foreach (Item item in DB.Items)
             {

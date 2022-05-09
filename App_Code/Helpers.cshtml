@@ -7,7 +7,8 @@
 }
 
 @helper GlyphiconAction(string Action, string glyphiconClass, string TooltipMessage, string ToolTipPlacement = "bottom")
-{glyphiconClass += " glyphicon-active";
+{
+    glyphiconClass += " glyphicon-active";
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
     <a href="@Url.Action(Action)" style="text-decoration:none">
         <span class="glyphicon glyphiconStyle @glyphiconClass"
@@ -35,4 +36,41 @@
 {
     int roundedValue = (int)Math.Round(value);
     <div class="rating" ratingId="@id" value="@roundedValue.ToString()" locked="@readOnly.ToString()" scale=@scale.ToString()></div>
+}
+
+@helper ListToRadioButtonGroup(string name, System.Web.Mvc.SelectList options, int selectedValue)
+{
+    foreach (System.Web.Mvc.SelectListItem option in options.Items)
+    {
+        string id = name + "_" + option.Value;
+
+        if (option.Value == selectedValue.ToString())
+        {
+            <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" checked />
+        }
+        else
+        {
+            <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" />
+        }
+        <label for="@id" class="control-label">@option.Text</label> 
+    }
+    <br />
+}
+
+
+@helper SelectList(string name, System.Web.Mvc.SelectList options, int selectedValue)
+{
+    <select class="form-control" id="@name" name="@name">
+        @foreach (System.Web.Mvc.SelectListItem option in options.Items)
+        {
+            if (option.Value == selectedValue.ToString())
+            {
+                <option value="@option.Value" selected>@option.Text</option>
+            }
+            else
+            {
+                <option value="@option.Value">@option.Text</option>
+            }
+        }
+    </select>
 }
