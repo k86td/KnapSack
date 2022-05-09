@@ -36,7 +36,7 @@ namespace KnapSack.Models
         public decimal prix { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0} livres"), Display(Name = "Poid"), Required(ErrorMessage = "Obligatoire")]
-        [Range(1, 20, ErrorMessage = "Le poid n'est pas valide!")]
+        [Range(1, 50, ErrorMessage = "Le poid n'est pas valide!")]
         public decimal poid { get; set; }
     }
 }

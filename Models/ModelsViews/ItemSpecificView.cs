@@ -13,9 +13,11 @@ namespace KnapSack.Models
     
     public class ArmureView
     {
+        [Display(Name = "Matière de l'armure")]
         [Required(ErrorMessage = "Obligatoire")]
         public string matiere { get; set; }
 
+        [Display(Name = "Taille")]
         [Required(ErrorMessage = "Obligatoire")]
         public int taille { get; set; }
     }

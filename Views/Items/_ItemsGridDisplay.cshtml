@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<KnapSack.Models.Item>
 
-
 <div class="col-md-8 col-xs-10">
     <!-- Listing of the items -->
 
@@ -25,7 +24,7 @@
                     <img class="img-responsive" src="@item.urlImage" />
                 </div>
                 <div class="col-md-5 col-xs-5">
-                    <h4>@Html.DisplayFor(_ => item.nom) - <small>@item.TypeItem</small></h4>
+                    <h4>@Html.DisplayFor(_ => item.nom) - <small>@item.TypeItem (@item.rating⭐)</small></h4>
                     <p>@Html.DisplayFor(_ => item.description)</p>
                 </div>
                 <div class="col-md-2 col-xs-2">
