@@ -36,10 +36,13 @@
 
                     <br />
 
+                    @Helpers.Rating("searchByRating", 0)
+
                     <div class="row">
                         <button onclick="updateFilters('#filtersFieldSet', '#items-container', '@Url.Action("GetItemsGrid", "Items", null, Request.Url.Scheme)')" class="btn btn-primary">Filtrer</button>
                     </div>
                 }
+
 
             </fieldset>
 
@@ -57,6 +60,9 @@
 </div>
 
 @section Scripts {
+    @Scripts.Render("~/bundles/ratings")
+    @Scripts.Render("~/bundles/partialRefresh")
+
     <script defer>
         updateFilters('#filtersFieldSet', '#items-container', '@Url.Action("GetItemsGrid", "Items", null, Request.Url.Scheme)');
     </script>

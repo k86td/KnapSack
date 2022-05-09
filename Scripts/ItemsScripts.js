@@ -4,6 +4,7 @@
 */
 const updateFilters = (fieldsetId, dataContainerId, partialDataUrl) => {
     let selection = $(`${fieldsetId} input`);
+    let stars = $("input[name=searchByRating").val();
     let queryParams = [];
 
     selection.map(el => {
@@ -11,6 +12,8 @@ const updateFilters = (fieldsetId, dataContainerId, partialDataUrl) => {
             queryParams.push(`typeFilterInclude=${selection[el].value}`);
     });
 
+    if (stars != 0)
+        queryParams.push(`ratingFilter=${stars}`);
 
     if (queryParams.length >= 0) {
         let finalUrl = partialDataUrl + "?" + queryParams.join("&");

@@ -31,6 +31,7 @@ namespace KnapSack.Models
         public bool isAdmin { get; set; }
         public string nom { get; set; }
         public string prenom { get; set; }
+        public decimal remainGiveAdmin { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Panier> Paniers { get; set; }

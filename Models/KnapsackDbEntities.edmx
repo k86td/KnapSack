@@ -59,6 +59,7 @@
           <Property Name="isAdmin" Type="bit" Nullable="false" />
           <Property Name="nom" Type="nvarchar" MaxLength="50" />
           <Property Name="prenom" Type="nvarchar" MaxLength="50" />
+          <Property Name="remainGiveAdmin" Type="decimal" Precision="19" Scale="4" Nullable="false" />
         </EntityType>
         <EntityType Name="Medicaments">
           <Key>
@@ -506,6 +507,7 @@
           <NavigationProperty Name="Sac" Relationship="KnapSackDbModel.fk_Sacs_Joueurs" FromRole="Joueur" ToRole="Sac" />
           <NavigationProperty Name="Transaction" Relationship="KnapSackDbModel.fk_Transactions_Joueurs" FromRole="Joueur" ToRole="Transaction" />
           <NavigationProperty Name="Items" Relationship="KnapSackDbModel.Collections" FromRole="Joueur" ToRole="Item" />
+          <Property Name="remainGiveAdmin" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="Medicament">
           <Key>
@@ -779,6 +781,7 @@
           <EntitySetMapping Name="Joueurs">
             <EntityTypeMapping TypeName="KnapSackDbModel.Joueur">
               <MappingFragment StoreEntitySet="Joueurs">
+                <ScalarProperty Name="remainGiveAdmin" ColumnName="remainGiveAdmin" />
                 <ScalarProperty Name="prenom" ColumnName="prenom" />
                 <ScalarProperty Name="nom" ColumnName="nom" />
                 <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />

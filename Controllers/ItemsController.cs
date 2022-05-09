@@ -22,7 +22,7 @@ namespace KnapSack.Controllers
             return View();
 
         }
-        public PartialViewResult GetItemsGrid (int[] typeFilterInclude = null)
+        public PartialViewResult GetItemsGrid (int[] typeFilterInclude = null, int? ratingFilter = null)
         {
             var query =
                 from items in DB.Items
@@ -33,6 +33,9 @@ namespace KnapSack.Controllers
             // if typeFilterInclude is defined
             if ((typeFilterInclude is null) == false)
                 query = query.Where(el => typeFilterInclude.Contains(el.idType)); // filter the items for the specified idType
+
+            if ((ratingFilter is null) == false)
+                query = query.Where(el => el.rating == ratingFilter);
 
             return PartialView("_ItemsGridDisplay", query);
         }
@@ -106,8 +109,6 @@ namespace KnapSack.Controllers
             return RedirectToAction("Index");
         }
 
-            return RedirectToAction("Create", "Items", new { idType = item.idType });
-        }
 
         [HttpPost]
         [SetTempDataModelState, AdminAccess]

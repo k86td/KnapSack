@@ -132,9 +132,10 @@ namespace KnapSack.Models
 
         public static bool CompileItemsRating(this KnapSackDbEntities DB, Item item)
         {
+            DB.Entry(item).State = EntityState.Modified;
             int ratingsCount = 0;
             double ratingsTotal = 0;
-            foreach (Rating rating in item.Ratings)
+            foreach (Rating rating in item.Ratings.ToList())
             {
                 ratingsCount++;
                 ratingsTotal += rating.rating;
@@ -149,20 +150,29 @@ namespace KnapSack.Models
                 item.rating = 0;
                 item.ratingCount = 0;
             }
-            DB.Entry(item).State = EntityState.Modified;
-            DB.SaveChanges();
             return true;
         }
 
         public static bool Update_Items_Ratings(this KnapSackDbEntities DB)
         {
-            foreach (Item item in DB.Items)
+            foreach (Item item in DB.Items.ToList())
             {
                 DB.CompileItemsRating(item);
             }
+            DB.SaveChanges();
             return true;
         }
+
+        public static bool Remove_Rating(this KnapSackDbEntities DB, int itemId, int playerId)
+        {
+            var ratingToDelete = DB.Ratings.Where(r => r.idItem == itemId && r.idJoueur == playerId).FirstOrDefault();
+            if (ratingToDelete != null)
+            {
+                DB.Ratings.Remove(ratingToDelete);
+                DB.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
-
-
 }

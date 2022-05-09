@@ -269,6 +269,8 @@
     <Content Include="Views\Items\SpecificsForm\Armure.cshtml" />
     <Content Include="Views\Items\SpecificsForm\Arme.cshtml" />
     <Content Include="Views\Items\SpecificsForm\Medicament.cshtml" />
+    <Content Include="Views\Items\GetItemDetails.cshtml" />
+    <Content Include="Views\Items\GetItemsDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
