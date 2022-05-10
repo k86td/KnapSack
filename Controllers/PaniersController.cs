@@ -54,7 +54,15 @@ namespace KnapSack.Controllers
 
         public ActionResult ModCart(int idItem, int qteItem)
         {
-            Panier panier = DB.Paniers.Find(idItem);
+            int idJoueur = OnlinePlayers.GetSessionUser().idJoueur;
+            Panier panier;
+
+            if (idJoueur == 0)
+                return RedirectToAction("Index", "Items");
+            else
+                panier = DB.Paniers.Find(idJoueur, idItem);
+            
+            
             panier.qteItem = qteItem;
             DB.Entry(panier).State = EntityState.Modified;
             DB.SaveChanges();
