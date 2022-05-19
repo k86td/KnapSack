@@ -122,7 +122,7 @@ namespace KnapSack.Models
             else
             {
                 OnlinePlayers.RemoveSessionUser();
-                httpContext.Response.Redirect("~/Accounts/Login?message=Acces illegal!");
+                httpContext.Response.Redirect("~/Joueurs/Login?message=Acces illegal!");
             }
             return base.AuthorizeCore(httpContext);
         }
