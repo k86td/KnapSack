@@ -21,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Boutique", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Boutique", "Index", "Items", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -42,6 +42,7 @@
                     else /* only show this if logged in */
                     {
                         <li>@Html.ActionLink("Enigma", "GetQuestion", "Enigma")</li>
+                        <li>@Html.ActionLink("Panier", "Panier", "Paniers")</li>
                         <li>@Html.ActionLink("Sac à dos", "Backpack", "Joueurs")</li>
                         <li>@Html.ActionLink("Panier", "Panier", "Paniers")</li>
                         <li>@Html.ActionLink("Se deconnecter", "Logout", "Joueurs")</li>

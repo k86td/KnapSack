@@ -60,7 +60,7 @@
     }
 
 </table>
-@if (KnapSack.Models.OnlinePlayers.GetSessionUser().montantCaps < ViewBag.totale)
+@if (KnapSack.Models.OnlinePlayers.GetSessionUser().montantCaps < (Decimal)ViewBag.totale)
 {
     <div>Impossible d'effectuer l'achat : caps insuffisants</div>
 }
