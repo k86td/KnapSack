@@ -13,10 +13,10 @@ namespace KnapSack.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class KnapSackDbEntities : DbContext
+    public partial class KnapsackDBEntities : DbContext
     {
-        public KnapSackDbEntities()
-            : base("name=KnapSackDbEntities")
+        public KnapsackDBEntities()
+            : base("name=KnapsackDBEntities")
         {
         }
     
@@ -36,5 +36,7 @@ namespace KnapSack.Models
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<TypesArme> TypesArmes { get; set; }
         public virtual DbSet<TypesItem> TypesItems { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<Repons> Reponses { get; set; }
     }
 }

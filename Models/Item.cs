@@ -30,15 +30,16 @@ namespace KnapSack.Models
         public decimal poid { get; set; }
         public string urlImage { get; set; }
         public int qte { get; set; }
-        public bool disponibilite { get; set; }
+        public Nullable<bool> disponibilite { get; set; }
         public string description { get; set; }
         public Nullable<int> TypesArme_idType { get; set; }
-        public int ratingCount { get; set; }
         public int rating { get; set; }
+        public int ratingCount { get; set; }
     
         public virtual Arme Arme { get; set; }
         public virtual Armure Armure { get; set; }
         public virtual TypesItem TypesItem { get; set; }
+        public virtual TypesItem TypesItem1 { get; set; }
         public virtual Medicament Medicament { get; set; }
         public virtual TypesArme TypesArme { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

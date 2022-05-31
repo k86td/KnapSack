@@ -14,7 +14,7 @@ namespace KnapSack.Models
 
     public static class ItemSpecific
     {
-        public static ISpecific GetISpecificFromId (this KnapSackDbEntities DB, int id)
+        public static ISpecific GetISpecificFromId (this KnapsackDBEntities DB, int id)
         {
             string nomType = DB.TypesItems.Where(el => el.idType == id).First().nomType;
             ISpecific res;

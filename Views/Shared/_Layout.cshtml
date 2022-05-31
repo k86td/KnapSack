@@ -32,7 +32,6 @@
                     {
                         <li>@Html.ActionLink("Se connecter", "Login", "Joueurs")</li>
                         <li>@Html.ActionLink("S'inscrire", "Create", "Joueurs")</li>
-                        <li>@Html.ActionLink("Panier", "Panier", "Paniers") </li>
                     }
                     else if (user.isAdmin)
                     {
@@ -42,6 +41,7 @@
                     }
                     else /* only show this if logged in */
                     {
+                        <li>@Html.ActionLink("Enigma", "GetQuestion", "Enigma")</li>
                         <li>@Html.ActionLink("Sac à dos", "Backpack", "Joueurs")</li>
                         <li>@Html.ActionLink("Panier", "Panier", "Paniers")</li>
                         <li>@Html.ActionLink("Se deconnecter", "Logout", "Joueurs")</li>

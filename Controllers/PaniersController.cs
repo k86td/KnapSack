@@ -10,7 +10,7 @@ namespace KnapSack.Controllers
 {
     public class PaniersController : Controller
     {
-        KnapSackDbEntities DB = new KnapSackDbEntities();
+        KnapsackDBEntities DB = new KnapsackDBEntities();
         // GET: Paniers
 
         public ActionResult Panier()

@@ -12,7 +12,7 @@ namespace KnapSack.Controllers
 {
     public class ItemsController : Controller
     {
-        readonly KnapSackDbEntities DB = new KnapSackDbEntities();
+        readonly KnapsackDBEntities DB = new KnapsackDBEntities();
 
         // GET: Items
         public ActionResult Index()

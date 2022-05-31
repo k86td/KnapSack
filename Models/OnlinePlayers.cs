@@ -99,7 +99,7 @@ namespace KnapSack.Models
         {
             if (CurrentPlayerId != 0)
             {
-                KnapSackDbEntities DB = new KnapSackDbEntities();
+                KnapsackDBEntities DB = new KnapsackDBEntities();
                 Joueur currentUser = DB.FindUser(CurrentPlayerId);
                 DB.Dispose();
                 return currentUser;

@@ -129,6 +129,7 @@
     <Compile Include="App_Start\BundleConfig2.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EnigmaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\JoueursController.cs" />
@@ -137,61 +138,67 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Arme.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Armure.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Item.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ItemsSpecifics.cs" />
     <Compile Include="Models\Joueur.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KnapsackDBEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KnapsackDBEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KnapsackDBEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KnapsackDBEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KnapsackDBEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Medicament.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ModelsViews\ItemSpecificView.cs" />
     <Compile Include="Models\ModelsViews\JoueursView.cs" />
     <Compile Include="Models\LoginCredential.cs" />
     <Compile Include="Models\DAL.cs" />
     <Compile Include="Models\ModelsViews\ItemsView.cs" />
-    <Compile Include="Models\KnapsackDbEntities.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KnapsackDbEntities.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\KnapsackDbEntities.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\KnapsackDbEntities.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\OnlinePlayers.cs" />
     <Compile Include="Models\Panier.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersistActionFilterAttribute.cs" />
+    <Compile Include="Models\Question.cs">
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Rating.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Repons.cs">
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sac.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SelectListItemConverter.cs" />
     <Compile Include="Models\Transaction.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TypesArme.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TypesItem.cs">
-      <DependentUpon>KnapsackDbEntities.tt</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RequestUtilities.cs" />
@@ -209,27 +216,27 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\KnapsackDbEntities.Context.tt">
+    <Content Include="Models\KnapsackDBEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>KnapsackDbEntities.Context.cs</LastGenOutput>
-      <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
+      <DependentUpon>KnapsackDBEntities.edmx</DependentUpon>
+      <LastGenOutput>KnapsackDBEntities.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\KnapsackDbEntities.edmx.sql" />
-    <Content Include="Models\KnapsackDbEntities.tt">
+    <Content Include="Models\KnapsackDBEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
-      <LastGenOutput>KnapsackDbEntities.cs</LastGenOutput>
+      <DependentUpon>KnapsackDBEntities.edmx</DependentUpon>
+      <LastGenOutput>KnapsackDBEntities.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\KnapsackDbEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>KnapsackDbEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\KnapsackDbEntities.edmx.diagram">
-      <DependentUpon>KnapsackDbEntities.edmx</DependentUpon>
-    </Content>
     <Content Include="App_Code\Helpers.cshtml" />
+    <EntityDeploy Include="Models\KnapsackDBEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>KnapsackDBEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\KnapsackDBEntities.edmx.diagram">
+      <DependentUpon>KnapsackDBEntities.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\knap - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\ItemsScripts.js" />
@@ -271,6 +278,8 @@
     <Content Include="Views\Items\SpecificsForm\Medicament.cshtml" />
     <Content Include="Views\Items\GetItemDetails.cshtml" />
     <Content Include="Views\Items\GetItemsDetails.cshtml" />
+    <Content Include="Views\Enigma\Question.cshtml" />
+    <Content Include="Views\Enigma\VerficationReponse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
