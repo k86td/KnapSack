@@ -8,8 +8,22 @@
 <h2>Questions</h2>
 
 <div>
-    
-    
+    @if (Model == null)
+    {
+        <h6>Il n'y a aucune question dispobile actuellement...</h6>
+    }
+    else
+    {
+        <h6 style="text-align: center;">@Model.Question1</h6>
+        <br />
 
-
+        <div class="container">
+            @foreach (KnapSack.Models.Repons reponse in ViewBag.Reponses)
+            {
+                <div style="text-align: center;">
+                    <a href="/Enigma/VerifReponse?idReponse=@reponse.Id">@reponse.Texte</a>
+                </div>
+            }
+        </div>
+    }
 </div>

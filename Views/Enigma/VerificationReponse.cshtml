@@ -1,0 +1,34 @@
+﻿@model KnapSack.Models.Repons
+
+@{
+    ViewBag.Title = "Verification de la reponse";
+}
+
+<h2>Verification de la reponse</h2>
+
+
+<div>
+    @{
+        string detRep = Model.Vrai ? "bonne" : "mauvaise";
+    }
+
+    <p>
+        Vous avez repondue @Model.Texte.
+        C'etait la  @detRep reponse.
+    </p>
+
+    @if (Model.Vrai)
+    {
+        <div>
+            <p>
+                Vous avez gagner @ViewBag.caps caps!
+            </p>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Continuer a jouer", "GetQuestion", "Enigma")
+        <br />
+        @Html.ActionLink("Retourner a la boutique", "Index", "Items")
+    </div>
+</div>
