@@ -149,7 +149,14 @@ namespace KnapSack.Controllers
 
         public ActionResult GetItemDetails(int itemId, bool boolRefresh = false)
         {
-            return View(DB.Items.Find(itemId));
+            var item = DB.Items.Find(itemId);
+            ViewBag.rating5Count = item.Ratings.Where(r => r.rating1 == 5).ToList().Count();
+            ViewBag.rating4Count = item.Ratings.Where(r => r.rating1 == 4).ToList().Count();
+            ViewBag.rating3Count = item.Ratings.Where(r => r.rating1 == 3).ToList().Count();
+            ViewBag.rating2Count = item.Ratings.Where(r => r.rating1 == 2).ToList().Count();
+            ViewBag.rating1Count = item.Ratings.Where(r => r.rating1 == 1).ToList().Count();
+            ViewBag.rating0Count = item.Ratings.Where(r => r.rating1 == 0).ToList().Count();
+            return View(item);
         }
 
         public ActionResult UpdateCurrentUserRating(int itemId, int rating, string comment)

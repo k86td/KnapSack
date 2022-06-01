@@ -11,7 +11,6 @@
     }
     string sortUsersIconColor = ((string)Session["RatingFieldToSort"] == "users" ? "blue" : "black");
     string sortRatingsIconColor = ((string)Session["RatingFieldToSort"] == "ratings" ? "blue" : "black");
-    var ratingsCount = Model.Ratings.GroupBy(r => r.rating1).Select(s => new { rating = s.Key , count = s.Count() });
 }
 <div>
     <div style="display:grid; grid-template-columns:30px 30px 30px">
@@ -35,26 +34,24 @@
             @Model.description
             <br /> <br />
         </div>
-        <div style="display:grid; grid-template-rows:auto auto auto auto auto">
-            <div style="display:grid; grid-template-columns:auto auto">
-                @Helpers.Rating("", 5)
-                <div>@ratingsCount.Where(c => c.rating == 5).FirstOrDefault().count</div>
+        <div style="display:grid; grid-template-rows:auto auto auto auto auto auto">
+            <div style="display:grid; grid-template-columns:150px auto">
+                @Helpers.Rating("5",5)<span>@ViewBag.rating5Count votes</span>
             </div>
-            <div>
-                @Helpers.Rating("", 4)
-                <div>@ratingsCount.Where(c => c.rating == 4).FirstOrDefault().count</div>
+            <div style="display: grid; grid-template-columns: 150px auto ">
+                @Helpers.Rating("4", 4)<span>@ViewBag.rating4Count votes</span>
             </div>
-            <div>
-                @Helpers.Rating("", 3)
-                <div>@ratingsCount.Where(c => c.rating == 3).FirstOrDefault().count</div>
+            <div style="display: grid; grid-template-columns: 150px auto ">
+                @Helpers.Rating("3", 3)<span>@ViewBag.rating3Count votes</span>
             </div>
-            <div>
-                @Helpers.Rating("", 2)
-                <div>@ratingsCount.Where(c => c.rating == 2).FirstOrDefault().count</div>
+            <div style="display: grid; grid-template-columns: 150px auto ">
+                @Helpers.Rating("2", 2)<span>@ViewBag.rating2Count votes</span>
             </div>
-            <div>
-                @Helpers.Rating("", 1)
-                <div>@ratingsCount.Where(c => c.rating == 1).FirstOrDefault().count</div>
+            <div style="display: grid; grid-template-columns: 150px auto ">
+                @Helpers.Rating("1", 1)<span>@ViewBag.rating1Count votes</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 150px auto ">
+                @Helpers.Rating("0", 0)<span>@ViewBag.rating0Count votes</span>
             </div>
 
         </div>
