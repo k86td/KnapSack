@@ -22,20 +22,37 @@ namespace KnapSack.Controllers
         public ActionResult GetQuestion()
         {
             var questions = DB.Questions.ToList();
-            Question questionTiree;
-            if (questions.Count() > 0)
+
+            if (questions.Count() != 0)
             {
-                questionTiree = questions[rdm.Next(questions.Count())];
+                var questionTiree = questions[rdm.Next(questions.Count())];
                 ViewBag.reponses = DB.Reponses.Where(r => r.IdQuestion == questionTiree.Id).ToList();
                 return View("Question", questionTiree);
             }
-
-            return View("Question", null);
+            return RedirectToAction("Index", "Items");
         }
 
         public ActionResult VerifReponse(int idReponse)
         {
             var reponse = DB.Reponses.Find(idReponse);
+            var currentPlayer = OnlinePlayers.GetSessionUser();
+            int montantAjout = 0;
+            if(reponse.Question.Difficulte == 1)
+            {
+                montantAjout = 600;
+            }
+            else if(reponse.Question.Difficulte == 2)
+            {
+                montantAjout = 800;
+            }
+            else if(reponse.Question.Difficulte == 3)
+            {
+                montantAjout = 1000;
+            }
+            if (reponse.Vrai)
+            {
+                DB.AddCaps(montantAjout, currentPlayer.idJoueur);
+            }
             return View("VerificationReponse", reponse);
         }
     }
