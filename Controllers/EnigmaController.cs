@@ -53,6 +53,8 @@ namespace KnapSack.Controllers
             {
                 DB.AddCaps(montantAjout, currentPlayer.idJoueur);
             }
+
+            ViewBag.caps = montantAjout;
             return View("VerificationReponse", reponse);
         }
     }

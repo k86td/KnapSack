@@ -17,10 +17,18 @@
         C'etait la  @detRep reponse.
     </p>
 
-    <div>
-        <p>
-            
-        </p>
-    </div>
+    @if (Model.Vrai)
+    {
+        <div>
+            <p>
+                Vous avez gagner @ViewBag.caps caps!
+            </p>
+        </div>
+    }
 
+    <div>
+        @Html.ActionLink("Continuer a jouer", "GetQuestion", "Enigma")
+        <br />
+        @Html.ActionLink("Retourner a la boutique", "Index", "Items")
+    </div>
 </div>
