@@ -35,6 +35,24 @@ namespace KnapSack.Controllers
         public ActionResult VerifReponse(int idReponse)
         {
             var reponse = DB.Reponses.Find(idReponse);
+            var currentPlayer = OnlinePlayers.GetSessionUser();
+            int montantAjout = 0;
+            if(reponse.Question.Difficulte == 1)
+            {
+                montantAjout = 600;
+            }
+            else if(reponse.Question.Difficulte == 2)
+            {
+                montantAjout = 800;
+            }
+            else if(reponse.Question.Difficulte == 3)
+            {
+                montantAjout = 1000;
+            }
+            if (reponse.Vrai)
+            {
+                DB.AddCaps(montantAjout, currentPlayer.idJoueur);
+            }
             return View("VerificationReponse", reponse);
         }
     }
