@@ -21,14 +21,19 @@ namespace KnapSack.Controllers
 
         public ActionResult GetQuestion()
         {
-            int nbrQuestions = DB.Questions.Count();
-            int idQuestion = rdm.Next(1, nbrQuestions);
-            Question question = DB.Questions.Find(idQuestion);
-            ViewBag.reponses = DB.Reponses.Where(r => r.IdQuestion == question.Id).ToList();
-            return View("Question", question);
+            var questions = DB.Questions.ToList();
+            Question questionTiree;
+            if (questions.Count() > 0)
+            {
+                questionTiree = questions[rdm.Next(questions.Count())];
+                ViewBag.reponses = DB.Reponses.Where(r => r.IdQuestion == questionTiree.Id).ToList();
+                return View("Question", questionTiree);
+            }
+
+            return View("Question", null);
         }
 
-        public ActionResult VerifReponse(int idQuestion, int idReponse)
+        public ActionResult VerifReponse(int idReponse)
         {
             var reponse = DB.Reponses.Find(idReponse);
             return View("VerificationReponse", reponse);

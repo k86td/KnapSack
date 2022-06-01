@@ -282,7 +282,7 @@
     <Content Include="Views\Items\GetItemDetails.cshtml" />
     <Content Include="Views\Items\GetItemsDetails.cshtml" />
     <Content Include="Views\Enigma\Question.cshtml" />
-    <Content Include="Views\Enigma\VerficationReponse.cshtml" />
+    <Content Include="Views\Enigma\VerificationReponse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
