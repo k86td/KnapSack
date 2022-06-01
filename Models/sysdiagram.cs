@@ -12,14 +12,12 @@ namespace KnapSack.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Rating
+    public partial class sysdiagram
     {
-        public int idJoueur { get; set; }
-        public int rating1 { get; set; }
-        public int idItem { get; set; }
-        public string commentaire { get; set; }
-    
-        public virtual Item Item { get; set; }
-        public virtual Joueur Joueur { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

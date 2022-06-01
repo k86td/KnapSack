@@ -191,6 +191,9 @@
       <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SelectListItemConverter.cs" />
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Transaction.cs">
       <DependentUpon>KnapsackDBEntities.tt</DependentUpon>
     </Compile>

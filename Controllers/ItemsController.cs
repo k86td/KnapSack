@@ -160,7 +160,7 @@ namespace KnapSack.Controllers
             {
                 idItem = itemId,
                 idJoueur = OnlinePlayers.GetSessionUser().idJoueur,
-                rating = rating,
+                rating1 = rating,
                 commentaire = comment,
             };
 

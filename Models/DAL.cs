@@ -107,7 +107,7 @@ namespace KnapSack.Models
            itemRating.idJoueur).FirstOrDefault();
             if (existingItemRating != null)
             {
-                existingItemRating.rating = itemRating.rating;
+                existingItemRating.rating1 = itemRating.rating1;
                 existingItemRating.commentaire = itemRating.commentaire;
                 DB.Entry(existingItemRating).State = EntityState.Modified;
             }
@@ -120,7 +120,7 @@ namespace KnapSack.Models
 
             DB.Entry(toUpdate.Item).State = EntityState.Modified;
 
-            int averageRating = (int)Math.Round(toUpdate.Item.Ratings.Average(ob => ob.rating));
+            int averageRating = (int)Math.Round(toUpdate.Item.Ratings.Average(ob => ob.rating1));
             int ratingCount = toUpdate.Item.Ratings.Count();
 
             toUpdate.Item.rating = averageRating;
@@ -138,7 +138,7 @@ namespace KnapSack.Models
             foreach (Rating rating in item.Ratings.ToList())
             {
                 ratingsCount++;
-                ratingsTotal += rating.rating;
+                ratingsTotal += rating.rating1;
             }
             if (ratingsCount > 0)
             {

@@ -31,12 +31,13 @@ namespace KnapSack.Models
         public virtual DbSet<Joueur> Joueurs { get; set; }
         public virtual DbSet<Medicament> Medicaments { get; set; }
         public virtual DbSet<Panier> Paniers { get; set; }
-        public virtual DbSet<Rating> Ratings { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<Repons> Reponses { get; set; }
         public virtual DbSet<Sac> Sacs { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<TypesArme> TypesArmes { get; set; }
         public virtual DbSet<TypesItem> TypesItems { get; set; }
-        public virtual DbSet<Question> Questions { get; set; }
-        public virtual DbSet<Repons> Reponses { get; set; }
+        public virtual DbSet<Rating> Ratings { get; set; }
     }
 }

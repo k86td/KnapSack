@@ -17,8 +17,9 @@ namespace KnapSack.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Joueur()
         {
-            this.Ratings = new HashSet<Rating>();
+            this.Paniers = new HashSet<Panier>();
             this.Items = new HashSet<Item>();
+            this.Ratings = new HashSet<Rating>();
         }
     
         public int idJoueur { get; set; }
@@ -28,16 +29,17 @@ namespace KnapSack.Models
         public int poidMaximale { get; set; }
         public decimal montantCaps { get; set; }
         public bool isAdmin { get; set; }
+        public decimal remainGiveAdmin { get; set; }
         public string nom { get; set; }
         public string prenom { get; set; }
-        public decimal remainGiveAdmin { get; set; }
     
-        public virtual Panier Panier { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<Panier> Paniers { get; set; }
         public virtual Sac Sac { get; set; }
         public virtual Transaction Transaction { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Item> Items { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

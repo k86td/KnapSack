@@ -6,11 +6,12 @@
     string currentUserComment = "";
     if (currentPhotoRating != null)
     {
-        currentUserRating = currentPhotoRating.rating;
+        currentUserRating = currentPhotoRating.rating1;
         currentUserComment = currentPhotoRating.commentaire;
     }
     string sortUsersIconColor = ((string)Session["RatingFieldToSort"] == "users" ? "blue" : "black");
     string sortRatingsIconColor = ((string)Session["RatingFieldToSort"] == "ratings" ? "blue" : "black");
+    var ratingsCount = Model.Ratings.GroupBy(r => r.rating1).Select(s => new { rating = s.Key , count = s.Count() });
 }
 <div>
     <div style="display:grid; grid-template-columns:30px 30px 30px">
@@ -33,6 +34,29 @@
         <div style="margin-top:8px; width:700px; text-align:justify">
             @Model.description
             <br /> <br />
+        </div>
+        <div style="display:grid; grid-template-rows:auto auto auto auto auto">
+            <div style="display:grid; grid-template-columns:auto auto">
+                @Helpers.Rating("", 5)
+                <div>@ratingsCount.Where(c => c.rating == 5).FirstOrDefault().count</div>
+            </div>
+            <div>
+                @Helpers.Rating("", 4)
+                <div>@ratingsCount.Where(c => c.rating == 4).FirstOrDefault().count</div>
+            </div>
+            <div>
+                @Helpers.Rating("", 3)
+                <div>@ratingsCount.Where(c => c.rating == 3).FirstOrDefault().count</div>
+            </div>
+            <div>
+                @Helpers.Rating("", 2)
+                <div>@ratingsCount.Where(c => c.rating == 2).FirstOrDefault().count</div>
+            </div>
+            <div>
+                @Helpers.Rating("", 1)
+                <div>@ratingsCount.Where(c => c.rating == 1).FirstOrDefault().count</div>
+            </div>
+
         </div>
     </div>
     <fieldset style="min-width: 320px;">
@@ -80,11 +104,11 @@
                     case "ratings":
                         if ((bool)Session["RatingFieldSortDir"])
                         {
-                            ratings = Model.Ratings.OrderBy(r => r.rating);
+                            ratings = Model.Ratings.OrderBy(r => r.rating1);
                         }
                         else
                         {
-                            ratings = Model.Ratings.OrderByDescending(r => r.rating);
+                            ratings = Model.Ratings.OrderByDescending(r => r.rating1);
                         }
                         break;
                     default:
@@ -105,7 +129,7 @@
                         }
                     </div>
                     <div>
-                        @Helpers.Rating("rating_", rating.rating, true, 1.4)
+                        @Helpers.Rating("rating_", rating.rating1, true, 1.4)
                     </div>
                     <div>
                         @rating.commentaire

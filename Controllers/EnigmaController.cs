@@ -24,21 +24,14 @@ namespace KnapSack.Controllers
             int nbrQuestions = DB.Questions.Count();
             int idQuestion = rdm.Next(1, nbrQuestions);
             Question question = DB.Questions.Find(idQuestion);
+            ViewBag.reponses = DB.Reponses.Where(r => r.IdQuestion == question.Id).ToList();
             return View("Question", question);
         }
 
         public ActionResult VerifReponse(int idQuestion, int idReponse)
         {
-            bool estBonne = false;
             var reponse = DB.Reponses.Find(idReponse);
-            var currentPlayer = OnlinePlayers.GetSessionUser();
-            if(reponse.IdQuestion == idQuestion && reponse.Vrai)
-            {
-                DB.AddCaps(600, currentPlayer.idJoueur);
-                estBonne = true;
-            }
-            ViewBag.estBonne = estBonne;
-            return View("VerificationReponse");
+            return View("VerificationReponse", reponse);
         }
     }
 }
